@@ -11,7 +11,7 @@ A web-based Gym Management System that allows users to **register, book classes,
 ✔ Payment integration (if applicable)  
 
 ## 🏗 **Tech Stack**  
-- **Frontend:** HTML, CSS, JavaScript, React  
+- **Frontend:** HTML, CSS, JavaScript
 - **Backend:** Node.js, Express.js  
 - **Database:** MongoDB  
 

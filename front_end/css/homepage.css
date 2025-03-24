@@ -152,7 +152,8 @@ gap: 60px;
 }
 .about-us1 .manger{
 
-
+ display: flex;
+    justify-content: center;
 background-color: orangered;
 border: 2px  ;
 border-radius:50px  0px 0px 50px ;

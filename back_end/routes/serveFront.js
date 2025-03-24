@@ -7,10 +7,10 @@ const router = express.Router();
 // Serve home or ad page based on authentication
 router.get("/", serveHome);
 
-// Serve static files from front_end
-router.use(express.static(path.join(__dirname, "../../front_end")));
+// Serve static files correctly
+router.use(express.static(path.resolve(__dirname, "../../front_end")));
 
-// Define routes for specific pages
+// Define routes for specific pages inside `pages/`
 router.get("/signup", servePage("signup.html"));
 router.get("/login", servePage("login.html"));
 router.get("/datachange", servePage("datachange.html"));

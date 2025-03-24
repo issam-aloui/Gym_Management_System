@@ -44,7 +44,7 @@ mongoose
     logger.error("❌ Database connection error:", err);
   });
 
-console.log("blwja");//legends say blwja was better than winston 
+
 
 process.on("uncaughtException", (err) => {
   logger.error("Uncaught Exception:", err);

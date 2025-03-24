@@ -6,20 +6,20 @@ exports.serveHome = (req, res) => {
   let token = req.cookies.token; // Get the token from cookies
 
   if (!token) {
-    return res.sendFile(path.join(__dirname, "../../front_end", "ad.html"));
+    return res.sendFile(path.resolve(__dirname, "../../front_end/pages/ad.html"));
   }
 
   try {
     jwt.verify(token, process.env.JWT_SECRET);
-    return res.sendFile(path.join(__dirname, "../../front_end", "home.html"));
+    return res.sendFile(path.resolve(__dirname, "../../front_end/pages/home.html"));
   } catch (err) {
     logger.error("Couldn't serve frontend: Invalid token");
-    return res.sendFile(path.join(__dirname, "../../front_end", "ad.html"));
+    return res.sendFile(path.resolve(__dirname, "../../front_end/pages/ad.html"));
   }
 };
 
 exports.servePage = (page) => (req, res) => {
-  res.sendFile(path.join(__dirname, "../../front_end", page));
+  res.sendFile(path.resolve(__dirname, `../../front_end/pages/${page}`));
 };
 
 exports.handleNotFound = (req, res) => {

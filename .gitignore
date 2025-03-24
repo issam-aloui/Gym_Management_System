@@ -7,3 +7,4 @@ back_end/.env
 # Logs and temporary files
 back_end/logs/
 *.log
+/back_end/utils/serverLogging.js

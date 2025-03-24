@@ -31,7 +31,7 @@ document.getElementById("deleteaccount").addEventListener("click",async ()=>{
 })
 
 document.getElementById("joinGym").addEventListener("click",async ()=>{
-  window.location.href = "/joingGym";
+  window.location.href = "/joingym";
 })
 
 document.getElementById("createGym").addEventListener("click",async ()=>{

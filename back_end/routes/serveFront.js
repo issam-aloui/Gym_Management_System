@@ -7,16 +7,14 @@ const router = express.Router();
 // Serve home or ad page based on authentication
 router.get("/", serveHome);
 
-// Serve static files correctly
-router.use(express.static(path.resolve(__dirname, "../../front_end")));
+// Dynamic route to serve any HTML page inside `/pages`
+router.get("/:page", (req, res) => {
+  let page = req.params.page;
+  servePage(page)(req, res);
+});
 
-// Define routes for specific pages inside `pages/`
-router.get("/signup", servePage("signup.html"));
-router.get("/login", servePage("login.html"));
-router.get("/datachange", servePage("datachange.html"));
-router.get("/accountdeletion", servePage("accountdeletion.html"));
-router.get("/creategym", servePage("creategym.html"));
-router.get("/joingym", servePage("joingym.html"));
+// Serve static files correctly from `front_end`
+router.use(express.static(path.resolve(__dirname, "../../front_end")));
 
 // Handle incorrect routes
 router.all("*", handleNotFound);

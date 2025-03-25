@@ -5,6 +5,17 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
   const password = document.getElementById("password").value;
   const messageBox = document.getElementById("message");
 
+  if (username.length < 3 || username.length > 20) {
+    messageBox.style.color = "red";
+    messageBox.textContent = "Username must be between 3 and 20 characters.";
+    return;
+  }
+  if (password.length < 6 || password.length > 25 || !/\d/.test(password)) {
+    messageBox.style.color = "red";
+    messageBox.textContent = "Password must be 6-25 characters and contain at least one number.";
+    return;
+  }
+
   try {
       const response = await fetch("http://localhost:5000/auth/login", {
           method: "POST",

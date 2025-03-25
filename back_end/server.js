@@ -9,6 +9,7 @@ const user1 = require("./routes/user");
 const gym = require("./routes/gym");
 const serveFront = require("./routes/serveFront");
 const logger = require("./utils/logger");
+const helmet = require("helmet")
 
 dotenv.config();
 const app = express();
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(helmet());
 
 logger.info(`✅ Server starting on port ${Port}...`);
 

@@ -6,11 +6,15 @@ const GymSchema = new mongoose.Schema({
     required: true,
     unique: true,
     trim: true,
+    minlength: 5,
+    maxlength: 20,
   },
   town: {
     type: String,
     required: true,
     trim: true,
+    minlength: 4,
+    maxlength: 10,
   },
   gpsLocation: {
     type: {

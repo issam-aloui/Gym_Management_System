@@ -17,7 +17,7 @@ exports.signup = async (req, res) => {
 
     try {
       await newUser.save();
-      logger.info(`user created: "${username}" as email: ${email}`);
+      logger.info(`User created: "${username}" as email: ${email}`);
     } catch (err) {
       if (err.code === 11000) {
         return res.status(400).json({ message: "Email is already in use. Try another one!" });
@@ -28,9 +28,12 @@ exports.signup = async (req, res) => {
     res.status(201).json({ message: "User registered!", id: newUser.id });
   } catch (err) {
     logger.error(`User signup failed: ${err.message}`);
-    res.status(500).json({ error: "Internal Server Error" });
+    
+    
+    res.status(500).json({ error: err.message || "Internal Server Error" });
   }
 };
+
 
 exports.login = async (req, res) => {
   try {

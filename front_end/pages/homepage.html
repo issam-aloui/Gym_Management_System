@@ -23,6 +23,148 @@
             margin: 0;
             font-family: sans-serif;
         }
+        .managesec{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .managelist{
+            flex: 1;
+            max-width: 500px;
+            padding-right: 40px;
+        }
+
+        .managelist h2 {
+          align-self: stretch;
+            color: #ff8800; 
+            font-family: Poppins;
+            font-size: 25px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+
+
+        }
+
+        .managelist p {
+          align-self: stretch;
+    color: #000;
+
+font-family: Poppins;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin-bottom: 24px;
+           
+        }
+
+        .managelist ul {
+          align-self: stretch;
+    color: #000;
+
+font-family:sans-serif;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+   
+    padding-left: 0;
+    margin-bottom: 40px;
+            
+        }
+
+        .managelist li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .managelist li::before {
+
+          content: '☑';
+    display: inline-block;
+    width: 20px; 
+    height: 20px;
+    margin-right: 10px;
+    font-size: 1.2em; 
+    color: #0e1428e9; 
+     
+        }
+
+        .button {
+            background-color: #f9990a; 
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        #joinuser {
+   
+   padding: 7px;
+
+   background-color: #0e1428e9;
+   color: rgb(255, 166, 0);
+   cursor: pointer;
+   font-size: 20px;
+   font-style: normal;
+   border-radius: 15px;
+   transition: all 0.3s ease;
+   
+
+}
+.simage {
+    flex: 1;
+    max-width: 500px;
+    text-align: left;
+}
+
+.image-background {
+    background-color: #0e1428e9; 
+    border-radius: 15px;
+    padding: 10px; 
+    display: inline-block; 
+    margin-left: auto;
+}
+
+.gym-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px; 
+    border: 5px solid #0e1428e9; 
+    display: block; 
+}
+
+
+
+@media (max-width: 768px) {
+    .managesec {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .managelist, .simage {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .simage {
+        text-align: center;
+    }
+}
+
+        
 
         .footer {
             background-color: #0E1428; 

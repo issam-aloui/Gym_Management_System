@@ -88,7 +88,7 @@ height: 800px;
 position: relative;
 
 
-background-image: url('photo/young-man-sportswear-exercise-class-gym.jpg') ; /* Replace with your image path */
+background-image: url('../assets/image.png') ; /* Replace with your image path */
 background-size:cover;  
 background-position: center;
 background-attachment: fixed;

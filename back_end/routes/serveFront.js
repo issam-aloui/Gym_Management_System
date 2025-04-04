@@ -6,7 +6,7 @@ const {verifyJWT} = require("../middleware/Security");
 const router = express.Router();
 
 // Serve home or ad page based on authentication
-router.get("/",verifyJWT ,serveHome);
+router.get("/",serveHome);
 
 // Dynamic route to serve any HTML page inside `/pages`
 router.get("/:page" , (req, res) => {

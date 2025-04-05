@@ -1,0 +1,216 @@
+*{
+margin: 0;
+
+overflow-y: 0;
+}
+body{
+    color: #000;
+    background-color: rgb(2, 2, 54);
+    color: aliceblue;
+    display: flex;
+    justify-content: center;
+    
+}
+.login{
+    box-shadow:  
+    10px 10px 0px  rgb(227, 67, 9 ,0.03),
+    20px 20px 0px  rgba(238, 87, 5,0.05),
+    30px 30px 0px  rgba(238, 87, 5,0.03); ;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin: 200px; 
+   width: 1040PX;
+   height: 624px;
+  
+}
+
+.login .login1{
+    
+    position: relative;
+    
+    background-image: url('photo/d36558f90b521e80ea5bd73b6cba99c0.jpg');
+    background-size:cover;  
+    background-position: center;
+    height: 624px;
+    width: 520px;
+    border-radius: 10px 0 0 10px;
+ 
+
+  
+
+}
+  .login1 .join{
+    
+    align-self: stretch;
+    position: absolute;
+    
+    top: 422px;
+    left: 61px;
+     right: 62px;
+
+
+}  
+.join h1{
+    color: #E85D04;
+
+text-align:center;
+font-family: Poppins;
+font-size: 36px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+}
+.join p{
+    color: #FEFDF8;
+
+text-align: center;
+font-family: Poppins;
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+.login .login2{
+   
+    background-color: #FEFDF8;
+   display: flex;
+    width: 520px;
+    height: 624px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+   
+    border-radius: 0 10px 10px 0;
+    
+}
+.wlc{
+   
+}
+.wlc h1{
+    align-self: stretch;
+    color: #000;
+
+text-align: center;
+font-family: Poppins;
+font-size: 36px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+}
+.wlc h1 b{
+    align-self: stretch;
+    color: #E85D04;
+}
+.wlc p{
+    align-self: stretch;
+    color: #000;
+    font-family: Poppins;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-align: center;
+}
+.information{
+
+    margin-top: 96px;
+
+}
+.information input{ 
+   
+    border: 3px ;
+    border-color: #E85D04;
+    border-top-style:hidden;;
+  border-right-style: hidden;;
+  border-bottom-style: solid;
+  border-left-style: hidden;;
+  padding: 12px 10px;
+    width: 360px;
+    height: 19px;
+    margin-bottom: 16px;
+
+    }
+     .Remember{
+        
+        font-size: 14px;
+       margin-right: auto;
+       color: #000;
+        
+    }
+   
+    .Remember input{
+        color: #000;
+        
+       /* Change to any color */
+          
+text-align: center;
+font-family: Poppins;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+    }
+    .Remember label{
+        color: #000;
+        align-self: stretch;
+text-align: center;
+font-family: Poppins;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+    }
+    
+    .button{
+        margin-top: 52px;
+        display: flex;
+        justify-content: center;
+
+    }
+    button{
+        padding: 7px;
+  width: 100px;
+ background: orangered;
+color:white;
+cursor: pointer;
+font-size: 20px;
+font-style: normal ;
+border-radius: 30px ;
+border-color: white;
+transition: all 0.3s ease;
+
+
+
+}
+
+button:hover{
+transform: translateY(-8px) ;
+}
+#sign-up{
+    align-self: stretch;
+   margin-top: 16px;
+    color: #000;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+#sign-up a{
+    color: #E85D04;
+    font-family: Poppins;
+    font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+text-decoration-line: underline;
+text-decoration-style: solid;
+text-decoration-skip-ink: auto;
+text-decoration-thickness: 10%;
+text-underline-offset: auto;
+text-underline-position: from-font;
+
+}

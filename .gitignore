@@ -1,5 +1,5 @@
 # Environment variables (DO NOT commit secrets)
-back_end/.env
+/back_end/.env
 
 # Dependencies (Node.js packages)
 /back_end/node_modules/

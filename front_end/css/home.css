@@ -1,0 +1,145 @@
+/* Reset and Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Layout */
+body {
+  display: flex;
+  height: 100vh;
+  background: linear-gradient(to right, #ece9e6, #ffffff);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(135deg, #1e1e1e, #343434);
+  color: white;
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* User Info */
+.user-info {
+  text-align: center;
+}
+
+.user-info h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+}
+
+/* Change Data Button */
+.change-data-btn {
+  background: #f0ad4e;
+  color: white;
+}
+
+.change-data-btn:hover {
+  background: #ec971f;
+  transform: scale(1.05);
+}
+
+/* Delete Account Button */
+.delete-account-btn {
+  background: #ff4b5c;
+  color: white;
+}
+
+.delete-account-btn:hover {
+  background: #ff1f3c;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+}
+
+/* Logout Button */
+.logout-btn {
+  background: #007bff;
+  color: white;
+}
+
+.logout-btn:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+/* Main Content */
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Options Buttons */
+.options {
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 12px 25px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Create Gym Button */
+#createGym {
+  background: linear-gradient(to right, #28a745, #218838);
+  color: white;
+}
+
+#createGym:hover {
+  background: linear-gradient(to right, #218838, #1e7e34);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(40, 167, 69, 0.5);
+}
+
+/* Join Gym Button */
+#joinGym {
+  background: linear-gradient(to right, #17a2b8, #117a8b);
+  color: white;
+}
+
+#joinGym:hover {
+  background: linear-gradient(to right, #117a8b, #0c5460);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(23, 162, 184, 0.5);
+}

@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Step 1: Send verification code
     try {
-      const res = await fetch("http://localhost:5000/request-verification", {
+      const res = await fetch("http://localhost:5000/services/request-verification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email }),
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     try {
-      const verifyRes = await fetch("http://localhost:5000/verify-code", {
+      const verifyRes = await fetch("http://localhost:5000/services/verify-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: signupData.email, code }),

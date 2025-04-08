@@ -10,6 +10,7 @@ const gym = require("./routes/gym");
 const serveFront = require("./routes/serveFront");
 const logger = require("./utils/logger");
 const helmet = require("helmet")
+const fuckuissam = require("./routes/services");
 
 dotenv.config();
 const app = express();
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use("/auth", authRoutes);
 app.use("/user", user1);
 app.use("/gym", gym);
+app.use("/services",fuckuissam);
 app.use("/", serveFront);
 app.use((req, res, next) => {
   logger.info(`${req.method} ${req.url} - ${req.ip}`);

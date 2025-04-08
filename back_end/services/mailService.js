@@ -4,7 +4,8 @@ const fs = require("fs");
 const path = require("path");
 const dotenv = require("dotenv");
 const logger = require("../utils/logger");
-dotenv.config();
+
+dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 // Function to send email
 async function sendEmail(to, subject, text, emailTemplate) {
@@ -59,6 +60,9 @@ async function sendEmailVerification(username, to) {
   // If there was an issue, return the error response
   return info;
 }
+
+
+
 module.exports = {
   sendEmail,
   sendEmailVerification,

@@ -31,12 +31,12 @@ exports.servePage = (page) => (req, res) => {
   fs.access(filePath, fs.constants.F_OK, (err) => {
     if (err) {
       logger.warn(`Page not found: ${page}`);
-      return res.status(404).send("Page not found");
+      return res.status(404).sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
     res.sendFile(filePath);
   });
 };
 
 exports.handleNotFound = (req, res) => {
-  res.status(404).send("Error: Incorrect URL");
+  res.status(404).sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
 };

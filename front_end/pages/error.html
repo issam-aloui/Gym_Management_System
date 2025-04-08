@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - GymFit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a1a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .logo {
+            color: #ff7a00;
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 3rem;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.75rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .btn-outline {
+            border: 2px solid #ff7a00;
+            color: #ff7a00;
+            background: transparent;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(255, 122, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: #ff7a00;
+            color: #fff;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: #e66f00;
+        }
+        
+        .error-container {
+            max-width: 700px;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            background-color: rgba(10, 10, 30, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .error-code {
+            font-size: 8rem;
+            font-weight: bold;
+            color: #ff7a00;
+            line-height: 1;
+            margin-bottom: 1rem;
+            text-shadow: 0px 3px 15px rgba(255, 122, 0, 0.3);
+        }
+        
+        .error-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .error-message {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .dumbbell {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            animation: lift 2s infinite alternate;
+            display: inline-block;
+        }
+        
+        @keyframes lift {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 5rem;
+            }
+            
+            .error-title {
+                font-size: 1.8rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <a href="/" class="logo">GymFit</a>
+        <div class="dumbbell">🏋️‍♂️</div>
+        <h1 class="error-code">404</h1>
+        <h2 class="error-title">Looks like you missed your workout spot!</h2>
+        <p class="error-message">The page you're looking for doesn't exist or has been moved. Don't worry, getting back on track is easier than completing that last rep.</p>
+        <div class="buttons">
+            <a href="/" class="btn btn-primary">Back to Homepage</a>
+            <a href="/contact" class="btn btn-outline">Contact Support</a>
+        </div>
+    </div>
+</body>
+</html>

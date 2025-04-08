@@ -1,23 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
+    <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/signup.css">
+    <title>GymFit - SignUp</title>
 </head>
+
 <body>
 
-    <form id="signupForm">
-        <h2>Signup</h2>
-        <input type="text" id="username" name="username" placeholder="Username" required>
-        <input type="email" id="email" name="email" placeholder="Email" required>
-        <input type="password" id="password" name="password" placeholder="Password" required>
-        <button type="submit">Sign Up</button>
-        <p class="message" id="message"></p>
-    </form>
+    <div class="signup-container">
+        <div class="signup-form">
+            <h2><span>Create</span> Your Account</h2>
+            <form id="signupForm">
+                <label for="fullname">Full name</label>
+                <input type="text" id="username" name="username" placeholder="Username" required>
 
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirme Password" required>
+
+                <div class="role-buttons">
+                    <button type="button" class="active">As Gym Owner</button>
+                    <button type="button" class="user">As Gym User</button>
+                </div>
+                
+                <p class="message" id="message"></p>
+
+                <p class="login-link">Already have an account? <a href="login">Sign in</a></p>
+
+                <!-- Submit Button -->
+                <button type="submit" id="signup-button">Sign Up</button>
+            </form>
+        </div>
+
+        <div class="signup-image">
+            <h1>GymFit</h1>
+            <p>Join the fitness revolution today <br> Manage your gym with ease</p>
+        </div>
+    </div>
+    
     <script src="../scripts/signup.js"></script>
 
 </body>
+
 </html>

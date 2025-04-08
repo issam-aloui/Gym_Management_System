@@ -1,27 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gym Management - Start Today</title>
+    <title>GymFit - Gym Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/features&Testimonials.css">
     <link rel="stylesheet" href="../css/ad.css">
 </head>
+
 <body>
+    <section class="pic" id="hero">
+        <header id="main-header">
+            <div class="gymfit">
+                <h1>GymFit</h1>
+            </div>
+            <button class="mobile-menu-btn" id="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="menu" id="main-menu">
+                <a href="#hero">Home</a>
+                <a href="#Features">Features</a>
+                <a href="#Testimonial">Testimonial</a>
+                <a href="#footer">Contact us</a>
+            </div>
+            <div class="log-in" id="header-buttons">
+                <button id="sign-in" type="button" onclick="window.location.href='login'">Sign in</button>
+                <button id="sign-up" type="button" onclick="window.location.href='signup'">Sign up</button>
+            </div>
+        </header>
 
-    <div class="container">
-        <h1>Welcome to Gym Management System</h1>
-        <p>Effortlessly manage your gym, track members, and grow your business!</p>
+        <div class="about">
+            <h1><b>Transform How You</b></h1>
+            <h1><b>Manage Fitness.</b></h1>
+            <p>Join us to simplify gym management & discover gyms near you</p>
+            <div class="owner-users">
+                <button id="owner" type="button">For Gym Owners</button>
+                <button id="users" type="button">For Gym Users</button>
+            </div>
+        </div>
+    </section>
+    <section id="Features">
+        <div class="grade_back">
+            <div class="Features_list">
+                <div class="card">
+                    <i class="fa-solid fa-list-check fa-2xl icon"></i>
+                    <div>
+                        <h3>Easy Membership Management</h3>
+                        <p>Manage all your members effortlessly—add, edit, or remove members in just a few clicks.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <i class="fa-regular fa-calendar fa-2xl icon"></i>
+                    <div>
+                        <h3>Class & Trainer Scheduling</h3>
+                        <p>Easily schedule classes, manage trainers, and keep your gym organized every day.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-dumbbell fa-rotate-by fa-2xl icon" style="--fa-rotate-angle: 30deg;"></i>
+                    <div>
+                        <h3>Find Nearby Gyms</h3>
+                        <p>Discover top-rated gyms near your location and choose the one that fits your fitness
+                            goals</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <i class="fa-regular fa-credit-card fa-2xl icon"></i>
+                    <div>
+                        <h3>Secure Online Payments</h3>
+                        <p>Handle payments safely and quickly with our secure, built-in payment system.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="about-us1" id="about-section">
+            <div class="manger">
+                <img id="mangerpic" src="../assets/owner.jpg" alt="gym owner pic">
+            </div>
+            <div class="aboutmang">
+                <h2><b>Manage Your Gym Effortlessly.</b></h2>
+                <p>Running a gym should be about helping people—not dealing with messy paperwork. Our platform gives you
+                    all
+                    the tools you need to manage memberships, classes, trainers, and payments, all in one place.</p>
+                <ul>
+                    <li>Add & Manage Members Easily</li>
+                    <li>Schedule Classes & Assign Trainers</li>
+                    <li>Track Payments & Revenue</li>
+                    <li>View Member Activity & Attendance</li>
+                    <li>Customize Your Gym Profile & Offers</li>
+                </ul>
+                <button id="joinowner" type="button" onclick="window.location.href='signup'">Join as Gym Owner</button>
+            </div>
+        </div>
+        <div class="about-us2" id="about-section2">
+            <div class="user">
+                <img id="userpic" src="../assets/guy.jpg" alt="gym user pic">
+            </div>
+            <div class="aboutmang">
+                <h2 class="orange"><b>Find the Perfect Gym & Stay on Track.</b></h2>
+                <p>Looking for a gym that fits your lifestyle? Browse top gyms near you, join in seconds, and book
+                    classes—all in one
+                    place. Focus on your fitness, we handle the rest.</p>
+                <ul class="dark_blue">
+                    <li>Discover Gyms Near You</li>
+                    <li>View Gym Facilities & Ratings</li>
+                    <li>Simple Membership Sign-Up</li>
+                    <li>Book & Manage Classes</li>
+                    <li>Track Your Membership & Activities</li>
+                </ul>
+                <button id="joinuser" type="button" onclick="window.location.href='signup'">Join as Gym User</button>
+            </div>
+        </div>
+    </section>
+    <section id="Testimonial">
+        <div class="testimonial-container">
+            <h2>What Our Users Say</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial-track">
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-avatar">
+                                <img src="../assets/ronnie.png" alt="User avatar">
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">"GymFit transformed how I manage my fitness center. The
+                                scheduling
+                                tools and payment system save me hours every week!"</p>
+                            <div class="testimonial-author">
+                                <h4>Michael Johnson</h4>
+                                <span>Gym Owner, FitZone</span>
+                            </div>
+                        </div>
+                    </div>
 
-        <ul class="features">
-            <li>🏋️ Create and manage gyms</li>
-            <li>🧍 Track and manage gym members</li>
-            <li>📊 Monitor gym performance and subscriptions</li>
-            <li>🔐 Secure login & access control</li>
-            <li>📅 Schedule events & classes</li>
-        </ul>
+                    <!-- Testimonial 2 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-avatar">
+                                <img src="../assets/cbum.png" alt="User avatar">
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <p class="testimonial-text">"Finding a gym near me was so easy with GymFit. I love how I can
+                                book classes directly through the app and manage my membership."</p>
+                            <div class="testimonial-author">
+                                <h4>Sarah Williams</h4>
+                                <span>Fitness Enthusiast</span>
+                            </div>
+                        </div>
+                    </div>
 
-        <a href="index" class="btn">Get Started</a>
-    </div>
+                    <!-- Testimonial 3 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-avatar">
+                                <img src="../assets/arnold.png" alt="User avatar">
+                            </div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">"As a trainer, coordinating with multiple gyms was a nightmare
+                                before GymFit. Now I have all my schedules and clients in one place!"</p>
+                            <div class="testimonial-author">
+                                <h4>David Chen</h4>
+                                <span>Personal Trainer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Dots -->
+                <div class="testimonial-dots">
+                    <span class="testimonial-dot active" data-index="0"></span>
+                    <span class="testimonial-dot" data-index="1"></span>
+                    <span class="testimonial-dot" data-index="2"></span>
+                </div>
+
+                <!-- Navigation Arrows -->
+                <button class="testimonial-arrow prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="testimonial-arrow next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+    <my-footer>
+        <script src="../scripts/ad.js"></script>
+        </script>
+        <script src="../scripts/footer.js"></script>
+        <script src="https://kit.fontawesome.com/92a2a0f569.js" crossorigin="anonymous"></script>
 
 </body>
+
 </html>

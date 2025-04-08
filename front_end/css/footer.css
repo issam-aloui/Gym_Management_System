@@ -1,0 +1,277 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.footer {
+  background-color: #0e1428;
+  color: #ffffff;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gradient overlay effect */
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #ff8800, #ff5500, #ff8800);
+  animation: gradientMove 8s infinite linear;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.footer-left {
+  max-width: 300px;
+  font-family: "Poppins", sans-serif;
+  transition: transform 0.3s ease;
+}
+
+.footer-left:hover {
+  transform: translateY(-5px);
+}
+
+.footer-left h2 {
+  color: #ff8800;
+  margin-bottom: 10px;
+  font-size: 36px;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+/* Logo animation */
+.footer-left h2::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 3px;
+  bottom: -5px;
+  left: 0;
+  background-color: #ff8800;
+  transition: width 0.3s ease;
+}
+
+.footer-left:hover h2::after {
+  width: 100%;
+}
+
+.footer-left p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.footer-middle {
+  margin-top: 10px;
+}
+
+.footer-middle ul {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  list-style: none;
+  padding: 0;
+}
+
+.footer-middle li {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.footer-middle li:hover {
+  transform: translateX(8px);
+}
+
+.footer-middle a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+/* Link hover effect */
+.footer-middle a::before {
+  content: "•";
+  position: absolute;
+  left: -15px;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateX(-5px);
+  color: #ff8800;
+}
+
+.footer-middle a:hover {
+  color: #ff8800;
+}
+
+.footer-middle a:hover::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.footer-right {
+  text-align: left;
+}
+
+.footer-right .cus {
+  color: #ff8800;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  position: relative;
+  display: inline-block;
+}
+
+/* Contact us underline effect */
+.footer-right .cus::after {
+  content: "";
+  position: absolute;
+  width: 40%;
+  height: 3px;
+  bottom: -5px;
+  left: 0;
+  background-color: #ff8800;
+}
+
+.footer-right p {
+  margin: 12px 0;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.social-icons a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 136, 0, 0.1);
+  transition: all 0.3s ease;
+  color: #ff8800;
+}
+
+.social-icons a:hover {
+  transform: translateY(-5px) rotate(5deg);
+  background-color: #ff8800;
+  color: white;
+  box-shadow: 0 5px 15px rgba(255, 136, 0, 0.3);
+}
+
+.social-icons i {
+  font-size: 20px;
+}
+
+.footer-bottom {
+  background-color: #0a101e;
+  color: #ff8800;
+  text-align: center;
+  padding: 15px;
+  font-size: 14px;
+  position: relative;
+}
+
+.footer-bottom p {
+  position: relative;
+  display: inline-block;
+}
+
+.footer-bottom p::before,
+.footer-bottom p::after {
+  content: "•";
+  color: #ff8800;
+  opacity: 0.6;
+  margin: 0 10px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.4;
+  }
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
+    padding: 40px 15px;
+  }
+
+  .footer-left,
+  .footer-middle,
+  .footer-right {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .footer-middle li:hover {
+    transform: translateY(-3px);
+  }
+
+  .footer-middle a::before {
+    display: none;
+  }
+
+  .footer-right {
+    text-align: center;
+  }
+
+  .footer-right .cus::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .footer-right p {
+    justify-content: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+}

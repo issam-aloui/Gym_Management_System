@@ -6,57 +6,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/signup.css">
-    <title>GymFit - SignUp</title>
+    <title>GymFit - Join The Movement</title>
 </head>
 
 <body>
 
     <div class="signup-container">
         <div class="signup-form">
-            <h2><span>Create</span> Your Account</h2>
+            <h2><span class="highlight">Create</span> Your Account</h2>
             <form id="signupForm">
-
-                
-
-                <label for="fullname">Full name</label>
-                <input type="text" id="username" name="username" placeholder="Username" required>
-
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Email" required>
-
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Password" required>
-
-                <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirme Password" required>
-
-                <div class="role-buttons">
-                    <button type="button" class="active">As Gym Owner</button>
-                    <button type="button" class="user">As Gym User</button>
+                <div class="form-group">
+                    <label for="fullname">Full name</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your full name" required>
                 </div>
-                
-                <p class="message" id="message"></p>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Your email address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Create a strong password"
+                        required>
+                    <small class="password-hint">Mix of 8+ characters, numbers and symbols for best security</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password"
+                        placeholder="Verify your password" required>
+                </div>
+
+                <div class="account-type">
+                    <h3>I want to:</h3>
+                    <div class="role-buttons">
+                        <button type="button" class="active">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                            </svg>
+                            Manage My Gym
+                        </button>
+                        <button type="button" class="user">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Find A Gym
+                        </button>
+                    </div>
+                </div>
+
+                <p class="message success-message" id="message"></p>
 
                 <!-- Verification Code Step (hidden by default) -->
-            <div id="code-verification-box" style="display: none; margin-top: 15px;">
-                <label for="verification-code">Enter Verification Code</label>
-                <input type="text" id="verification-code" placeholder="XXXXXX" maxlength="6">
-                <button type="button" id="verify-code-btn">Verify Code</button>
-              </div>
+                <div id="code-verification-box" class="verification-container" style="display: none;">
+                    <h3>Verify Your Email</h3>
+                    <p class="verification-info">We've sent a 6-digit code to your email address</p>
+                    <div class="form-group">
+                        <label for="verification-code">Enter Verification Code</label>
+                        <input type="text" id="verification-code" placeholder="XXXXXX" maxlength="6"
+                            class="verification-input">
+                        <div class="verification-actions">
+                            <button type="button" id="verify-code-btn" class="primary-btn">Verify Code</button>
+                            <button type="button" id="resend-code-btn" class="secondary-btn">Resend Code</button>
+                        </div>
+                    </div>
+                </div>
 
-                <p class="login-link">Already have an account? <a href="login">Sign in</a></p>
-
-                <!-- Submit Button -->
-                <button type="submit" id="signup-button">Sign Up</button>
+                <div class="signup-footer">
+                    <p class="terms-text">By signing up, you agree to our <a href="#">Terms of Service</a> and <a
+                            href="#">Privacy Policy</a></p>
+                    <button type="submit" id="signup-button" class="primary-button">
+                        <span>Start Your Fitness Journey</span>
+                        <svg class="arrow-icon" viewBox="0 0 24 24">
+                            <path d="M5 12h14M12 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                    <p class="login-link">Already a member? <a href="login">Sign in</a></p>
+                </div>
             </form>
         </div>
 
         <div class="signup-image">
-            <h1>GymFit</h1>
-            <p>Join the fitness revolution today <br> Manage your gym with ease</p>
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>GymFit</h1>
+                <div class="tagline">
+                    <p>Join the fitness revolution today</p>
+                    <p class="highlight">Transform your business. Transform your life.</p>
+                </div>
+                <div class="benefits">
+                    <div class="benefit">
+                        <span class="benefit-icon">⚡</span>
+                        <span>Streamlined gym management</span>
+                    </div>
+                    <div class="benefit">
+                        <span class="benefit-icon">📊</span>
+                        <span>Member analytics</span>
+                    </div>
+                    <div class="benefit">
+                        <span class="benefit-icon">🔄</span>
+                        <span>Seamless scheduling</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
+
     <script src="../scripts/signup.js"></script>
 
 </body>

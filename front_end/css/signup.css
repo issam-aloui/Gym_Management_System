@@ -1,113 +1,262 @@
-
 body {
-  padding: 200px;
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
   background-color: #0E1428;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: Inter, sans-serif;
   animation: fadeInBody 1s ease-in;
+  overflow-x: hidden;
 }
 
 @keyframes fadeInBody {
   from {
-      opacity: 0;
-      transform: translateY(20px);
+    opacity: 0;
+    transform: translateY(20px);
   }
-
   to {
-      opacity: 1;
-      transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .signup-container {
   background-color: #FEFDF8;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   border-radius: 20px;
   box-shadow: 10px 10px 20px rgba(232, 93, 4, 0.35);
   overflow: hidden;
   animation: fadeIn 1s ease forwards;
+  max-width: 1040px;
+  width: 90%;
+  margin: 40px 0;
+  position: relative;
+}
+
+/* Add pulsing glow effect to the container */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 20px rgba(232, 93, 4, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(232, 93, 4, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(232, 93, 4, 0.3);
+  }
+}
+
+.signup-container:hover {
+  animation: pulse-glow 2s infinite;
 }
 
 @keyframes fadeIn {
   from {
-      opacity: 0;
-      transform: scale(0.95);
+    opacity: 0;
+    transform: scale(0.95);
   }
-
   to {
-      opacity: 1;
-      transform: scale(1);
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
 .signup-form {
-  width: 520px;
-  height: 624px;
+  width: 50%;
   padding: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  gap: 60px;
 }
 
 .signup-form h2 {
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 700;
-  text-align: center;
+  margin-bottom: 30px;
+  text-align: left;
+  position: relative;
 }
 
-.signup-form h2 span {
+.signup-form h2 .highlight {
   color: #E85D04;
+  position: relative;
+  display: inline-block;
 }
+
+/* Add underline animation for the highlighted heading */
+.signup-form h2 .highlight::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background-color: #E85D04;
+  transition: width 0.5s ease;
+}
+
+.signup-form h2:hover .highlight::after {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideInUp 0.5s forwards;
+}
+
+/* Staggered form elements animation */
+@keyframes slideInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-group:nth-child(1) { animation-delay: 0.1s; }
+.form-group:nth-child(2) { animation-delay: 0.2s; }
+.form-group:nth-child(3) { animation-delay: 0.3s; }
+.form-group:nth-child(4) { animation-delay: 0.4s; }
+.account-type { animation-delay: 0.5s; }
 
 .signup-form label {
   display: block;
   margin-bottom: 8px;
-  color: #00000099;
+  color: #333;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.signup-form input:focus + label {
+  color: #E85D04;
 }
 
 .signup-form input[type="text"],
 .signup-form input[type="email"],
 .signup-form input[type="password"] {
-  width: 360px;
-  padding: 10px;
-  margin-bottom: 20px;
+  width: 100%;
+  padding: 12px 15px;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 8px;
   border-bottom: 3px solid #E85D04;
   font-size: 15px;
   transition: all 0.3s ease;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .signup-form input:focus {
   outline: none;
   border-color: #E85D04;
-  box-shadow: 0 0 8px rgba(232, 93, 4, 0.4);
+  box-shadow: 0 0 12px rgba(232, 93, 4, 0.3);
+  transform: translateY(-2px);
+  background-color: white;
+}
+
+/* Add subtle glow effect on input focus */
+@keyframes input-glow {
+  0% { box-shadow: 0 0 5px rgba(232, 93, 4, 0.3); }
+  50% { box-shadow: 0 0 12px rgba(232, 93, 4, 0.5); }
+  100% { box-shadow: 0 0 5px rgba(232, 93, 4, 0.3); }
+}
+
+.signup-form input:focus {
+  animation: input-glow 2s infinite;
+}
+
+.password-hint {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+  transform: translateY(0);
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.signup-form input:focus + label + .password-hint,
+.signup-form input:focus ~ .password-hint {
+  transform: translateY(3px);
+  opacity: 1;
+}
+
+.account-type {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideInUp 0.5s forwards;
+  animation-delay: 0.5s;
+}
+
+.account-type h3 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
 }
 
 .role-buttons {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 15px;
   margin-top: 10px;
+  width: 100%;
 }
 
 .role-buttons button {
-  padding: 10px 22px;
+  flex: 1;
+  padding: 12px 20px;
   font-size: 16px;
   font-weight: 600;
   font-family: Poppins, sans-serif;
-  border-radius: 25px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   position: relative;
+  overflow: hidden;
+}
+
+/* Add ripple effect to buttons */
+.role-buttons button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 0.6s, opacity 0.6s;
+}
+
+.role-buttons button:active::after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  transition: 0s;
+}
+
+.role-buttons button .icon {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  transition: transform 0.3s ease;
+}
+
+.role-buttons button:hover .icon {
+  transform: scale(1.2);
 }
 
 .role-buttons button.user {
@@ -117,141 +266,495 @@ body {
 }
 
 .role-buttons button.user:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(232, 93, 4, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(232, 93, 4, 0.3);
+  background-color: rgba(232, 93, 4, 0.05);
 }
 
 .role-buttons button.active {
   background-color: #E85D04;
   color: #FEFDF8;
-  border: none;
 }
 
 .role-buttons button.active:hover {
+  background-color: #d24f03;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(232, 93, 4, 0.3);
+}
+
+.role-buttons button:active {
+  transform: scale(0.96);
+}
+
+.message {
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 15px 0;
+  transform: translateY(10px);
+  opacity: 0;
+  animation: fadeInMessage 0.5s forwards;
+}
+
+@keyframes fadeInMessage {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.success-message {
+  color: #4BB543;
+  background-color: rgba(75, 181, 67, 0.1);
+  border-left: 3px solid #4BB543;
+}
+
+.verification-container {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  border-left: 4px solid #E85D04;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: slideInVerification 0.6s forwards;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+@keyframes slideInVerification {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.verification-container:hover {
+  box-shadow: 0 8px 20px rgba(232, 93, 4, 0.15);
+}
+
+.verification-container h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.verification-info {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.verification-input {
+  letter-spacing: 5px;
+  font-size: 18px !important;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Add blinking cursor effect for verification code input */
+.verification-input:focus {
+  caret-color: #E85D04;
+  animation: blink-caret 1.2s step-end infinite;
+}
+
+@keyframes blink-caret {
+  from, to { caret-color: transparent; }
+  50% { caret-color: #E85D04; }
+}
+
+.verification-actions {
+  display: flex;
+  gap: 10px;
+}
+
+button.primary-btn {
+  background-color: #E85D04;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  flex: 2;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+button.primary-btn:hover {
   background-color: #d24f03;
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(232, 93, 4, 0.3);
 }
 
-.role-buttons button:active {
-  transform: scale(0.95);
+button.secondary-btn {
+  background-color: transparent;
+  color: #E85D04;
+  border: 1px solid #E85D04;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  flex: 1;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+button.secondary-btn:hover {
+  background-color: rgba(232, 93, 4, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Add ripple effect to buttons */
+.primary-btn::after, .secondary-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 0.6s, opacity 0.6s;
+}
+
+.primary-btn:active::after, .secondary-btn:active::after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  transition: 0s;
+}
+
+.signup-footer {
+  margin-top: 30px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideInUp 0.5s forwards;
+  animation-delay: 0.6s;
+}
+
+.terms-text {
+  font-size: 12px;
+  color: #777;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.terms-text a {
+  color: #E85D04;
+  text-decoration: none;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Animated underline for links */
+.terms-text a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #E85D04;
+  transition: width 0.3s ease;
+}
+
+.terms-text a:hover::after {
+  width: 100%;
 }
 
 .login-link {
   font-family: Poppins, sans-serif;
-  font-weight:500
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 14px;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .login-link a {
   color: #E85D04;
-  text-decoration: underline;
+  text-decoration: none;
+  font-weight: 600;
   transition: color 0.3s ease;
+  position: relative;
+}
+
+.login-link a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #E85D04;
+  transition: width 0.3s ease;
 }
 
 .login-link a:hover {
   color: #b84400;
 }
 
+.login-link a:hover::after {
+  width: 100%;
+}
+
 .signup-image {
+  width: 50%;
+  min-height: 600px;
+  position: relative;
   background-image: url("../assets/dumbell.jpg");
   background-size: cover;
-  background-repeat: no-repeat;
   background-position: center;
+  border-radius: 0 20px 20px 0;
+  overflow: hidden;
+  animation: slideInRight 1s ease;
+}
+
+/* Add subtle zoom effect on hover */
+.signup-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("../assets/dumbell.jpg");
+  background-size: cover;
+  background-position: center;
+  transition: transform 10s ease;
+  z-index: 1;
+}
+
+.signup-container:hover .signup-image::before {
+  transform: scale(1.1);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(14, 20, 40, 0.4), rgba(14, 20, 40, 0.9));
+  z-index: 2;
+}
+
+.signup-image .content {
+  position: relative;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  width: 520px;
-  height: 524px;
-  padding: 357px 62px 128px 61px;
-  border-radius: 0px 20px 20px 0px;
-  animation: slideInRight 1s ease;
+  height: 100%;
+  padding: 40px;
+  text-align: center;
 }
 
 @keyframes slideInRight {
   from {
-      opacity: 0;
-      transform: translateX(30px);
+    opacity: 0;
+    transform: translateX(30px);
   }
-
   to {
-      opacity: 1;
-      transform: translateX(0);
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
 .signup-image h1 {
   color: #E85D04;
   font-family: Poppins, sans-serif;
-  font-size: 36px;
+  font-size: 48px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: fadeInTitle 1s forwards;
+  animation-delay: 0.5s;
+  position: relative;
 }
 
-.signup-image p {
+/* Add animated text shadow effect for the title */
+@keyframes glowEffect {
+  0% { text-shadow: 0 0 10px rgba(232, 93, 4, 0.1); }
+  50% { text-shadow: 0 0 20px rgba(232, 93, 4, 0.4); }
+  100% { text-shadow: 0 0 10px rgba(232, 93, 4, 0.1); }
+}
+
+.signup-image h1:hover {
+  animation: glowEffect 2s infinite;
+}
+
+@keyframes fadeInTitle {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signup-image .tagline {
+  margin-bottom: 30px;
+  opacity: 0;
+  animation: fadeInUp 1s forwards;
+  animation-delay: 0.7s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signup-image .tagline p {
   color: #FEFDF8;
   font-family: Poppins, sans-serif;
-  font-size: 22px;
-  text-align: center;
+  font-size: 18px;
+  margin: 5px 0;
 }
 
-#signup-button {
-  padding: 12px 30px;
+.signup-image .tagline p.highlight {
+  color: #E85D04;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+  width: 100%;
+  opacity: 0;
+  animation: fadeInUp 1s forwards;
+  animation-delay: 0.9s;
+}
+
+.benefit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(14, 20, 40, 0.7);
+  padding: 10px 15px;
+  border-radius: 8px;
+  border-left: 3px solid #E85D04;
+  transition: all 0.3s ease;
+  transform: translateX(0);
+}
+
+.benefit:hover {
+  transform: translateX(5px);
+  background-color: rgba(14, 20, 40, 0.85);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  border-left: 5px solid #E85D04;
+}
+
+.benefit-icon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.benefit:hover .benefit-icon {
+  transform: scale(1.2);
+}
+
+.benefit span {
+  color: #FEFDF8;
+  font-size: 14px;
+}
+
+.primary-button {
+  width: 100%;
+  padding: 14px 25px;
   font-size: 16px;
   font-weight: 600;
   font-family: Poppins, sans-serif;
-  border-radius: 25px;
+  border-radius: 10px;
   cursor: pointer;
   background-color: #E85D04;
   color: #FEFDF8;
   border: none;
   transition: all 0.3s ease;
-  width: 100%;
-  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
 }
 
-#signup-button:hover {
-  background-color: #d24f03;
-  box-shadow: 0 4px 10px rgba(232, 93, 4, 0.3);
-  transform: translateY(-2px);
+/* Add animated background effect for primary button */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-#signup-button:active {
-  transform: scale(0.95);
+.primary-button:hover {
+  background: linear-gradient(45deg, #E85D04, #ff7730, #E85D04);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+  box-shadow: 0 6px 20px rgba(232, 93, 4, 0.4);
+  transform: translateY(-4px);
 }
 
-#code-verification-box {
-  display: none;
-  margin-top: 15px;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  width: 300px;
-  margin: 0 auto;
+.primary-button .arrow-icon {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  transition: transform 0.3s ease;
 }
 
-#code-verification-box label {
-  font-size: 16px;
-  font-weight: bold;
-  display: block;
-  margin-bottom: 8px;
-  color: #333;
+.primary-button:hover .arrow-icon {
+  transform: translateX(5px);
 }
 
-#code-verification-box input {
-  width: 100%;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  box-sizing: border-box;
+/* Add ripple effect to primary button */
+.primary-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 0.6s, opacity 0.6s;
 }
 
+<<<<<<< HEAD
+.primary-button:active::after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  transition: 0s;
+}
+
+.primary-button:active {
+  transform: scale(0.98);
+}
+
+/* Success message animation */
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+=======
 #code-verification-box input:focus {
   border-color: #FF6B18;
   outline: none;
@@ -287,4 +790,55 @@ body {
   border-radius: 8px;
   background-color: #fff;
   margin-bottom: 15px;
+>>>>>>> 58c3a3434c99b8a6853420b7acfb7f95eefbaabb
+}
+
+.success-message {
+  animation: fadeInMessage 0.5s forwards, successPulse 2s infinite;
+}
+
+/* Responsiveness */
+@media (max-width: 900px) {
+  .signup-container {
+    flex-direction: column;
+    width: 95%;
+    max-width: 520px;
+  }
+
+  .signup-form, .signup-image {
+    width: 100%;
+  }
+
+  .signup-image {
+    min-height: 300px;
+    border-radius: 0 0 20px 20px;
+    order: -1;
+  }
+
+  .signup-form {
+    padding: 30px 20px;
+  }
+
+  .role-buttons {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-form h2 {
+    font-size: 24px;
+  }
+
+  .signup-image h1 {
+    font-size: 36px;
+  }
+
+  .signup-image .tagline p {
+    font-size: 16px;
+  }
+
+  .role-buttons button {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
 }

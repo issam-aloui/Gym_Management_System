@@ -36,21 +36,10 @@ body {
   position: relative;
 }
 
-/* Add pulsing glow effect to the container */
-@keyframes pulse-glow {
-  0% {
-    box-shadow: 0 0 20px rgba(232, 93, 4, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(232, 93, 4, 0.5);
-  }
-  100% {
-    box-shadow: 0 0 20px rgba(232, 93, 4, 0.3);
-  }
-}
-
+/* Static box shadow on hover instead of animation */
 .signup-container:hover {
-  animation: pulse-glow 2s infinite;
+  box-shadow: 0 0 30px rgba(232, 93, 4, 0.5);
+  transition: box-shadow 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -102,6 +91,7 @@ body {
   width: 100%;
 }
 
+/* Initial load animations for form elements */
 .form-group {
   margin-bottom: 20px;
   width: 100%;
@@ -110,7 +100,6 @@ body {
   animation: slideInUp 0.5s forwards;
 }
 
-/* Staggered form elements animation */
 @keyframes slideInUp {
   to {
     opacity: 1;
@@ -157,17 +146,6 @@ body {
   box-shadow: 0 0 12px rgba(232, 93, 4, 0.3);
   transform: translateY(-2px);
   background-color: white;
-}
-
-/* Add subtle glow effect on input focus */
-@keyframes input-glow {
-  0% { box-shadow: 0 0 5px rgba(232, 93, 4, 0.3); }
-  50% { box-shadow: 0 0 12px rgba(232, 93, 4, 0.5); }
-  100% { box-shadow: 0 0 5px rgba(232, 93, 4, 0.3); }
-}
-
-.signup-form input:focus {
-  animation: input-glow 2s infinite;
 }
 
 .password-hint {
@@ -286,22 +264,13 @@ body {
   transform: scale(0.96);
 }
 
+/* Style for message that appears AFTER form submission */
 .message {
   text-align: center;
   font-size: 14px;
   padding: 10px;
   border-radius: 5px;
   margin: 15px 0;
-  transform: translateY(10px);
-  opacity: 0;
-  animation: fadeInMessage 0.5s forwards;
-}
-
-@keyframes fadeInMessage {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .success-message {
@@ -310,26 +279,18 @@ body {
   border-left: 3px solid #4BB543;
 }
 
+/* Only animate verification box when it first appears */
 .verification-container {
   background-color: #f9f9f9;
   border-radius: 10px;
   padding: 20px;
   margin-top: 20px;
   border-left: 4px solid #E85D04;
-  transform: translateY(20px);
-  opacity: 0;
-  animation: slideInVerification 0.6s forwards;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  transition: box-shadow 0.3s ease;
 }
 
-@keyframes slideInVerification {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* Static hover effect without animation */
 .verification-container:hover {
   box-shadow: 0 8px 20px rgba(232, 93, 4, 0.15);
 }
@@ -350,17 +311,6 @@ body {
   font-size: 18px !important;
   text-align: center;
   font-weight: 600;
-}
-
-/* Add blinking cursor effect for verification code input */
-.verification-input:focus {
-  caret-color: #E85D04;
-  animation: blink-caret 1.2s step-end infinite;
-}
-
-@keyframes blink-caret {
-  from, to { caret-color: transparent; }
-  50% { caret-color: #E85D04; }
 }
 
 .verification-actions {
@@ -513,7 +463,7 @@ button.secondary-btn:hover {
   animation: slideInRight 1s ease;
 }
 
-/* Add subtle zoom effect on hover */
+/* Subtle zoom effect on hover - no animation */
 .signup-image::before {
   content: '';
   position: absolute;
@@ -576,17 +526,11 @@ button.secondary-btn:hover {
   animation: fadeInTitle 1s forwards;
   animation-delay: 0.5s;
   position: relative;
-}
-
-/* Add animated text shadow effect for the title */
-@keyframes glowEffect {
-  0% { text-shadow: 0 0 10px rgba(232, 93, 4, 0.1); }
-  50% { text-shadow: 0 0 20px rgba(232, 93, 4, 0.4); }
-  100% { text-shadow: 0 0 10px rgba(232, 93, 4, 0.1); }
+  transition: text-shadow 0.3s ease;
 }
 
 .signup-image h1:hover {
-  animation: glowEffect 2s infinite;
+  text-shadow: 0 0 20px rgba(232, 93, 4, 0.4);
 }
 
 @keyframes fadeInTitle {
@@ -695,17 +639,8 @@ button.secondary-btn:hover {
   overflow: hidden;
 }
 
-/* Add animated background effect for primary button */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 .primary-button:hover {
-  background: linear-gradient(45deg, #E85D04, #ff7730, #E85D04);
-  background-size: 200% 200%;
-  animation: gradientShift 3s ease infinite;
+  background-color: #d24f03;
   box-shadow: 0 6px 20px rgba(232, 93, 4, 0.4);
   transform: translateY(-4px);
 }
@@ -738,7 +673,6 @@ button.secondary-btn:hover {
   transition: transform 0.6s, opacity 0.6s;
 }
 
-<<<<<<< HEAD
 .primary-button:active::after {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
@@ -749,52 +683,36 @@ button.secondary-btn:hover {
   transform: scale(0.98);
 }
 
-/* Success message animation */
-@keyframes successPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-  100% { transform: scale(1); }
-=======
-#code-verification-box input:focus {
-  border-color: #FF6B18;
-  outline: none;
+/* JavaScript will add this class when showing verification box */
+.verification-show {
+  animation: slideInVerification 0.6s forwards;
 }
 
-#code-verification-box button {
-  width: 100%;
-  padding: 12px;
-  background-color: #1E88E5;
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+@keyframes slideInVerification {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-#code-verification-box button:hover {
-  background-color: #1976D2;
+/* JavaScript will add this class when showing success message */
+.message-show {
+  animation: fadeInMessage 0.5s forwards;
 }
 
-#code-verification-box input {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 15px;
-}
-
-#code-verification-box {
-  padding: 15px;
-  border-radius: 8px;
-  background-color: #fff;
-  margin-bottom: 15px;
->>>>>>> 58c3a3434c99b8a6853420b7acfb7f95eefbaabb
-}
-
-.success-message {
-  animation: fadeInMessage 0.5s forwards, successPulse 2s infinite;
+@keyframes fadeInMessage {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsiveness */

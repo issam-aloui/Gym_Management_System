@@ -15,6 +15,15 @@
         <div class="signup-form">
             <h2><span>Create</span> Your Account</h2>
             <form id="signupForm">
+
+                <!-- Verification Code Step (hidden by default) -->
+            <div id="code-verification-box" style="display: none; margin-top: 15px;">
+              <label for="verification-code">Enter Verification Code</label>
+              <input type="text" id="verification-code" placeholder="XXXXXX" maxlength="6">
+              <button type="button" id="verify-code-btn">Verify Code</button>
+            </div>
+
+
                 <label for="fullname">Full name</label>
                 <input type="text" id="username" name="username" placeholder="Username" required>
 

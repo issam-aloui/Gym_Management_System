@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+  const signupButton = document.getElementById("signup-button");
+  signupButton.disabled = true;
+  signupButton.innerHTML = "Verifying...";
+
   const signupForm = document.getElementById("signupForm");
   const codeBox = document.getElementById("code-verification-box");
   const verifyBtn = document.getElementById("verify-code-btn");
@@ -80,7 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const finalData = await signupRes.json();
 
         if (signupRes.ok) {
-          showMessage("Signup successful! You can now <a href='/login'>log in</a>.", "green");
+          showMessage("Signup successful! You can now join us.", "green");
+          window.location.href = "/";
         } else {
           showMessage(finalData.message || "Signup failed after verification.", "red");
         }
@@ -96,4 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
     messageBox.style.color = color;
     messageBox.innerHTML = text;
   }
+
+  signupButton.disabled = false;
+  signupButton.innerHTML = "Sign Up";
+
 });

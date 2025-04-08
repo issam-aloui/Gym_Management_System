@@ -253,21 +253,38 @@ body {
 }
 
 #code-verification-box input:focus {
-  border-color: #007BFF;
+  border-color: #FF6B18;
   outline: none;
 }
 
 #code-verification-box button {
   width: 100%;
-  padding: 10px;
-  background-color: #007BFF;
+  padding: 12px;
+  background-color: #1E88E5;
   color: white;
   font-size: 16px;
+  font-weight: 500;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
 #code-verification-box button:hover {
-  background-color: #0056b3;
+  background-color: #1976D2;
+}
+
+#code-verification-box input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+#code-verification-box {
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fff;
+  margin-bottom: 15px;
 }

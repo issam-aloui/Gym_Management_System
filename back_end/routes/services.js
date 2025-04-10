@@ -1,9 +1,12 @@
 const express = require("express");
-const {sendcode,verifycode} = require("../controllers/servicesController")
+const {sendcode,verifycode,resendcode} = require("../controllers/servicesController")
+const {codeLimiter} = require("../middleware/Security");
 const router = express.Router();
 
-router.post("/request-verification", sendcode);
+router.post("/request-verification",codeLimiter ,sendcode);
 
-router.post("/verify-code", verifycode);
+router.post("/verify-code" ,verifycode);
+
+router.post("/resend-code" ,codeLimiter ,resendcode);
 
 module.exports = router;

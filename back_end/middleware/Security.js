@@ -14,6 +14,13 @@ exports.loginLimiter = rateLimit({
   headers: true,
 });
 
+exports.codeLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, //10 minutes
+  max: 1, 
+  message: { error: "Too many code sending attempts. Please try again later." },
+  headers: true,
+});
+
 const jwt = require("jsonwebtoken");
 
 exports.verifyJWT = (req, res, next) => {

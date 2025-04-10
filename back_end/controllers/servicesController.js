@@ -32,18 +32,25 @@ exports.verifycode = async (req, res) => {
   return res.status(200).json({ message: "Code verified successfully" });
 };
 
-exports.resendcode = async (res, req) => {
-  const { email, code } = req.body;
+exports.resendcode = async (req, res) => {
+
+  const { username, email } = req.body;
   const record = verificationCodes[email];
 
   if (!record || Date.now() > record.expiresAt) {
     const result = await sendEmailVerification(username, email);
-    if (result.status === 200) { 
+    if (result.status === 200) {
       verificationCodes[email] = {
         code: result.code,
-        expiresAt: Date.now() + 10 * 60 * 1000, // expires in 10 mins
+        expiresAt: Date.now() + 10 * 60 * 1000,
       };
       return res.status(200).json({ message: "Code resent to email" });
+    } else {
+      return res.status(500).json({ message: "Failed to resend code" });
     }
   }
+
+  // 🛑 Respond even if the code hasn't expired
+  return res.status(429).json({ message: "You already have a valid code. Please wait before requesting again." });
 };
+

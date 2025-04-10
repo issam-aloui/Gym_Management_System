@@ -7,6 +7,6 @@ router.post("/request-verification",codeLimiter ,sendcode);
 
 router.post("/verify-code" ,verifycode);
 
-router.post("/resend-code" ,codeLimiter ,resendcode);
+router.post("/resend-code" ,resendcode);
 
 module.exports = router;

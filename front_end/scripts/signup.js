@@ -152,12 +152,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const resendbtn = document.getElementById("resend-code-btn");
 
   resendbtn.addEventListener("click", async () => {
-
+    showMessage("Resending code...", "green");
     try {
       const res = await fetch("http://localhost:5000/services/resend-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email }),
+        body: JSON.stringify({
+          username: sessionStorage.getItem("signup-username"),
+          email: sessionStorage.getItem("signup-email"),
+        }),              
       });
 
       const data = await res.json();
@@ -171,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
       showMessage("Error connecting to server.", "red");
     }
 
-    showMessage("Resending code...", "green");
+    
   });
 
   function showMessage(text, color) {

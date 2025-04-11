@@ -16,7 +16,7 @@ exports.loginLimiter = rateLimit({
 
 exports.codeLimiter = rateLimit({
   windowMs: 10 * 60 * 1000, //10 minutes
-  max: 1, 
+  max: 3, 
   message: { error: "Too many code sending attempts. Please try again later." },
   headers: true,
 });
@@ -26,16 +26,17 @@ const jwt = require("jsonwebtoken");
 exports.verifyJWT = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
+    res.redirect('/');
     return res.status(401).json({ message: "Unauthorized: No token" });
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
+      res.redirect('/');
       return res.status(401).json({ message: "Unauthorized: Token expired or invalid" });
     }
 
     req.user = decoded; 
-
     
     const expiresIn = 10 * 60; 
     const currentTime = Math.floor(Date.now() / 1000); 

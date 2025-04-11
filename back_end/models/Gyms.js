@@ -16,25 +16,25 @@ const GymSchema = new mongoose.Schema({
     minlength: 4,
     maxlength: 10,
   },
-  gpsLocation: {
+  gpsLocation: { //DELETE
     type: {
       latitude: { type: Number, required: true },
       longitude: { type: Number, required: true },
     },
     required: true,
   },
-  owner: {
+  owner: { // TURN IT INTO OBJECT ID
     type: Number,
     ref: "User",
     required: true,
   },
-  members: [
+  members: [ //TRANSFER TO ANALITIQUES
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
   ],
-  facilities: [
+  facilities: [ //TRANSFER TO analitiques
     {
       type: String, 
       enum: [
@@ -47,24 +47,26 @@ const GymSchema = new mongoose.Schema({
       ],
     },
   ],
-  openingHours: {
+  openingHours: {  //gym descreption
     type: String, 
     default: "6 AM - 10 PM",
   },
-  pricePerMonth: {
+  pricePerMonth: { //analitiques 
     type: Number,
     required: true,
     min: 0,
   },
-  contact: {
+  contact: { //gym descreption
     phone: { type: String, required: true },
     email: { type: String, required: true },
   },
-  createdAt: {
+  createdAt: { 
     type: Date,
     default: Date.now,
   },
-});
+  },
+  { timestamps: true }
+);
 
 GymSchema.index({ name: 1, town: 1 }, { unique: true });
 

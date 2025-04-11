@@ -32,12 +32,16 @@ const UserSchema = new mongoose.Schema(
       enum: ["member", "owner", "admin"],
       default: "member",
     },
-    createdAt: {
+    createdAt: { //delete
       type: Date,
       default: Date.now,
     },
   },
   { timestamps: true }
+
+//ADD A TABLE OF GYMS JOINED
+//ADD MEMBERSHIP.js and membership object id
+
 );
 
 // ✅ Ensure ID is assigned before saving

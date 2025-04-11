@@ -27,6 +27,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
       if (response.ok) {
           messageBox.style.color = "green";
           messageBox.textContent = data.message;
+          sessionStorage.clear();
           window.location.href = "/";
       } else {
           messageBox.style.color = "red";

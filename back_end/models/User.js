@@ -29,18 +29,25 @@ const UserSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["member", "owner", "admin"],
+      enum: ["member", "owner", "admin","trainer"],
       default: "member",
     },
-    createdAt: { //delete
-      type: Date,
-      default: Date.now,
+    
+    //ADD A TABLE OF GYMS JOINED
+    Gymsjoined:[ 
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Gym",
+        },
+      ],
+    //ADD MEMBERSHIP.js and membership object id
+    Membership:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "membership",
     },
   },
   { timestamps: true }
 
-//ADD A TABLE OF GYMS JOINED
-//ADD MEMBERSHIP.js and membership object id
 
 );
 

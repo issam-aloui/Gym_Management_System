@@ -1,1 +1,0 @@
-//owner - trainers - members / possiblty

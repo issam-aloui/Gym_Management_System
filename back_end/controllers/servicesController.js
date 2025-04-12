@@ -54,3 +54,16 @@ exports.resendcode = async (req, res) => {
   return res.status(429).json({ message: "You already have a valid code. Please wait before requesting again." });
 };
 
+
+exports.uploadimg = upload.single('image'), async (req, res) => {
+  if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+  }
+
+  try {
+      const result = await uploadImage(req.file.buffer, req.file.originalname); 
+      res.status(200).json({ message: 'Image uploaded successfully!', data: result });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+};

@@ -45,6 +45,10 @@ const UserSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "membership",
     },
+    Qrcode:{
+      type: String, // Storing the QR code image URL
+      required: false, // Optional field, only if you generate a QR code
+    },
   },
   { timestamps: true }
 

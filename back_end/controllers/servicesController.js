@@ -55,15 +55,16 @@ exports.resendcode = async (req, res) => {
 };
 
 
-exports.uploadimg = upload.single('image'), async (req, res) => {
+
+exports.uploadimg = async (req, res) => {
   if (!req.file) {
-      return res.status(400).send('No file uploaded.');
+    return res.status(400).send('No file uploaded.');
   }
 
   try {
-      const result = await uploadImage(req.file.buffer, req.file.originalname); 
-      res.status(200).json({ message: 'Image uploaded successfully!', data: result });
+    const result = await uploadImage(req.file.buffer, req.file.originalname); 
+    res.status(200).json({ message: 'Image uploaded successfully!', data: result });
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };

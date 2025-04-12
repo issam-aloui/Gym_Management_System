@@ -1,4 +1,9 @@
 const express = require("express");
+const multer = require('multer');
+const upload = multer(); 
+const { uploadimg } = require('../controllers/servicesController');
+
+
 const {
   sendcode,
   verifycode,
@@ -12,5 +17,8 @@ router.post("/request-verification", codeLimiter, sendcode);
 router.post("/verify-code", verifycode);
 
 router.post("/resend-code", resendcode);
+
+router.post('/upload', upload.single('image'), uploadimg);
+
 
 module.exports = router;

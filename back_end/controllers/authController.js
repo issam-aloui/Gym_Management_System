@@ -6,6 +6,7 @@ const QRCode = require("qrcode");
 const path = require("path");
 const fs = require("fs");
 
+
 exports.signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;

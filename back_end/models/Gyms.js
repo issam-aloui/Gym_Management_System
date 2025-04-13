@@ -1,47 +1,64 @@
 const mongoose = require("mongoose");
 
-const GymSchema = new mongoose.Schema({
-  
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    minlength: 5,
-    maxlength: 20,
-  },
+const GymSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      minlength: 5,
+      maxlength: 20,
+    },
 
-  town: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 4,
-    maxlength: 10,
-  },
+    town: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 4,
+      maxlength: 10,
+    },
 
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  
-  statistiques:{
-    required:true,
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "statistiques",
-  },
+    coordinates: {
+      lng: { type: Number, required: true },
+      lat: { type: Number, required: true },
+    },
 
-  GymDescription:{
-    required:true,
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Gymdes",
-  },
-  
-  createdAt: { 
-    type: Date,
-    default: Date.now,
-  },
+    pricePerMonth: {
+      type: Number,
+      required: true,
+    },
+    contact: {
+      phonenumber: {
+        type: String,
+        required: true,
+      },
 
+      email: {
+        type: String,
+        required: true,
+      },
+    },
+
+    owner: {
+      type: Number,
+      ref: "User",
+    },
+
+    statistiques: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "statistiques",
+    },
+
+    GymDescription: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Gymdes",
+    },
+
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { timestamps: true }
 );

@@ -48,37 +48,35 @@ exports.validateLogin = [
 
 
 exports.validateGym = [
+  // Validate gym name length between 5 and 20 characters
   body("gymname")
     .trim()
     .isLength({ min: 5, max: 20 })
-    .withMessage("Username must be between 3 and 20 characters"),
+    .withMessage("Gym name must be between 5 and 20 characters"),
 
+  // Validate email format
   body("email")
     .trim()
     .isEmail()
     .withMessage("Invalid email format"),
 
+  // Validate phone number format (Algerian phone format)
   body("phonenumber")
     .trim()
     .matches(/^(?:\+213|0)(5|6|7|2)[0-9]{8}$/) // Algerian phone format
     .withMessage("Invalid Algerian phone number format"),
 
-  body("latitude")
-    .isFloat({ min: -90, max: 90 })
-    .withMessage("Latitude must be between -90 and 90"),
-
-  body("longitude")
-    .isFloat({ min: -180, max: 180 })
-    .withMessage("Longitude must be between -180 and 180"),
-
+  // Validate town length between 4 and 10 characters
   body("town")
     .isLength({ min: 4, max: 10 })
-    .withMessage("town must be between 6 and 25 characters"),
-  body("pricebymounth")
-    .isInt({ min: 0 , max : 10000})
-    .withMessage("price must be a positive or zero"),  
-  
+    .withMessage("Town name must be between 4 and 10 characters"),
 
+  // Validate price per month to be between 0 and 10000
+  body("pricebymounth")
+    .isInt({ min: 0, max: 10000 })
+    .withMessage("Price per month must be between 0 and 10,000"),
+
+  // Middleware to check if there are validation errors
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -87,4 +85,3 @@ exports.validateGym = [
     next();
   },
 ];
-

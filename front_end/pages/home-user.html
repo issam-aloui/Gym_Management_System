@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gym Map (Leaflet)</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+      #map {
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      // Init map
+      const map = L.map("map").setView([36.7538, 3.0588], 12); // Default: Algiers
+
+      // Add OpenStreetMap tile layer
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+      }).addTo(map);
+
+      const markers = new Map();
+
+      async function loadGyms() {
+        try {
+          const res = await fetch("/gym/getgyms");
+          const gyms = await res.json();
+
+          gyms.forEach((gym) => {
+            if (!markers.has(gym._id) && gym.coordinates) {
+              const { lat, lng } = gym.coordinates;
+              if (lat && lng) {
+                const marker = L.marker([lat, lng])
+                  .addTo(map)
+                  .bindPopup(`<strong>${gym.name}</strong>`);
+                markers.set(gym._id, marker);
+              }
+            }
+          });
+        } catch (err) {
+          console.error("Failed to load gyms:", err);
+          alert("Error loading gyms");
+        }
+      }
+
+      window.onload = () => {
+        loadGyms();
+      };
+    </script>
+  </body>
+</html>

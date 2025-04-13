@@ -8,7 +8,7 @@ const router = express.Router();
 router.use(cookieParser());
 router.use(express.json());
 
-router.post("/creategym", validateGym, createGym);
+router.post("/creategym", createGym);
 router.get("/getgyms", getGyms);
 
 module.exports = router;

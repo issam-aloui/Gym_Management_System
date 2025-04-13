@@ -1,46 +1,29 @@
-const express = require("express");
-const fs = require("fs");
 const path = require("path");
 const dotenv = require("dotenv");
-dotenv.config({ path: path.join(__dirname, '..', '.env') });
+dotenv.config({ path: path.join(__dirname, "..", ".env") });
 
-import { v2 as cloudinary } from 'cloudinary';
+const { v2: cloudinary } = require("cloudinary");
 
-(async function() {
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-    // Configuration
-    cloudinary.config({
-      cloudinary_url: process.env.CLOUDINARY_URL // Using the URL from your .env file
-    });
-    
-    // Upload an image
-    exports.uploadResult = await cloudinary.uploader
-       .upload(
-           'https://res.cloudinary.com/demo/image/upload/getting-started/shoes.jpg', {
-               public_id: 'shoes',
-           }
-       )
-       .catch((error) => {
-           console.log(error);
-       });
-    
-    console.log(uploadResult);
-    
-    // Optimize delivery by resizing and applying auto-format and auto-quality
-    const optimizeUrl = cloudinary.url('shoes', {
-        fetch_format: 'auto',
-        quality: 'auto'
-    });
-    
-    console.log(optimizeUrl);
-    
-    // Transform the image: auto-crop to square aspect_ratio
-    const autoCropUrl = cloudinary.url('shoes', {
-        crop: 'auto',
-        gravity: 'auto',
-        width: 500,
-        height: 500,
-    });
-    
-    console.log(autoCropUrl);    
-})();
+/**
+ * Uploads a file to Cloudinary
+ * @param {string} file - File path or URL
+ * @param {Object} options - Upload options (folder, public_id, etc.)
+ */
+const uploadImage = async (file, options = {}) => {
+  try {
+    const result = await cloudinary.uploader.upload(file, options);
+    console.log("✅ Cloudinary upload successful:", result.secure_url);
+    return result;
+  } catch (error) {
+    console.error("❌ Cloudinary upload failed:", error.message);
+    throw error;
+  }
+};
+
+module.exports = { uploadImage, cloudinary };

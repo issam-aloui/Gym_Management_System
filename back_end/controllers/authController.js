@@ -5,63 +5,82 @@ const logger = require("../utils/logger");
 const QRCode = require("qrcode");
 const path = require("path");
 const fs = require("fs");
+const { v2: cloudinary } = require("cloudinary");
+const { uploadImage } = require("../services/cloudservice");
 
 
 exports.signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    const exist = await User.findOne({ email });
-    if (exist) {
-      return res
-        .status(400)
-        .json({ message: "Email is already signed up buddy" });
+    // Check if email already exists
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).json({ message: "Email is already signed up buddy" });
     }
 
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new user
     const newUser = new User({ username, email, password: hashedPassword });
+
     try {
       await newUser.save();
+
+      // Generate QR data
       const qrData = `user_id:${newUser.id}`;
       const qrPath = path.join(__dirname, `../qr-codes/user-${newUser.id}.png`);
 
-      QRCode.toFile(
-        qrPath,
-        qrData,
-        {
-          color: {
-            dark: "#000000",
-            light: "#ffffff",
-          },
+      // Generate QR code
+      await QRCode.toFile(qrPath, qrData, {
+        color: {
+          dark: "#000000",
+          light: "#ffffff",
         },
-        function (err) {
-          if (err) {
-            logger.error(
-              `Failed to create QR code for user ${newUser.id}: ${err.message}`
-            );
-          } else {
-            logger.info(`QR code generated for user ${newUser.id}`);
-          }
-        }
-      );
+      });
 
-      logger.info(`User created: "${username}" as email: ${email}`);
+      logger.info(`QR code generated for user ${newUser.id}`);
+
+      // Upload the generated QR code using the uploadImage function from services
+      const uploadResult = await uploadImage(qrPath, {
+        folder: "user-qrcodes",
+        public_id: `user-${newUser.id}-${newUser.username}-${newUser.email}`,
+        overwrite: true,
+      });
+      
+
+      logger.info(`QR code uploaded for user ${newUser.id}: ${uploadResult.secure_url}`);
+
+      // Delete local QR file after upload
+      fs.unlink(qrPath, (err) => {
+        if (err) {
+          logger.error(`Failed to delete local QR code: ${err.message}`);
+        } else {
+          logger.info(`Local QR code deleted for user ${newUser.id}`);
+        }
+      });
+
+      // Update the user with QR code URL and save it
+      newUser.Qrcode = uploadResult.secure_url;
+      await newUser.save();
+
+      logger.info(`User created: ${username} with email: ${email}`);
+      res.status(201).json({ message: "User registered!", id: newUser.id });
     } catch (err) {
       if (err.code === 11000) {
-        return res
-          .status(400)
-          .json({ message: "Email is already in use. Try another one!" });
+        return res.status(400).json({ message: "Email is already in use. Try another one!" });
       }
       throw err;
     }
-
-    res.status(201).json({ message: "User registered!", id: newUser.id });
   } catch (err) {
     logger.error(`User signup failed: ${err.message}`);
-
     res.status(500).json({ error: err.message || "Internal Server Error" });
   }
 };
+
+
+
 
 exports.login = async (req, res) => {
   try {

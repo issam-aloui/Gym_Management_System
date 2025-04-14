@@ -88,7 +88,7 @@ header {
   font-weight: 600;
   font-size: 14px;
   color: #fefdf8;
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 .search-bar:focus::placeholder {
@@ -335,53 +335,64 @@ main.shifted {
   opacity: 0.7;
 }
 
-/* Gym Map Specific Styles */
-#filterContainer {
-  padding: 10px;
-  background: white;
-  position: absolute;
-  z-index: 1000;
-  top: 80px; /* Offset to avoid overlap with fixed header */
-  left: 20px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  font-family: "Poppins", sans-serif;
-  width: 220px;
+.hidden {
+  display: none !important;
 }
 
-/* Shrink map and position it cleanly */
-#map {
-  height: 400px;
-  width: 100%;
-  margin: 20px auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Filter container compact styling */
-#filterContainer {
-  position: relative;
+/* Fullscreen black overlay with 50% opacity */
+.overlay {
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
-  margin-bottom: 15px;
-  padding: 10px 15px;
-  background: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
   width: 100%;
-  max-width: 320px;
-  font-family: "Poppins", sans-serif;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  transition: opacity 0.3s ease;
 }
 
-#filterContainer input {
-  padding: 6px 10px;
-  font-size: 14px;
-  width: 100%;
-  margin-bottom: 8px;
+/* Container for map and filters */
+.map-container {
+  background-color: rgb(240, 240, 240);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-/* Make sure leaflet map controls don’t clash with the UI */
-.leaflet-top.leaflet-left {
-  top: 150px !important;
+/* Filters layout */
+#filterContainer {
+  display: flex;
+  gap: 10px;
 }
+.filter {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.filter label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0e1428;
+}
+.filter input {
+  width: 100%; /* takes 100% of the .filter-item, which is 50% of container */
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Map style */
+#map {
+  width: 70vw; /* Full width of container */
+  height: 70vh; /* 50% of viewport height */
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+

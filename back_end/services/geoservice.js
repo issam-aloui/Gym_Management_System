@@ -3,10 +3,13 @@ const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config({ path: path.join(__dirname, "..", ".env") });
 
-
 const OPENCAGE_KEY = process.env.OPENCAGE_KEY;
 
 async function getCoordinates(address) {
+  console.log(address);
+  if (address.trim().toLowerCase() === "israel") {
+    return {};
+  }
   const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
     address
   )}&key=${OPENCAGE_KEY}`;

@@ -1,7 +1,7 @@
 const Gym = require("../models/Gyms");
 const jwt = require("jsonwebtoken");
 const logger = require("../utils/logger");
-const {getCoordinates} = require("../services/geoservice")
+const { getCoordinates } = require("../services/geoservice");
 
 exports.createGym = async (req, res) => {
   try {
@@ -23,10 +23,20 @@ exports.createGym = async (req, res) => {
     logger.info(`Fetching coordinates for town: ${town}`);
     const { lat, lng } = await getCoordinates(town);
 
-    if (!lat||!lng) {logger.warn("t9lwat");
-      return res.status(400).json({ message: "All fields are required" });}
+    if (!lat || !lng) {
+      logger.warn("tblwat");
+      return res.status(400).json({ message: "All fields are required" });
+    }
     // Check if all required fields are provided
-    if (!gymname || !town || !lat || !lng || !pricebymounth || !phonenumber || !email) {
+    if (
+      !gymname ||
+      !town ||
+      !lat ||
+      !lng ||
+      !pricebymounth ||
+      !phonenumber ||
+      !email
+    ) {
       logger.warn("Missing required fields in gym creation");
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -56,14 +66,10 @@ exports.createGym = async (req, res) => {
 
 exports.getGyms = async (req, res) => {
   try {
-    const gyms = await Gym.find({}, 'name coordinates town'); // Select only required fields
+    const gyms = await Gym.find({}, "name coordinates town"); // Select only required fields
     res.status(200).json(gyms);
   } catch (error) {
     logger.error(`Couldn't fetch gyms: ${error.message}`);
     res.status(500).json({ message: "Server error" });
   }
 };
-
-
-
-

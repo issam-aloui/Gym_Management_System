@@ -74,16 +74,20 @@ customElements.define(
 
     setupNavigation() {
       const links = this.querySelectorAll("aside nav ul li a");
-      links.forEach(link => {
+      links.forEach((link) => {
         link.addEventListener("click", (e) => {
           e.preventDefault();
-          links.forEach(l => l.classList.remove("active"));
+          links.forEach((l) => l.classList.remove("active"));
           link.classList.add("active");
 
           const section = link.classList[0].replace("nav-", "");
           switch (section) {
-            case "home": this.loadHome(); break;
-            default: this.loadSection(section); break;
+            case "home":
+              this.loadHome();
+              break;
+            default:
+              this.loadSection(section);
+              break;
           }
         });
       });
@@ -91,7 +95,9 @@ customElements.define(
 
     loadSection(sectionName) {
       document.getElementById("mainContent").innerHTML = `
-        <h2>${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)} Section</h2>
+        <h2>${
+          sectionName.charAt(0).toUpperCase() + sectionName.slice(1)
+        } Section</h2>
         <p>This section is under construction.</p>
       `;
     }
@@ -135,7 +141,7 @@ customElements.define(
       let debounceTimeout = null;
 
       function clearMarkers() {
-        markers.forEach(marker => map.removeLayer(marker));
+        markers.forEach((marker) => map.removeLayer(marker));
         markers.clear();
       }
 
@@ -160,22 +166,34 @@ customElements.define(
 
       function displayGyms(gyms) {
         clearMarkers();
-        const nameFilter = document.getElementById("nameFilter").value.toLowerCase();
-        const townFilter = document.getElementById("townFilter").value.toLowerCase();
+        const nameFilter = document
+          .getElementById("nameFilter")
+          .value.toLowerCase();
+        const townFilter = document
+          .getElementById("townFilter")
+          .value.toLowerCase();
 
-        gyms.forEach(gym => {
+        gyms.forEach((gym) => {
           const { lat, lng } = gym.coordinates || {};
-          const nameMatch = !nameFilter || gym.name.toLowerCase().includes(nameFilter);
-          const townMatch = !townFilter || (
-            gym.town &&
-            gym.town.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-              .includes(townFilter.normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
-          );
+          const nameMatch =
+            !nameFilter || gym.name.toLowerCase().includes(nameFilter);
+          const townMatch =
+            !townFilter ||
+            (gym.town &&
+              gym.town
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .includes(
+                  townFilter.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                ));
 
           if (lat && lng && nameMatch && townMatch) {
             const marker = L.marker([lat, lng])
               .addTo(map)
-              .bindPopup(`<strong>${gym.name}</strong><br>Town: ${gym.town || "N/A"}`);
+              .bindPopup(
+                `<strong>${gym.name}</strong><br>Town: ${gym.town || "N/A"}`
+              );
             markers.set(gym._id, marker);
           }
         });
@@ -183,7 +201,11 @@ customElements.define(
 
       async function geocodeTown(townName) {
         try {
-          const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(townName)}`);
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+              townName
+            )}`
+          );
           const data = await response.json();
           if (data && data.length > 0) {
             return {
@@ -221,13 +243,15 @@ customElements.define(
 
             userMarker = L.marker([latitude, longitude], {
               icon: L.icon({
-                iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
+                iconUrl:
+                  "https://upload.wikimedia.org/wikipedia/commons/8/88/Map_marker.svg",
+                iconSize: [27, 43], // Width, height
+                iconAnchor: [13, 41], // Position relative to the icon's tip
+                popupAnchor: [0, -38],
               }),
-            }).addTo(map)
-              .bindPopup("You are here")
+            })
+              .addTo(map)
+              .bindPopup("You")
               .openPopup();
 
             map.setView([latitude, longitude], 13);
@@ -239,8 +263,12 @@ customElements.define(
       }
 
       // Event listeners for filters
-      document.getElementById("nameFilter").addEventListener("input", debounceLoadGyms);
-      document.getElementById("townFilter").addEventListener("input", debounceLoadGyms);
+      document
+        .getElementById("nameFilter")
+        .addEventListener("input", debounceLoadGyms);
+      document
+        .getElementById("townFilter")
+        .addEventListener("input", debounceLoadGyms);
 
       locateUser();
       loadGyms();

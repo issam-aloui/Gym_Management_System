@@ -56,7 +56,7 @@ exports.createGym = async (req, res) => {
 
 exports.getGyms = async (req, res) => {
   try {
-    const gyms = await Gym.find({}, 'name coordinates'); // Select only required fields
+    const gyms = await Gym.find({}, 'name coordinates town'); // Select only required fields
     res.status(200).json(gyms);
   } catch (error) {
     logger.error(`Couldn't fetch gyms: ${error.message}`);

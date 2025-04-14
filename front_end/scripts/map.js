@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <div id="map"></div>
         </div>
       </div>
+      <button id="displayMap"><img src="../assets/icons/location.svg" alt=""></button>
     `;
   }
 

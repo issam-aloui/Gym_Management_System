@@ -76,35 +76,3 @@ link.rel = "stylesheet";
 link.href = "../css/app-layout.css";
 document.head.appendChild(link);
 
-/*function setupNavigation() {
-  const links = document.querySelectorAll("aside nav ul li a");
-  links.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      links.forEach((l) => l.classList.remove("active"));
-      link.classList.add("active");
-
-      const section = link.classList[0].replace("nav-", "");
-      switch (section) {
-        case "home":
-          loadSection(section);
-          break;
-        default:
-          loadSection(section);
-          break;
-      }
-    });
-  });
-}
-
-function loadSection(sectionName) {
-  document.getElementById("mainContent").innerHTML = `
-        <h2>${
-          sectionName.charAt(0).toUpperCase() + sectionName.slice(1)
-        } Section</h2>
-        <p>This section is under construction.</p>
-      `;
-}
-document.addEventListener("DOMContentLoaded", () => {
-  setupNavigation();
-}); */

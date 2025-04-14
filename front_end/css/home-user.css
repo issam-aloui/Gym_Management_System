@@ -1,0 +1,34 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100vh;
+}
+
+#filterContainer {
+  padding: 10px;
+  background: white;
+  position: absolute;
+  z-index: 1000;
+  top: 10px;
+  left: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-family: sans-serif;
+}
+
+#filterContainer input {
+  margin: 5px 0;
+  width: 180px;
+  padding: 5px;
+}
+
+/* Prevent map controls from overlapping filter box */
+.leaflet-top.leaflet-left {
+  top: 120px !important;
+}

@@ -1,67 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gym Map (Leaflet)</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gym Map (Leaflet)</title>
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-    <style>
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+
+    #filterContainer {
+      padding: 10px;
+      background: white;
+      position: absolute;
+      z-index: 1000;
+      top: 10px;
+      left: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      font-family: sans-serif;
+    }
+
+    #filterContainer input {
+      margin: 5px 0;
+      width: 180px;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Filter UI -->
+  <div id="filterContainer">
+    <label for="nameFilter">Search by Name:</label><br />
+    <input type="text" id="nameFilter" placeholder="Enter gym name" /><br />
+
+    <label for="townFilter">Search by Town:</label><br />
+    <input type="text" id="townFilter" placeholder="Enter town name" />
+  </div>
+
+  <!-- Map Container -->
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map("map").setView([36.7538, 3.0588], 12); // Algiers default
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; OpenStreetMap contributors",
+    }).addTo(map);
+
+    const markers = new Map();
+
+    function clearMarkers() {
+      markers.forEach(marker => map.removeLayer(marker));
+      markers.clear();
+    }
+
+    async function loadGyms() {
+      try {
+        const res = await fetch("/gym/getgyms");
+        const gyms = await res.json();
+        displayGyms(gyms);
+      } catch (err) {
+        console.error("Failed to load gyms:", err);
+        alert("Error loading gyms");
       }
-      #map {
-        width: 100%;
-        height: 100vh;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="map"></div>
+    }
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-      // Init map
-      const map = L.map("map").setView([36.7538, 3.0588], 12); // Default: Algiers
+    function displayGyms(gyms) {
+      clearMarkers();
 
-      // Add OpenStreetMap tile layer
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap contributors",
-      }).addTo(map);
+      const nameFilter = document.getElementById("nameFilter").value.toLowerCase();
+      const townFilter = document.getElementById("townFilter").value.toLowerCase();
 
-      const markers = new Map();
+      gyms.forEach((gym) => {
+        const { lat, lng } = gym.coordinates || {};
 
-      async function loadGyms() {
-        try {
-          const res = await fetch("/gym/getgyms");
-          const gyms = await res.json();
+        const nameMatch = !nameFilter || gym.name.toLowerCase().includes(nameFilter);
+        const townMatch = !townFilter || (gym.town && gym.town.toLowerCase().includes(townFilter));
 
-          gyms.forEach((gym) => {
-            if (!markers.has(gym._id) && gym.coordinates) {
-              const { lat, lng } = gym.coordinates;
-              if (lat && lng) {
-                const marker = L.marker([lat, lng])
-                  .addTo(map)
-                  .bindPopup(`<strong>${gym.name}</strong>`);
-                markers.set(gym._id, marker);
-              }
-            }
-          });
-        } catch (err) {
-          console.error("Failed to load gyms:", err);
-          alert("Error loading gyms");
+        if (lat && lng && nameMatch && townMatch) {
+          const marker = L.marker([lat, lng])
+            .addTo(map)
+            .bindPopup(`<strong>${gym.name}</strong><br>Town: ${gym.town || 'N/A'}`);
+          markers.set(gym._id, marker);
         }
-      }
+      });
+    }
 
-      window.onload = () => {
-        loadGyms();
-      };
-    </script>
-  </body>
+    // Hook input events
+    document.getElementById("nameFilter").addEventListener("input", loadGyms);
+    document.getElementById("townFilter").addEventListener("input", loadGyms);
+
+    // Initial load
+    window.onload = () => {
+      loadGyms();
+    };
+  </script>
+</body>
 </html>

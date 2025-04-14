@@ -1,31 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gym Map (Leaflet)</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../assets/static/shart.png" />
+  <link rel="stylesheet" href="../css/home-user.css" />
+  <title>GymFit</title>
+</head>
+<body>
+  <app-layout></app-layout>
+  <main id="mainContent"></main>
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <!-- Your custom styles -->
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <!-- Filter UI -->
-    <div id="filterContainer">
-      <label for="nameFilter">Search by Name:</label><br />
-      <input type="text" id="nameFilter" placeholder="Enter gym name" /><br />
-
-      <label for="townFilter">Search by Town:</label><br />
-      <input type="text" id="townFilter" placeholder="Enter town name" />
-    </div>
-
-    <!-- Map Container -->
-    <div id="map"></div>
-
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <!-- Your custom JS -->
-    <script src="script.js"></script>
-  </body>
+  <!-- Scripts -->
+  <script src="../scripts/home-user.js"></script>
+</body>
 </html>

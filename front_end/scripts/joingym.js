@@ -1,55 +1,46 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const gymsList = document.getElementById("gymsList");
+function getGymIdFromUrl() {
+  const parts = window.location.pathname.split('/');
+  const idPart = parts.find(p => p.startsWith('id:'));
+  return idPart ? idPart.split(':')[1] : null;
+}
+
+document.getElementById('join-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const fullName = document.getElementById('full-name').value.trim();
+  const description = document.getElementById('description').value.trim();
+  const gymId = getGymIdFromUrl();
+  const message = document.getElementById('message');
+
+  if (!gymId || !fullName) {
+    message.textContent = 'Full name is required.';
+    message.style.color = 'red';
+    return;
+  }
 
   try {
-      const response = await fetch("http://localhost:5000/gym/getgyms");
-      const gyms = await response.json();
-      
-      if (gyms.length === 0) {
-          gymsList.innerHTML = "<p>No gyms available.</p>";
-          return;
-      }
+    const response = await fetch('http://localhost:5000/membershipRequest/memreq', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include', 
+      body: JSON.stringify({ gymId, fullName, description })
+    });
 
-      const ul = document.createElement("ul");
-      gyms.forEach(gym => {
-          const li = document.createElement("li");
-          li.innerHTML = `
-              <h3>${gym.name}</h3>
-              <p><strong>Town:</strong> ${gym.town}</p>
-              <p><strong>Price Per Month:</strong> $${gym.pricePerMonth}</p>
-              <p><strong>Contact:</strong> ${gym.contact.phone}, ${gym.contact.email}</p>
-              <button onclick="joinGym('${gym._id}')">Join Gym</button>
-          `;
-          ul.appendChild(li);
-      });
+    const data = await response.json();
 
-      gymsList.appendChild(ul);
-  } catch (error) {
-      console.error("Error fetching gyms:", error);
-      gymsList.innerHTML = "<p style='color:red;'>Failed to load gyms.</p>";
+    if (response.ok) {
+      message.textContent = 'Request sent successfully!';
+      message.style.color = 'green';
+    } else {
+      message.textContent = data.error || 'Something went wrong.';
+      message.style.color = 'red';
+    }
+
+  } catch (err) {
+    console.error(err);
+    message.textContent = 'Network error.';
+    message.style.color = 'red';
   }
 });
-
-// Function to handle gym joining (You need to create a backend route for this)
-async function joinGym(gymId) {
-  try {
-      const response = await fetch("http://localhost:5000/gym/joingym", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ gymId })
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-          alert(data.message);
-      } else {
-          alert("Error: " + data.message);
-      }
-  } catch (error) {
-      console.error("Error joining gym:", error);
-      alert("Server error");
-  }
-}

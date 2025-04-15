@@ -11,6 +11,8 @@ const serveFront = require("./routes/serveFront");
 const logger = require("./utils/logger");
 const helmet = require("helmet")
 const fuckuissam = require("./routes/services");
+const membershipRoutes = require('./routes/membershipRequest');
+const paypal = require("./routes/paypal")
 
 dotenv.config();
 const app = express();
@@ -27,6 +29,8 @@ app.use("/user", user1);
 app.use("/gym", gym);
 app.use("/services",fuckuissam);
 app.use("/", serveFront);
+app.use('/api/membership-requests', membershipRoutes);
+app.use("/paypal", paypal);
 app.use((req, res, next) => {
   logger.info(`${req.method} ${req.url} - ${req.ip}`);
   next();

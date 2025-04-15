@@ -1,38 +1,32 @@
-/*
-Membership {
-  id: ObjectId,
-  type: String, // "monthly", "yearly", etc.
-  price: Number,
-  durationDays: Number,
-  perks: [String],
-}
-*/ 
+const mongoose = require('mongoose');
 
-
-const mongoose = require("mongoose");
-
-const membershipSchema = new mongoose.Schema(
-  {
-    userid : {
-      required:true,
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-    type:{
-      type:String,
-      enum: ["normal", "premium", "admin"],
-      required:true,
-    },
-    timetoexpire:{
-      type:Number,
-      required:true,
-    },
-    certificateUrl: {
-      type: String, 
-    },
+const membershipRequestSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   },
-  { timestamps: true }
-);
+  gymId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Gym',
+    required: true
+  },
+  fullName: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected'],
+    default: 'pending'
+  },
+  requestedAt: {
+    type: Date,
+    default: Date.now
+  }
+});
 
-const membership = mongoose.model("membership", membershipSchema);
-module.exports = membership;
+module.exports = mongoose.model('MembershipRequest', membershipRequestSchema);

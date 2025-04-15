@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GymFit Subscription</title>
+  <script src="https://www.paypal.com/sdk/js?client-id=Ac6D52QGmNnzo6TTrILqn-SLvXLcrPOYouQdtbmOrKrO9tFRY81GPrxjD-7tpODDMNDjVVR0mKjbvaxI&components=buttons,subscriptions&vault=true"></script>
+</head>
+<body>
+  <h2>Monthly Plan</h2>
+  <div id="paypal-monthly-button"></div>
+
+  <h2>Yearly Plan</h2>
+  <div id="paypal-yearly-button"></div>
+
+  <script>
+  
+    fetch('http://localhost:5000/paypal/create-plan', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        product: {
+          name: "GymFit Subscription",
+          description: "A subscription for premium gym access",
+          type: "SERVICE"
+        },
+        plan: { 
+          monthly: {
+            name: "Monthly Plan",
+            description: "Access for one month",
+            pricing_scheme: {
+              fixed_price: {
+                value: "19.99",  // Monthly price
+                currency_code: "USD"
+              }
+            },
+            billing_cycles: [{
+              frequency: {
+                interval_unit: "MONTH",
+                interval_count: 1
+              },
+              tenure_type: "REGULAR",
+              sequence: 1,
+              total_cycles: 0
+            }]
+          },
+          yearly: {
+            name: "Yearly Plan",
+            description: "Access for one year",
+            pricing_scheme: {
+              fixed_price: {
+                value: "199.99",  // Yearly price
+                currency_code: "USD"
+              }
+            },
+            billing_cycles: [{
+              frequency: {
+                interval_unit: "YEAR",
+                interval_count: 1
+              },
+              tenure_type: "REGULAR",
+              sequence: 1,
+              total_cycles: 0
+            }]
+          }
+        }
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      const monthlyPlanId = data.monthlyPlanId;
+      const yearlyPlanId = data.yearlyPlanId;
+
+      // Setup the PayPal buttons with the plan IDs from backend
+      paypal.Buttons({
+        style: { shape: 'pill', color: 'gold', layout: 'vertical', label: 'subscribe' },
+        createSubscription: function (data, actions) {
+          return actions.subscription.create({
+            plan_id: monthlyPlanId
+          });
+        },
+        onApprove: function (data, actions) {
+          alert('Subscribed to Monthly Plan! ID: ' + data.subscriptionID);
+        }
+      }).render('#paypal-monthly-button');
+
+      paypal.Buttons({
+        style: { shape: 'pill', color: 'blue', layout: 'vertical', label: 'subscribe' },
+        createSubscription: function (data, actions) {
+          return actions.subscription.create({
+            plan_id: yearlyPlanId
+          });
+        },
+        onApprove: function (data, actions) {
+          alert('Subscribed to Yearly Plan! ID: ' + data.subscriptionID);
+        }
+      }).render('#paypal-yearly-button');
+    })
+    .catch(error => {
+      console.error('Error fetching plan IDs:', error);
+    });
+  </script>
+</body>
+</html>

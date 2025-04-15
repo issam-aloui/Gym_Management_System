@@ -46,7 +46,7 @@ exports.createGym = async (req, res) => {
       name: gymname,
       town,
       coordinates: { lng, lat },
-      owner: userId,
+      owner: userId, //change to object later
       pricePerMonth: pricebymounth,
       contact: { phonenumber: phonenumber, email },
     });

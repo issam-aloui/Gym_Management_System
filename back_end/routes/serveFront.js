@@ -4,24 +4,27 @@ const {
   serveHome,
   servePage,
   handleNotFound,
+  serveGymPage
 } = require("../controllers/viewController");
 const { verifyJWT } = require("../middleware/Security");
 
 const router = express.Router();
 
-// Serve home or ad page based on authentication
+// Home (based on JWT)
 router.get("/", serveHome);
 
-// Dynamic route to serve any HTML page inside `/pages`
-router.get("/:page", (req, res) => {
-  let page = req.params.page;
-  servePage(page)(req, res);
+// Gym-related pages
+router.get("/gym/:thing/:id?", verifyJWT, serveGymPage);
+
+// Static HTML pages (home-user.html, ad.html, etc.)
+router.get("/:page",  (req, res) => {
+  servePage(req.params.page)(req, res);
 });
 
-// Serve static files correctly from `front_end`
+// Serve static files like CSS, JS, images
 router.use(express.static(path.resolve(__dirname, "../../front_end")));
 
-// Handle incorrect routes
+// 404 fallback
 router.all("*", handleNotFound);
 
 module.exports = router;

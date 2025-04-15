@@ -26,14 +26,13 @@ const jwt = require("jsonwebtoken");
 exports.verifyJWT = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
-    res.redirect('/');
-    return res.status(401).json({ message: "Unauthorized: No token" });
+    return res.redirect('/');
+    
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
-      res.redirect('/');
-      return res.status(401).json({ message: "Unauthorized: Token expired or invalid" });
+      return res.redirect('/');
     }
 
     req.user = decoded; 

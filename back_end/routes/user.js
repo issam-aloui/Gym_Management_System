@@ -10,13 +10,15 @@ const express = require("express");
  
  const router = express.Router();
  
+ const { verifyJWT } = require("../middleware/Security");
+
  router.use(cookieParser());
  router.use(express.json());
  
- router.get("/username", getUsername);
- router.put("/changename", changeUsername);
- router.put("/changeemail", changeEmail);
- router.put("/changepassword", changePassword);
- router.delete("/accountdeletion", deleteAccount);
+ router.get("/username",verifyJWT ,getUsername);
+ router.put("/changename",verifyJWT ,changeUsername);
+ router.put("/changeemail",verifyJWT , changeEmail);
+ router.put("/changepassword",verifyJWT , changePassword);
+ router.delete("/accountdeletion",verifyJWT , deleteAccount);
  
  module.exports = router;

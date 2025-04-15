@@ -1,36 +1,36 @@
 const path = require("path");
 const fs = require("fs");
-const jwt = require("jsonwebtoken");
-const logger = require("../utils/logger");
 
 exports.serveHome = (req, res) => {
-  const token = req.cookies.token; // Get the token from cookies
+  const token = req.cookies.token;
   const filePath = token
-    ? "../../front_end/pages/home-user.html"
-    : "../../front_end/pages/ad.html";
+    ? "../../front_end/pages/Homepages/home-user.html"
+    : "../../front_end/pages/Homepages/ad.html";
 
-  try {
-    if (token) {
-      jwt.verify(token, process.env.JWT_SECRET);
-    }
-    return res.sendFile(path.resolve(__dirname, filePath));
-  } catch (err) {
-    logger.error("Invalid token: Redirecting to ad page");
-    return res.sendFile(path.resolve(__dirname, "../../front_end/pages/ad.html"));
+  return res.sendFile(path.resolve(__dirname, filePath));
+};
+
+exports.serveGymPage = (req, res) => {
+  const { thing, id } = req.params;
+
+  let file = "";
+  if (thing === "join" && id) {
+    file = "joinGym.html";
+  }  else if (thing === "qrcodescan" && !id) {
+    file = "scanqrcode.html";
+  } else {
+    return res.status(404).sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
+
+  res.sendFile(path.resolve(__dirname, `../../front_end/pages/Gympages/${file}`));
 };
 
 exports.servePage = (page) => (req, res) => {
-  if (!page.endsWith(".html")) {
-    page += ".html"; // Ensure .html extension
-  }
+  if (!page.endsWith(".html")) page += ".html";
+  const filePath = path.resolve(__dirname, `../../front_end/pages/Homepages/${page}`);
 
-  const filePath = path.resolve(__dirname, `../../front_end/pages/${page}`);
-
-  // Check if the file exists before sending
   fs.access(filePath, fs.constants.F_OK, (err) => {
     if (err) {
-      logger.warn(`Page not found: ${page}`);
       return res.status(404).sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
     res.sendFile(filePath);

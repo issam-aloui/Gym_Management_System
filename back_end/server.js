@@ -12,7 +12,7 @@ const logger = require("./utils/logger");
 const helmet = require("helmet")
 const fuckuissam = require("./routes/services");
 const membershipRoutes = require('./routes/membershipRequest');
-const paypal = require("./routes/paypal")
+const paypalRoutes = require("./routes/paypal");
 
 dotenv.config();
 const app = express();
@@ -30,7 +30,7 @@ app.use("/gym", gym);
 app.use("/services",fuckuissam);
 app.use("/", serveFront);
 app.use('/api/membership-requests', membershipRoutes);
-app.use("/paypal", paypal);
+app.use("/paypal", paypalRoutes);
 app.use((req, res, next) => {
   logger.info(`${req.method} ${req.url} - ${req.ip}`);
   next();

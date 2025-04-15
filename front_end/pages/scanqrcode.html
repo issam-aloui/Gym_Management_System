@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GymFit QR Code Scanner</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <link rel="stylesheet" href="../css/scanqrcode.css" />
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo"><span class="logo-icon">⚡</span> GymFit</div>
+    </div>
+
+    <div class="container">
+      <h1>Member Check-In</h1>
+
+      <div id="reader-container">
+        <div id="reader"></div>
+      </div>
+
+      <div id="result">Scan a member's QR code to check them in...</div>
+
+      <button class="button" id="restart-button" style="display: none">
+        Scan Another
+      </button>
+    </div>
+
+    <script src="../scripts/scanqrcode.js"></script>
+  </body>
+</html>

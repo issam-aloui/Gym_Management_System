@@ -5,18 +5,18 @@ customElements.define(
       this.innerHTML = `
         <header>
           <div class="menu-icon" id="menuToggle">
-            <img src="../assets/icons/Shape.svg" alt="menu-icon">
+            <img src="../../assets/icons/menu.png" alt="menu-icon">
           </div>
           <div class="search-container">
-            <img src="../assets/icons/search.png" alt="search" class="search-icon">
+            <img src="../../assets/icons/search.png" alt="search" class="search-icon">
             <input type="search" placeholder="Search" class="search-bar">
           </div>
           <div class="user-info">
             <div class="notification-icon">
-              <img src="../assets/icons/noti.svg" alt="notifications">
+              <img src="../../assets/icons/noti.svg" alt="notifications">
             </div>
             <div class="user-pfp">
-              <img src="../assets/icons/pfp.png" alt="user pfp">
+              <img src="../../assets/icons/pfp.png" alt="user pfp">
             </div>
             <div class="user-details">
               <h3 class="user-name">username</h3>
@@ -28,21 +28,21 @@ customElements.define(
           <div class="sidebar-container">
             <nav>
               <ul>
-                <li><a href="#" class="nav-home active">
-                  <img src="../assets/icons/home.svg" alt="Home" />
+                <li><a href="../../pages/Homepages/home-user.html" class="nav-home active">
+                  <img src="../../assets/icons/home.svg" alt="Home" />
                   <span>Home</span>
                 </a></li>
-                <li><a href="#" class="nav-workout">
-                  <img src="../assets/icons/Membership.svg" alt="Workout" />
-                  <span>Workout</span>
+                <li><a href="../../pages/Homepages/memerships.html" class="nav-workout">
+                  <img src="../../assets/icons/Membership.svg" alt="Workout" />
+                  <span>My MemberShip</span>
                 </a></li>
                 <li><a href="#" class="nav-profile">
-                  <img src="../assets/icons/classes.svg" alt="Profile" />
-                  <span>Profile</span>
+                  <img src="../../assets/icons/classes.svg" alt="Profile" />
+                  <span>My Classes</span>
                 </a></li>
                 <li><a href="#" class="nav-progress">
-                  <img src="../assets/icons/shart.svg" alt="Progress" />
-                  <span>Progress</span>
+                  <img src="../../assets/icons/shart.svg" alt="Progress" />
+                  <span>Be an Owner</span>
                 </a></li>
               </ul>
             </nav>
@@ -51,7 +51,7 @@ customElements.define(
                 <ul>
                   <li>
                     <a href="#">
-                      <img src="../assets/icons/settings.svg" alt="Settings" />
+                      <img src="../../assets/icons/settings.svg" alt="Settings" />
                       <span>Settings</span>
                     </a>
                   </li>

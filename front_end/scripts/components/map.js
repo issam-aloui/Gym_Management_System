@@ -18,9 +18,12 @@ document.addEventListener("DOMContentLoaded", function () {
           <div id="map"></div>
         </div>
       </div>
-      <cta-button id="displayMap"><img src="../assets/icons/location.svg" alt=""></cta-button>
+      <cta-button id="displayMap"><img src="../../assets/icons/location.svg" alt=""></cta-button>
     `;
   }
+  const cta_button_script = document.createElement("script");
+  cta_button_script.src = "../../scripts/components/button.js";
+  document.body.appendChild(cta_button_script);
 
   // Add map HTML to DOM first
   const content = document.getElementById("mainContent");
@@ -90,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const locateBtn = document.createElement("a");
         locateBtn.className = "leaflet-control-zoom-in";
         locateBtn.innerHTML =
-          "<img src='../assets/icons/locate.svg' alt='Locate'>";
+          "<img src='../../assets/icons/locate.svg' alt='Locate'>";
         locateBtn.title = "Locate Me";
         locateBtn.style.cursor = "pointer";
 

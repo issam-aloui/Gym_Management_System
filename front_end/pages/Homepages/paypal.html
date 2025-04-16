@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>GymFit Subscription</title>
-  <script src="https://www.paypal.com/sdk/js?client-id=Ac6D52QGmNnzo6TTrILqn-SLvXLcrPOYouQdtbmOrKrO9tFRY81GPrxjD-7tpODDMNDjVVR0mKjbvaxI&components=buttons,subscriptions&vault=true"></script>
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=Ac6D52QGmNnzo6TTrILqn-SLvXLcrPOYouQdtbmOrKrO9tFRY81GPrxjD-7tpODDMNDjVVR0mKjbvaxI&components=buttons,subscriptions&vault=true"></script>
 </head>
+
 <body>
   <h2>Monthly Plan</h2>
   <div id="paypal-monthly-button"></div>
@@ -13,7 +16,7 @@
   <div id="paypal-yearly-button"></div>
 
   <script>
-  
+
     fetch('http://localhost:5000/paypal/create-plan', {
       method: 'POST',
       credentials: 'include',
@@ -26,7 +29,7 @@
           description: "A subscription for premium gym access",
           type: "SERVICE"
         },
-        plan: { 
+        plan: {
           monthly: {
             name: "Monthly Plan",
             description: "Access for one month",
@@ -68,39 +71,40 @@
         }
       })
     })
-    .then(res => res.json())
-    .then(data => {
-      const monthlyPlanId = data.monthlyPlanId;
-      const yearlyPlanId = data.yearlyPlanId;
+      .then(res => res.json())
+      .then(data => {
+        const monthlyPlanId = data.monthlyPlanId;
+        const yearlyPlanId = data.yearlyPlanId;
 
-      // Setup the PayPal buttons with the plan IDs from backend
-      paypal.Buttons({
-        style: { shape: 'pill', color: 'gold', layout: 'vertical', label: 'subscribe' },
-        createSubscription: function (data, actions) {
-          return actions.subscription.create({
-            plan_id: monthlyPlanId
-          });
-        },
-        onApprove: function (data, actions) {
-          alert('Subscribed to Monthly Plan! ID: ' + data.subscriptionID);
-        }
-      }).render('#paypal-monthly-button');
+        // Setup the PayPal buttons with the plan IDs from backend
+        paypal.Buttons({
+          style: { shape: 'pill', color: 'gold', layout: 'vertical', label: 'subscribe' },
+          createSubscription: function (data, actions) {
+            return actions.subscription.create({
+              plan_id: monthlyPlanId
+            });
+          },
+          onApprove: function (data, actions) {
+            alert('Subscribed to Monthly Plan! ID: ' + data.subscriptionID);
+          }
+        }).render('#paypal-monthly-button');
 
-      paypal.Buttons({
-        style: { shape: 'pill', color: 'blue', layout: 'vertical', label: 'subscribe' },
-        createSubscription: function (data, actions) {
-          return actions.subscription.create({
-            plan_id: yearlyPlanId
-          });
-        },
-        onApprove: function (data, actions) {
-          alert('Subscribed to Yearly Plan! ID: ' + data.subscriptionID);
-        }
-      }).render('#paypal-yearly-button');
-    })
-    .catch(error => {
-      console.error('Error fetching plan IDs:', error);
-    });
+        paypal.Buttons({
+          style: { shape: 'pill', color: 'blue', layout: 'vertical', label: 'subscribe' },
+          createSubscription: function (data, actions) {
+            return actions.subscription.create({
+              plan_id: yearlyPlanId
+            });
+          },
+          onApprove: function (data, actions) {
+            alert('Subscribed to Yearly Plan! ID: ' + data.subscriptionID);
+          }
+        }).render('#paypal-yearly-button');
+      })
+      .catch(error => {
+        console.error('Error fetching plan IDs:', error);
+      });
   </script>
 </body>
+
 </html>

@@ -26,12 +26,18 @@ const jwt = require("jsonwebtoken");
 exports.verifyJWT = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
+
     return res.redirect('/');
     
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
+      res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "Strict",
+      });
       return res.redirect('/');
     }
 

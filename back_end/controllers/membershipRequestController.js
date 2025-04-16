@@ -1,43 +1,60 @@
 const jwt = require('jsonwebtoken');
-const MembershipRequest = require('../models/membership');
 const User = require('../models/User');
-const Gym = require('../models/Gyms'); // Don't forget to import Gym model
+const Gym = require('../models/Gyms');
+const Statistiques = require('../models/statistiques');
 
-// POST: Create new membership request
 exports.createMembershipRequest = async (req, res) => {
-  const { fullName, description, gymId } = req.body;
+  const { fullName, description, gymId, password } = req.body;
 
-  if (!fullName || !gymId) {
-    return res.status(400).json({ error: 'Full name and gym ID are required.' });
+  const token = req.cookies.token;
+    if (!token) {
+      logger.warn("Unauthorized attempt to create a gym");
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+
+  if (!fullName || !gymId || !password) {
+    return res.status(400).json({ error: 'Full name, password, and gym ID are required.' });
   }
 
   try {
-
-    const user = await User.findOne({ id: req.user.id });
+    const user = await User.findOne({ id: userId });
     if (!user) return res.status(404).json({ error: 'User not found.' });
 
-    const gym = await Gym.findOne({ id: gymId });
+    const gym = await Gym.findById(gymId);
     if (!gym) return res.status(404).json({ error: 'Gym not found.' });
 
 
-    const existing = await MembershipRequest.findOne({
-      userId: user._id,
-      gymId: gym._id
-    });
-    if (existing) {
-      return res.status(400).json({ error: 'You already sent a request to this gym.' });
+    if (password !== gym.Secretpass) {
+      return res.status(403).json({ error: 'Incorrect gym password.' });
     }
 
-    // 4. Save request with proper ObjectIds
-    const request = new MembershipRequest({
-      userId: user._id,
-      gymId: gym._id,
-      fullName,
-      description: description || ''
-    });
 
-    await request.save();
-    res.status(201).json({ message: 'Membership request sent.' });
+    if (user.Gymsjoined.includes(gym._id)) {
+      return res.status(400).json({ error: 'You already joined this gym.' });
+    }
+
+
+    user.Gymsjoined.push(gym._id);
+    await user.save();
+
+
+    if (gym.statistiques) {
+      const stats = await Statistiques.findById(gym.statistiques);
+
+      if (stats) {
+        if (!stats.members.includes(user._id)) {
+          stats.members.push(user._id);
+          stats.totalMembers += 1;
+          stats.newSignUps += 1;
+          await stats.save();
+        }
+      }
+    }
+
+    res.status(200).json({ message: 'You joined the gym successfully!' });
 
   } catch (err) {
     console.error(err);

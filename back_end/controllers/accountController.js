@@ -26,7 +26,9 @@ exports.changeUsername = async (req, res) => {
   }
 
   if (username1 !== username2) {
-    return res.status(400).json({ message: "Please provide matching usernames" });
+    return res
+      .status(400)
+      .json({ message: "Please provide matching usernames" });
   }
 
   try {
@@ -48,7 +50,11 @@ exports.changeUsername = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.cookie("token", newToken, { httpOnly: true, secure: true, sameSite: "Strict" });
+    res.cookie("token", newToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+    });
 
     res.status(200).json({ message: "Username changed!", token: newToken });
   } catch (err) {
@@ -89,12 +95,21 @@ exports.changeEmail = async (req, res) => {
     }
 
     const newToken = jwt.sign(
-      { id: decoded.id, username: decoded.username, email: email2, role: decoded.role },
+      {
+        id: decoded.id,
+        username: decoded.username,
+        email: email2,
+        role: decoded.role,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    res.cookie("token", newToken, { httpOnly: true, secure: true, sameSite: "Strict" });
+    res.cookie("token", newToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+    });
 
     return res.status(200).json({ message: "Email changed!", token: newToken });
   } catch (err) {
@@ -112,7 +127,9 @@ exports.changePassword = async (req, res) => {
   }
 
   if (pass2 !== pass3) {
-    return res.status(400).json({ message: "Please provide matching new passwords" });
+    return res
+      .status(400)
+      .json({ message: "Please provide matching new passwords" });
   }
 
   try {
@@ -138,9 +155,15 @@ exports.changePassword = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.cookie("token", newToken, { httpOnly: true, secure: true, sameSite: "Strict" });
+    res.cookie("token", newToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+    });
 
-    res.status(200).json({ message: "Password changed successfully!", token: newToken });
+    res
+      .status(200)
+      .json({ message: "Password changed successfully!", token: newToken });
   } catch (err) {
     logger.error(`Change password failed: ${err.message}`);
     return res.status(403).json({ message: "Invalid Token" });
@@ -170,7 +193,11 @@ exports.deleteAccount = async (req, res) => {
 
     await User.deleteOne({ id: decoded.id });
 
-    res.clearCookie("token", { httpOnly: true, secure: true, sameSite: "Strict" });
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+    });
 
     return res.json({ message: "Account deleted successfully" });
   } catch (err) {

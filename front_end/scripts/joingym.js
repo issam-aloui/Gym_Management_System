@@ -1,7 +1,6 @@
 function getGymIdFromUrl() {
   const parts = window.location.pathname.split('/');
-  const idPart = parts.find(p => p.startsWith('id:'));
-  return idPart ? idPart.split(':')[1] : null;
+  return parts[2] || null; 
 }
 
 document.getElementById('join-form').addEventListener('submit', async (e) => {
@@ -9,12 +8,13 @@ document.getElementById('join-form').addEventListener('submit', async (e) => {
 
   const fullName = document.getElementById('full-name').value.trim();
   const description = document.getElementById('description').value.trim();
+  const password = document.getElementById('gym-password').value.trim();
   const gymId = getGymIdFromUrl();
   const message = document.getElementById('message');
 
-  if (!gymId || !fullName) {
-    message.textContent = 'Full name is required.';
-    message.style.color = 'red';
+  if (!gymId || !fullName || !password) {
+    message.textContent = 'Full name and password are required.';
+    message.className = 'error-message';
     return;
   }
 
@@ -24,23 +24,23 @@ document.getElementById('join-form').addEventListener('submit', async (e) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      credentials: 'include', 
-      body: JSON.stringify({ gymId, fullName, description })
+      credentials: 'include',
+      body: JSON.stringify({ gymId, fullName, description, password })
     });
 
     const data = await response.json();
 
     if (response.ok) {
       message.textContent = 'Request sent successfully!';
-      message.style.color = 'green';
+      message.className = 'success-message';
     } else {
       message.textContent = data.error || 'Something went wrong.';
-      message.style.color = 'red';
+      message.className = 'error-message';
     }
 
   } catch (err) {
     console.error(err);
     message.textContent = 'Network error.';
-    message.style.color = 'red';
+    message.className = 'error-message';
   }
 });

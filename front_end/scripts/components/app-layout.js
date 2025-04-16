@@ -28,11 +28,11 @@ customElements.define(
           <div class="sidebar-container">
             <nav>
               <ul>
-                <li><a href="../../pages/Homepages/home-user.html" class="nav-home active">
+                <li><a href="home-user" class="nav-home active">
                   <img src="../../assets/icons/home.svg" alt="Home" />
                   <span>Home</span>
                 </a></li>
-                <li><a href="../../pages/Homepages/memerships.html" class="nav-workout">
+                <li><a href="memerships" class="nav-workout">
                   <img src="../../assets/icons/Membership.svg" alt="Workout" />
                   <span>My MemberShip</span>
                 </a></li>

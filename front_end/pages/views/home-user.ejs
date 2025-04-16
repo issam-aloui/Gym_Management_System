@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../assets/static/shart.png" />
+    <link rel="stylesheet" href="../../css/home-user.css" />
+    <title>GymFit</title>
+  </head>
+
+  <body>
+    <app-layout></app-layout>
+    <main id="mainContent">
+      <section class="slider">
+        <div class="slide-track">
+          <div class="slide slide-1">
+            <div class="slide-1-content">
+              <div class="slide-1-heading">
+                <h1>Own a Gym ?</h1>
+                <h1>Manage it Easily with us!</h1>
+                <p>
+                  Join our platform and grow your gym business online, Simplify
+                  class management, track members, and boost your revenue
+                </p>
+                <cta-button>Become a Gym Owner</cta-button>
+              </div>
+            </div>
+          </div>
+          <div class="slide slide-2"></div>
+          <div class="slide slide-3"></div>
+        </div>
+        <!-- Dots navigation -->
+        <div class="slider-dots">
+          <span class="dot active" data-index="0"></span>
+          <span class="dot" data-index="1"></span>
+          <span class="dot" data-index="2"></span>
+        </div>
+      </section>
+      <section class="Explore">
+        <article class="Trending-gyms">
+          <h2>Trending Gyms</h2>
+          <div class="gym-list">
+            <gym-card
+              src="../../assets/gym.png"
+              name="LionEnergy Gym"
+              place="Bab Ezzouar, Alger"
+              rate="4.8"
+              total-feedback="200"
+              gym-id="3"
+            >
+            </gym-card
+            ><gym-card
+              src="../../assets/gym.png"
+              name="LionEnergy Gym"
+              place="Bab Ezzouar, Alger"
+              rate="4.8"
+              total-feedback="200"
+            >
+            </gym-card
+            ><gym-card
+              src="../../assets/gym.png"
+              name="LionEnergy Gym"
+              place="Bab Ezzouar, Alger"
+              rate="4.8"
+              total-feedback="200"
+            >
+            </gym-card
+            ><gym-card
+              src="../../assets/gym.png"
+              name="LionEnergy Gym"
+              place="Bab Ezzouar, Alger"
+              rate="4.8"
+              total-feedback="200"
+            >
+            </gym-card>
+          </div>
+        </article>
+        <article class="Local-gyms">
+          <h2>Best Local Gyms</h2>
+          <div class="gym-list">
+            <gym-card
+              src="../../assets/gym.png"
+              name="LionEnergy Gym"
+              place="Bab Ezzouar, Alger"
+              rate="4.8"
+              total-feedback="200"
+            >
+            </gym-card
+            ><gym-card
+              src="../../assets/gym.png"
+              name="LionEnergy Gym"
+              place="Bab Ezzouar, Alger"
+              rate="4.8"
+              total-feedback="200"
+            >
+            </gym-card
+            ><gym-card
+              src="../../assets/gym.png"
+              name="LionEnergy Gym"
+              place="Bab Ezzouar, Alger"
+              rate="4.8"
+              total-feedback="200"
+            >
+            </gym-card
+            ><gym-card
+              src="../../assets/gym.png"
+              name="LionEnergy Gym"
+              place="Bab Ezzouar, Alger"
+              rate="4.8"
+              total-feedback="200"
+            >
+            </gym-card>
+          </div>
+        </article>
+        <article class="Explore-gyms">
+          <h2>Explore new gyms</h2>
+          <div class="gym-list">
+            <% gyms.forEach(gym => { %>
+              <gym-card
+              src="<%= gym.image %>"
+              name="<%= gym.name %>"
+              place="<%= gym.town %>"
+              rate="<%= gym.rating %>"
+              total-feedback="<%= gym.feedback %>"
+              gym-id="<%= gym._id %>"
+            >
+            </gym-card>
+           
+            <% }); %>
+          </div>
+          <cta-button>Explore more</cta-button>
+        </article>
+      </section>
+    </main>
+    <!-- Scripts -->
+    <script src="../../scripts/components/app-layout.js"></script>
+    <script src="../../scripts/components/map.js"></script>
+    <script src="../../scripts/components/gym-card.js"></script>
+    <script src="../../scripts/home-user.js"></script>
+    <script src="../../scripts/components/button.js"></script>
+  </body>
+</html>

@@ -11,9 +11,11 @@ class GymCard extends HTMLElement {
     const place = this.getAttribute("place") || "Location";
     const rate = parseFloat(this.getAttribute("rate")) || 0;
     const totalFeedback = this.getAttribute("total-feedback") || "0";
+    const id = this.getAttribute("gym-id") || "";
 
     // Render the component
-    this.render(src, name, place, rate, totalFeedback);
+    
+    this.render(src, name, place, rate, totalFeedback , id);
   }
 
   // Generate star rating HTML based on the rate value
@@ -41,7 +43,7 @@ class GymCard extends HTMLElement {
     return stars;
   }
 
-  render(src, name, place, rate, totalFeedback) {
+  render(src, name, place, rate, totalFeedback, id) {
     const starRating = this.generateStarRating(rate);
 
     this.shadowRoot.innerHTML = `
@@ -298,7 +300,7 @@ class GymCard extends HTMLElement {
             </div>
             <span class="total-feedback">(${totalFeedback})</span>
           </div>
-          <a href="#" class="cta-button">Join Now</a>
+          <button class="cta-button" onclick="window.location.href='/gym/${id}/join'">Join Now</button>
         </div>
       </div>
     `;
@@ -306,7 +308,7 @@ class GymCard extends HTMLElement {
 
   // Observe attribute changes to update component
   static get observedAttributes() {
-    return ["src", "name", "place", "rate", "total-feedback"];
+    return ["src", "name", "place", "rate", "total-feedback" , "id"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -316,8 +318,9 @@ class GymCard extends HTMLElement {
       const place = this.getAttribute("place") || "Location";
       const rate = parseFloat(this.getAttribute("rate")) || 0;
       const totalFeedback = this.getAttribute("total-feedback") || "0";
+      const id = this.getAttribute("gym-id") || "";
 
-      this.render(src, gymName, place, rate, totalFeedback);
+      this.render(src, gymName, place, rate, totalFeedback, id);
     }
   }
 }

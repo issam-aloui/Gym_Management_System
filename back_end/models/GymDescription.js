@@ -12,11 +12,7 @@ const GymdesSchema = new mongoose.Schema(
         type: String, 
         default: "6 AM - 10 PM",
       },
-      pricePerMonth: { 
-        type: Number,
-        required: true,
-        min: 0,
-      },
+      
       contact: { 
         phone: { type: String, required: true },
         email: { type: String, required: true },

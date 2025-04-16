@@ -9,10 +9,18 @@
   <div class="container">
     <h1>Request Membership</h1>
     <form id="join-form">
+      <label for="full-name">Full Name</label>
       <input type="text" id="full-name" placeholder="Your Full Name" required />
+    
+      <label for="description">Description</label>
       <textarea id="description" placeholder="Optional Description (e.g. goals, background)"></textarea>
+    
+      <label for="gym-password">Gym Secret Password</label>
+      <input type="password" id="gym-password" placeholder="Enter Gym Password" required />
+    
       <button type="submit">Send Request</button>
     </form>
+    <div id="message" class=""></div>    
     <div id="message"></div>
   </div>
 

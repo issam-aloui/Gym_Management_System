@@ -13,6 +13,8 @@ const router = express.Router();
 // Home (based on JWT)
 router.get("/", serveHome);
 
+router.get("/home-user", serveHome);
+
 // Gym-related pages
 router.get("/gym/:thing/:id?", verifyJWT, serveGymPage);
 

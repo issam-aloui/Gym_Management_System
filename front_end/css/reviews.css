@@ -1,0 +1,46 @@
+#reviews {
+  margin: 20px 0;
+}
+
+#review-list .review {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.review-rating {
+  color: gold;
+  font-size: 1.2em;
+}
+
+.review-comment {
+  margin: 5px 0;
+}
+
+.review-author {
+  font-style: italic;
+  color: #555;
+}
+
+#add-review-form {
+  margin-top: 20px;
+}
+
+#add-review-form textarea {
+  resize: none;
+  width: 100%;
+}
+
+#add-review-form button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#add-review-form button:hover {
+  background-color: #0056b3;
+}

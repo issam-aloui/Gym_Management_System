@@ -59,9 +59,14 @@ exports.serveGymPage = async (req, res) => {
   } else if (thing === "scanqrcode" && id) {
     file = "scanqrcode.html";
   } else {
+   if (thing === "reviews" && id) {
+      file = "reviews.html";
+    }
+    else {
     return res
       .status(404)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
+    }
   }
 
   res.sendFile(

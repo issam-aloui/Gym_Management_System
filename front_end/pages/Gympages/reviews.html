@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gym Reviews</title>
+  <link rel="stylesheet" href="../../css/reviews.css" />
+</head>
+<body>
+  <section id="reviews">
+    <h2>[Gym Name] reviews:</h2>
+    <div id="review-list"></div>
+
+    <h3>Add a Review</h3>
+    <form id="add-review-form">
+      <label for="rating">Rating:</label>
+      <select id="rating" name="rating" required>
+        <option value="1">1 Star</option>
+        <option value="2">2 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="5">5 Stars</option>
+      </select>
+
+      <label for="comment">Comment:</label>
+      <textarea
+        id="comment"
+        name="comment"
+        rows="4"
+        maxlength="500"
+        placeholder="Write a review!"
+        required
+      ></textarea>
+
+      <button type="submit">Submit Review</button>
+    </form>
+  </section>
+
+  <script src="../../scripts/reviews.js"></script>
+</body>
+</html>

@@ -14,6 +14,8 @@ const fuckuissam = require("./routes/services");
 const membershipRoutes = require("./routes/membershipRequest");
 const paypalRoutes = require("./routes/paypal");
 const path = require("path");
+const fuckurahim = require("./routes/Reviews");
+
 
 dotenv.config();
 const app = express();
@@ -25,9 +27,11 @@ app.use(express.json()); // Parse JSON body requests
 app.use(express.urlencoded({ extended: true })); // Parse form data
 app.use(cookieParser());
 
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../front_end/pages/views"));
 app.use("/auth", authRoutes);
+app.use("/reviews",fuckurahim);
 app.use("/user", user1);
 app.use("/gym", gym);
 app.use("/services", fuckuissam);

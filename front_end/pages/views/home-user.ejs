@@ -120,8 +120,8 @@
               src="<%= gym.image %>"
               name="<%= gym.name %>"
               place="<%= gym.town %>"
-              rate="<%= gym.rating %>"
-              total-feedback="<%= gym.feedback %>"
+              total-feedback="<%= gym.reviews.totalreviews %>"
+              rate="<%= gym.reviews.totalreviews > 0 ? (gym.reviews.totalstars / gym.reviews.totalreviews).toFixed(1) : 0 %>"
               gym-id="<%= gym._id %>"
             >
             </gym-card>

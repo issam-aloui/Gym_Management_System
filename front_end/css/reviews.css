@@ -44,3 +44,92 @@
 #add-review-form button:hover {
   background-color: #0056b3;
 }
+
+#reviews {
+  margin: 30px 0;
+  font-family: sans-serif;
+}
+
+#reviews h2, #reviews h3 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+#review-list .review {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.review-rating {
+  color: #FF6B00;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.review-comment {
+  margin: 10px 0;
+  line-height: 1.5;
+  color: #333;
+}
+
+.review-author {
+  font-style: italic;
+  color: #777;
+  font-size: 0.9em;
+  text-align: right;
+}
+
+#add-review-form {
+  margin-top: 30px;
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+#add-review-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 500;
+}
+
+#add-review-form select,
+#add-review-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+#add-review-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+#add-review-form button {
+  background-color: #FF6B00;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+#add-review-form button:hover {
+  background-color: #e05f00;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #add-review-form {
+    padding: 15px;
+  }
+}

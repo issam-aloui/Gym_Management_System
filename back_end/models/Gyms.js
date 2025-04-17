@@ -62,6 +62,10 @@ const GymSchema = new mongoose.Schema(
     Secretpass:{
       type:String,
       required:true,
+    },
+    reviews:{
+      totalreviews:{type:Number,default:0},
+      totalstars:{type:Number,default:0},
     }
   },
   { timestamps: true }

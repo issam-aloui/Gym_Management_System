@@ -22,18 +22,22 @@ exports.addReview = async (req, res) => {
 
      
       const user = await User.findOne({ id: userId }); 
+      const gym = await Gym.findById(gymId);
 
-      if (!user) {
-          return res.status(404).json({ message: "User not found" });
+      if (!user||!gym) {
+          return res.status(404).json({ message: "User or gym not found" });
       }
 
 
       const existingReview = await Review.findOne({ user: user._id, gym: gymId });
 
       if (existingReview) {
+          gym.reviews.totalstars -= existingReview.rating;
+          gym.reviews.totalstars += rating;
           existingReview.rating = rating;
           existingReview.comment = comment;
           await existingReview.save();
+          await gym.save();
           return res.status(200).json({ message: "Review updated successfully", review: existingReview });
       }
 
@@ -45,6 +49,10 @@ exports.addReview = async (req, res) => {
           comment,
       });
 
+      gym.reviews.totalstars += rating;
+      gym.reviews.totalreviews += 1;
+
+      await gym.save();
       await review.save();
       res.status(201).json({ message: "Review added successfully", review });
   } catch (error) {

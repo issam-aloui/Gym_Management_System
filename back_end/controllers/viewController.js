@@ -14,8 +14,14 @@ exports.serveHome = async (req, res) => {
 
   try {
     const gyms = await Gym.find();
+    const toptrendingGyms = await Gym.find()
+      .sort({ "reviews.totalreviews": -1 })
+      .limit(3);
+    const topstarsGyms = await Gym.find()
+      .sort({ "reviews.totalstars": -1 })
+      .limit(3);
 
-    return res.render("home-user", { gyms });
+    return res.render("home-user", { gyms, topstarsGyms, toptrendingGyms });
   } catch (err) {
     console.error("Error fetching gyms:", err);
     return res
@@ -34,7 +40,7 @@ exports.serveGymPage = async (req, res) => {
     file = "Gyms.html";
   } else if (thing === "join" && id) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      console.warn("Invalid gym ID:", id);
+  
       return res
         .status(400)
         .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
@@ -46,7 +52,9 @@ exports.serveGymPage = async (req, res) => {
         console.warn("Gym not found with ID:", id);
         return res
           .status(404)
-          .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
+          .sendFile(
+            path.resolve(__dirname, "../../front_end/pages/error.html")
+          );
       }
 
       file = "joinGym.html";
@@ -59,13 +67,12 @@ exports.serveGymPage = async (req, res) => {
   } else if (thing === "scanqrcode" && id) {
     file = "scanqrcode.html";
   } else {
-   if (thing === "reviews" && id) {
+    if (thing === "reviews" && id) {
       file = "reviews.html";
-    }
-    else {
-    return res
-      .status(404)
-      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
+    } else {
+      return res
+        .status(404)
+        .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
   }
 
@@ -73,7 +80,6 @@ exports.serveGymPage = async (req, res) => {
     path.resolve(__dirname, `../../front_end/pages/Gympages/${file}`)
   );
 };
-
 
 exports.servePage = (page) => async (req, res) => {
   const filePath = path.resolve(

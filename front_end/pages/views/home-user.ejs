@@ -40,92 +40,55 @@
         <article class="Trending-gyms">
           <h2>Trending Gyms</h2>
           <div class="gym-list">
+            <% toptrendingGyms.forEach(gym => { %>
             <gym-card
-              src="../../assets/gym.png"
-              name="LionEnergy Gym"
-              place="Bab Ezzouar, Alger"
-              rate="4.8"
-              total-feedback="200"
-              gym-id="3"
-            >
-            </gym-card
-            ><gym-card
-              src="../../assets/gym.png"
-              name="LionEnergy Gym"
-              place="Bab Ezzouar, Alger"
-              rate="4.8"
-              total-feedback="200"
-            >
-            </gym-card
-            ><gym-card
-              src="../../assets/gym.png"
-              name="LionEnergy Gym"
-              place="Bab Ezzouar, Alger"
-              rate="4.8"
-              total-feedback="200"
-            >
-            </gym-card
-            ><gym-card
-              src="../../assets/gym.png"
-              name="LionEnergy Gym"
-              place="Bab Ezzouar, Alger"
-              rate="4.8"
-              total-feedback="200"
+              src="<%= gym.image %>"
+              name="<%= gym.name %>"
+              place="<%= gym.town %>"
+              total-feedback="<%= gym.reviews.totalreviews %>"
+              rate="<%= gym.reviews.totalreviews > 0 
+              ? Math.min((gym.reviews.totalstars / gym.reviews.totalreviews), 5).toFixed(1) 
+              : 0 %>"   
+              gym-id="<%= gym._id %>"
             >
             </gym-card>
+            <% }); %>
           </div>
         </article>
-        <article class="Local-gyms">
-          <h2>Best Local Gyms</h2>
+        <article class="local-gyms">
+          <h2>Best Gyms</h2>
           <div class="gym-list">
+            <% topstarsGyms.forEach(gym => { %>
             <gym-card
-              src="../../assets/gym.png"
-              name="LionEnergy Gym"
-              place="Bab Ezzouar, Alger"
-              rate="4.8"
-              total-feedback="200"
-            >
-            </gym-card
-            ><gym-card
-              src="../../assets/gym.png"
-              name="LionEnergy Gym"
-              place="Bab Ezzouar, Alger"
-              rate="4.8"
-              total-feedback="200"
-            >
-            </gym-card
-            ><gym-card
-              src="../../assets/gym.png"
-              name="LionEnergy Gym"
-              place="Bab Ezzouar, Alger"
-              rate="4.8"
-              total-feedback="200"
-            >
-            </gym-card
-            ><gym-card
-              src="../../assets/gym.png"
-              name="LionEnergy Gym"
-              place="Bab Ezzouar, Alger"
-              rate="4.8"
-              total-feedback="200"
+              src="<%= gym.image %>"
+              name="<%= gym.name %>"
+              place="<%= gym.town %>"
+              total-feedback="<%= gym.reviews.totalreviews %>"
+              rate="<%= gym.reviews.totalreviews > 0 
+              ? Math.min((gym.reviews.totalstars / gym.reviews.totalreviews), 5).toFixed(1) 
+              : 0 %>"            
+              gym-id="<%= gym._id %>"
             >
             </gym-card>
+            <% }); %>
           </div>
         </article>
         <article class="Explore-gyms">
           <h2>Explore new gyms</h2>
           <div class="gym-list">
             <% gyms.forEach(gym => { %>
-              <gym-card
+            <gym-card
               src="<%= gym.image %>"
               name="<%= gym.name %>"
               place="<%= gym.town %>"
               total-feedback="<%= gym.reviews.totalreviews %>"
-              rate="<%= gym.reviews.totalreviews > 0 ? (gym.reviews.totalstars / gym.reviews.totalreviews).toFixed(1) : 0 %>"
+              rate="<%= gym.reviews.totalreviews > 0 
+              ? Math.min((gym.reviews.totalstars / gym.reviews.totalreviews), 5).toFixed(1) 
+              : 0 %>"   
               gym-id="<%= gym._id %>"
             >
             </gym-card>
-           
+
             <% }); %>
           </div>
           <cta-button>Explore more</cta-button>

@@ -8,7 +8,6 @@ const fs = require("fs");
 const { v2: cloudinary } = require("cloudinary");
 const { uploadImage } = require("../services/cloudservice");
 
-
 exports.signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -16,7 +15,9 @@ exports.signup = async (req, res) => {
     // Check if email already exists
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-      return res.status(400).json({ message: "Email is already signed up buddy" });
+      return res
+        .status(400)
+        .json({ message: "Email is already signed up buddy" });
     }
 
     // Hash password
@@ -48,9 +49,10 @@ exports.signup = async (req, res) => {
         public_id: `user-${newUser.id}-${newUser.username}-${newUser.email}`,
         overwrite: true,
       });
-      
 
-      logger.info(`QR code uploaded for user ${newUser.id}: ${uploadResult.secure_url}`);
+      logger.info(
+        `QR code uploaded for user ${newUser.id}: ${uploadResult.secure_url}`
+      );
 
       // Delete local QR file after upload
       fs.unlink(qrPath, (err) => {
@@ -69,7 +71,9 @@ exports.signup = async (req, res) => {
       res.status(201).json({ message: "User registered!", id: newUser.id });
     } catch (err) {
       if (err.code === 11000) {
-        return res.status(400).json({ message: "Email is already in use. Try another one!" });
+        return res
+          .status(400)
+          .json({ message: "Email is already in use. Try another one!" });
       }
       throw err;
     }
@@ -79,12 +83,9 @@ exports.signup = async (req, res) => {
   }
 };
 
-
-
-
 exports.login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, remember } = req.body;
     const user = await User.findOne({ username });
 
     if (!user) {
@@ -96,12 +97,18 @@ exports.login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid username or password" });
     }
+    const payload = { id: user.id, username: user.username, role: user.role };
+    let token;
 
-    const token = jwt.sign(
-      { id: user.id, username: user.username, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    if (remember) {
+      token = jwt.sign(payload, process.env.JWT_SECRET);
+    } else {
+      token = jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+    }
+
+    // now you can use `token` below
 
     res.cookie("token", token, {
       httpOnly: true,

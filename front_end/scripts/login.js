@@ -3,6 +3,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
   
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
+  const remember = document.getElementById("inpremember").checked;
   const messageBox = document.getElementById("message");
 
   if (username.length < 3 || username.length > 20) {
@@ -20,7 +21,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
       const response = await fetch("http://localhost:5000/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password })
+          body: JSON.stringify({ username, password, remember })
       });
 
       const data = await response.json();

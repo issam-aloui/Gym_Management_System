@@ -13,26 +13,26 @@ exports.signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Check if email already exists
+   
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
       return res.status(400).json({ message: "Email is already signed up buddy" });
     }
 
-    // Hash password
+   
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
+
     const newUser = new User({ username, email, password: hashedPassword });
 
     try {
       await newUser.save();
 
-      // Generate QR data
-      const qrData = `user_id:${newUser.id}`;
+   
+      const qrData = `user_id:${newUser.id}-name:${newUser.username}-email${newUser.email}`;
       const qrPath = path.join(__dirname, `../qr-codes/user-${newUser.id}.png`);
 
-      // Generate QR code
+  
       await QRCode.toFile(qrPath, qrData, {
         color: {
           dark: "#000000",
@@ -42,17 +42,16 @@ exports.signup = async (req, res) => {
 
       logger.info(`QR code generated for user ${newUser.id}`);
 
-      // Upload the generated QR code using the uploadImage function from services
       const uploadResult = await uploadImage(qrPath, {
         folder: "user-qrcodes",
-        public_id: `user-${newUser.id}-${newUser.username}-${newUser.email}`,
+        public_id: `user-${newUser.id}`,
         overwrite: true,
       });
       
 
       logger.info(`QR code uploaded for user ${newUser.id}: ${uploadResult.secure_url}`);
 
-      // Delete local QR file after upload
+     
       fs.unlink(qrPath, (err) => {
         if (err) {
           logger.error(`Failed to delete local QR code: ${err.message}`);
@@ -61,7 +60,7 @@ exports.signup = async (req, res) => {
         }
       });
 
-      // Update the user with QR code URL and save it
+
       newUser.Qrcode = uploadResult.secure_url;
       await newUser.save();
 

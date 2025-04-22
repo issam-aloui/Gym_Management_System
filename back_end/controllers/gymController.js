@@ -15,7 +15,7 @@ exports.createGym = async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
+    const userId = decoded.Oid;
 
     const { gymname, town, pricebymounth, phonenumber, email } = req.body;
     const { lat, lng } = await getCoordinates(town);

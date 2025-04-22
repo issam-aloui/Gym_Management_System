@@ -29,7 +29,7 @@ async function onScanSuccess(decodedText, decodedResult) {
   const gymId = getGymIdFromUrl();
 
   try {
-    const response = await fetch("http://localhost:5000/routes/checkin", {
+    const response = await fetch("http://localhost:5000/scan/checkin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

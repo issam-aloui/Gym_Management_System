@@ -18,10 +18,10 @@ exports.addReview = async (req, res) => {
 
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const userId = decoded.id;  
+      const userId = decoded.Oid;  
 
      
-      const user = await User.findOne({ id: userId }); 
+      const user = await User.findById(userId); 
       const gym = await Gym.findById(gymId);
 
       if (!user||!gym) {

@@ -16,13 +16,13 @@ exports.createMembershipRequest = async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
+    const userId = decoded.Oid;
 
     if (!fullName || !gymId || !password) {
       return res.status(400).json({ error: 'Full name, password, and gym ID are required.' });
     }
 
-    const user = await User.findOne({ id: userId });
+    const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: 'User not found.' });
 
     const gym = await Gym.findById(gymId);
@@ -34,6 +34,9 @@ exports.createMembershipRequest = async (req, res) => {
 
     if (user.Gymsjoined.includes(gym._id)) {
       return res.status(400).json({ error: 'You already joined this gym.' });
+    }
+    if (gym.owner.includes(userId)) {
+      return res.status(400).json({ error: 'You already own this gym.' });
     }
 
     user.Gymsjoined.push(gym._id);

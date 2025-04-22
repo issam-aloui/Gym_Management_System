@@ -12,7 +12,6 @@ exports.signup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-   
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
       return res
@@ -20,20 +19,16 @@ exports.signup = async (req, res) => {
         .json({ message: "Email is already signed up buddy" });
     }
 
-   
     const hashedPassword = await bcrypt.hash(password, 10);
-
 
     const newUser = new User({ username, email, password: hashedPassword });
 
     try {
       await newUser.save();
 
-   
       const qrData = `user_id:${newUser.id}-name:${newUser.username}-email${newUser.email}`;
       const qrPath = path.join(__dirname, `../qr-codes/user-${newUser.id}.png`);
 
-  
       await QRCode.toFile(qrPath, qrData, {
         color: {
           dark: "#000000",
@@ -53,7 +48,6 @@ exports.signup = async (req, res) => {
         `QR code uploaded for user ${newUser.id}: ${uploadResult.secure_url}`
       );
 
-     
       fs.unlink(qrPath, (err) => {
         if (err) {
           logger.error(`Failed to delete local QR code: ${err.message}`);
@@ -62,11 +56,20 @@ exports.signup = async (req, res) => {
         }
       });
 
-
       newUser.Qrcode = uploadResult.secure_url;
       await newUser.save();
 
       logger.info(`User created: ${username} with email: ${email}`);
+      const payload = {
+        Oid: newUser._id,
+        id: newUser.id,
+        username: newUser.username,
+        role: newUser.role,
+      };
+      let token;
+      token = jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
       res.status(201).json({ message: "User registered!", id: newUser.id });
     } catch (err) {
       if (err.code === 11000) {
@@ -96,7 +99,12 @@ exports.login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid username or password" });
     }
-    const payload = { id: user.id, username: user.username, role: user.role };
+    const payload = {
+      Oid: user._id,
+      id: user.id,
+      username: user.username,
+      role: user.role,
+    };
     let token;
 
     if (remember) {

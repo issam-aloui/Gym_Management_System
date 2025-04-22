@@ -40,7 +40,6 @@ exports.serveGymPage = async (req, res) => {
     file = "Gyms.html";
   } else if (thing === "join" && id) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-  
       return res
         .status(400)
         .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));

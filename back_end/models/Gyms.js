@@ -41,7 +41,7 @@ const GymSchema = new mongoose.Schema(
     },
 
     owner: {
-      type: Number,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
 

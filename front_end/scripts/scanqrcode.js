@@ -47,7 +47,6 @@ async function onScanSuccess(decodedText, decodedResult) {
     const result = await response.json();
     console.log("Check-in successful:", result);
   } catch (error) {
-    console.error("Check-in failed:", error);
     resultElement.innerHTML = `<strong>Error:</strong> Could not check in member.`;
     resultElement.classList.add("error");
   }

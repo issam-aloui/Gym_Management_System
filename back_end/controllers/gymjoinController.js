@@ -35,7 +35,7 @@ exports.createMembershipRequest = async (req, res) => {
     if (user.Gymsjoined.includes(gym._id)) {
       return res.status(400).json({ error: 'You already joined this gym.' });
     }
-    if (gym.owner.includes(userId)) {
+    if (gym.owner == userId) {
       return res.status(400).json({ error: 'You already own this gym.' });
     }
 

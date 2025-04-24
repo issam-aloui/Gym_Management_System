@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <app-layout></app-layout>
+    <app-layout role="<%= role %>"></app-layout>
     <main id="mainContent">
       <section class="slider">
         <div class="slide-track">
@@ -50,6 +50,7 @@
               ? Math.min((gym.reviews.totalstars / gym.reviews.totalreviews), 5).toFixed(1) 
               : 0 %>"   
               gym-id="<%= gym._id %>"
+              gym-route="/join"
             >
             </gym-card>
             <% }); %>
@@ -68,6 +69,7 @@
               ? Math.min((gym.reviews.totalstars / gym.reviews.totalreviews), 5).toFixed(1) 
               : 0 %>"            
               gym-id="<%= gym._id %>"
+              gym-route="/join"
             >
             </gym-card>
             <% }); %>
@@ -86,6 +88,7 @@
               ? Math.min((gym.reviews.totalstars / gym.reviews.totalreviews), 5).toFixed(1) 
               : 0 %>"   
               gym-id="<%= gym._id %>"
+              gym-route="/join"
             >
             </gym-card>
 

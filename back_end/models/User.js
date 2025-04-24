@@ -40,6 +40,11 @@ const UserSchema = new mongoose.Schema(
           ref: "Gym",
         },
       ],
+      Gymowned:
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Gym",
+        },
     //ADD MEMBERSHIP.js and membership object id
     Membership:{
       type: mongoose.Schema.Types.ObjectId,

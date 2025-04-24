@@ -12,10 +12,11 @@ class GymCard extends HTMLElement {
     const rate = parseFloat(this.getAttribute("rate")) || 0;
     const totalFeedback = this.getAttribute("total-feedback") || "0";
     const id = this.getAttribute("gym-id") || "";
+    const route = this.getAttribute("gym-route") || "";
 
     // Render the component
     
-    this.render(src, name, place, rate, totalFeedback , id);
+    this.render(src, name, place, rate, totalFeedback , id, route);
   }
 
   // Generate star rating HTML based on the rate value
@@ -43,7 +44,7 @@ class GymCard extends HTMLElement {
     return stars;
   }
 
-  render(src, name, place, rate, totalFeedback, id) {
+  render(src, name, place, rate, totalFeedback, id, route) {
     const starRating = this.generateStarRating(rate);
 
     this.shadowRoot.innerHTML = `
@@ -300,7 +301,7 @@ class GymCard extends HTMLElement {
             </div>
             <span class="total-feedback">(${totalFeedback})</span>
           </div>
-          <button class="cta-button" onclick="window.location.href='/gym/${id}/join'">Join Now</button>
+          <button class="cta-button" onclick="window.location.href='/gym/${id}${route}'">Join Now</button>
         </div>
       </div>
     `;
@@ -308,7 +309,7 @@ class GymCard extends HTMLElement {
 
   // Observe attribute changes to update component
   static get observedAttributes() {
-    return ["src", "name", "place", "rate", "total-feedback" , "id"];
+    return ["src", "name", "place", "rate", "total-feedback" , "id", "route"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -319,8 +320,9 @@ class GymCard extends HTMLElement {
       const rate = parseFloat(this.getAttribute("rate")) || 0;
       const totalFeedback = this.getAttribute("total-feedback") || "0";
       const id = this.getAttribute("gym-id") || "";
+      const route = this.getAttribute("gym-route") || "";
 
-      this.render(src, gymName, place, rate, totalFeedback, id);
+      this.render(src, gymName, place, rate, totalFeedback, id, route);
     }
   }
 }

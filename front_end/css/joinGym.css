@@ -1,3 +1,5 @@
+/* Enhanced Join Gym Form CSS - Matching Website Theme */
+
 /* Reset default styles */
 * {
   margin: 0;
@@ -6,94 +8,211 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f3f4f6;
-  color: #1f2937;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 40px 20px;
 }
 
 .container {
   background: white;
-  padding: 30px 40px;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-  max-width: 500px;
+  padding: 35px 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 550px;
   width: 100%;
 }
 
 h1 {
-  margin-bottom: 20px;
-  font-size: 24px;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 600;
   text-align: center;
-  color: #111827;
+  color: #333;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 4px;
+  background-color: #FF6B00;
+  border-radius: 2px;
 }
 
 label {
   display: block;
-  margin-top: 15px;
+  margin-top: 20px;
   font-weight: 500;
+  color: #444;
+  font-size: 15px;
 }
 
-input,
-textarea {
+input, textarea {
   width: 100%;
-  padding: 12px;
-  margin-top: 6px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+  padding: 14px 16px;
+  margin-top: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
   background-color: #f9fafb;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
   font-size: 16px;
+  color: #333;
 }
 
-input:focus,
-textarea:focus {
+input::placeholder, textarea::placeholder {
+  color: #aaa;
+}
+
+input:focus, textarea:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: #FF6B00;
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.15);
+  background-color: #fff;
 }
 
 textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 120px;
+  font-family: inherit;
 }
 
 button {
-  margin-top: 25px;
+  margin-top: 30px;
   width: 100%;
-  padding: 14px;
+  padding: 16px;
   border: none;
-  border-radius: 8px;
-  background-color: #3b82f6;
+  border-radius: 10px;
+  background-color: #FF6B00;
   color: white;
-  font-weight: bold;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 17px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(255, 107, 0, 0.2);
 }
 
 button:hover {
-  background-color: #2563eb;
+  background-color: #e05f00;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 107, 0, 0.25);
 }
 
-.success-message,
-.error-message {
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(255, 107, 0, 0.2);
+}
+
+#message {
+  margin-top: 25px;
+  padding: 0;
+  font-size: 15px;
+  text-align: center;
+  min-height: 30px;
+  transition: all 0.3s ease;
+}
+
+.success-message, .error-message {
   margin-top: 20px;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 15px;
+  border-radius: 10px;
   font-weight: 500;
   text-align: center;
+  animation: fadeIn 0.5s ease;
 }
 
 .success-message {
-  background-color: #d1fae5;
-  color: #065f46;
+  background-color: #e6f7ef;
+  color: #0d6e4c;
+  border-left: 4px solid #10b981;
 }
 
 .error-message {
-  background-color: #fee2e2;
-  color: #991b1b;
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border-left: 4px solid #ef4444;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 25px 20px;
+  }
+  
+  h1 {
+    font-size: 24px;
+  }
+  
+  button {
+    padding: 14px;
+  }
+}
+
+/* Focus visible for accessibility */
+input:focus-visible, textarea:focus-visible, button:focus-visible {
+  outline: 2px solid #FF6B00;
+  outline-offset: 2px;
+}
+
+/* Form group spacing */
+form > div {
+  margin-bottom: 20px;
+}
+
+/* Optional: Password field with toggle functionality */
+.password-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #777;
+  cursor: pointer;
+}
+
+/* Loading state for button */
+button.loading {
+  background-color: #f0f0f0;
+  color: #888;
+  cursor: not-allowed;
+  position: relative;
+}
+
+button.loading::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  margin-left: -10px;
+  margin-top: -10px;
+  border: 3px solid rgba(255, 107, 0, 0.3);
+  border-radius: 50%;
+  border-top-color: #FF6B00;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

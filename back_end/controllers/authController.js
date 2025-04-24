@@ -70,6 +70,11 @@ exports.signup = async (req, res) => {
       token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "Strict",
+      });
       res.status(201).json({ message: "User registered!", id: newUser.id });
     } catch (err) {
       if (err.code === 11000) {

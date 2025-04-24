@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymFit -- Settings</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+
+
+        .privacy-security {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        article {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            border: #e85d04 1px solid;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(232, 93, 4, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: white;
+        }
+
+        article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(232, 93, 4, 0.2);
+        }
+
+        .save-changes {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 12px 8px;
+            border-bottom: #e85d04 1px solid;
+        }
+
+        .save-changes p {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .profile-pic-container {
+            margin: 20px 0;
+        }
+
+        .profile-pic {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            background-image: url("../../assets/default-pfp.png");
+            background-size: cover;
+            background-position: center;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #e85d04;
+            box-shadow: 0 4px 15px rgba(232, 93, 4, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(232, 93, 4, 0.3);
+        }
+
+        .profile-pic-overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: height 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .profile-pic:hover .profile-pic-overlay {
+            height: 100%;
+            background-color: rgba(232, 93, 4, 0.6);
+        }
+
+        .profile-pic-overlay img {
+            width: 24px;
+            height: 24px;
+            filter: brightness(0) invert(1);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-pic:hover .profile-pic-overlay img {
+            transform: scale(1.2);
+        }
+
+        .infos {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            padding: 10px 0;
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .input-field label {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #555;
+            transition: color 0.3s ease;
+        }
+
+        .input-field:focus-within label {
+            color: #e85d04;
+        }
+
+        .input-field input,
+        .input-field textarea {
+            padding: 12px 16px;
+            font-size: 14px;
+            font-family: "Poppins", sans-serif;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .input-field input:focus,
+        .input-field textarea:focus {
+            border-color: #e85d04;
+            box-shadow: 0 0 8px rgba(232, 93, 4, 0.4);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        .input-field input:hover,
+        .input-field textarea:hover {
+            border-color: #e85d04;
+        }
+
+        .data-privacy {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding: 12px;
+        }
+
+        .data-privacy div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 16px 12px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+
+        .data-privacy div:hover {
+            background-color: rgba(232, 93, 4, 0.05);
+        }
+
+        .data-privacy div:last-child {
+            border-bottom: none;
+        }
+
+        .data-privacy p {
+            font-size: 15px;
+        }
+
+        .data-privacy p:first-child {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .data-privacy p:last-child {
+            color: #777;
+        }
+
+        .heading-container {
+            position: relative;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .heading {
+            font-family: "Poppins", sans-serif;
+            font-weight: 700;
+            font-size: 38px;
+            background: linear-gradient(to left, rgb(235, 144, 80) 10%, #e85d04 50%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+            transition: all 0.5s ease;
+        }
+
+        .heading:hover {
+            transform: scale(1.1);
+            text-shadow: 0 0 10px rgba(238, 143, 84, 0.45), 0 0 15px rgba(221, 133, 78, 0.3);
+        }
+
+        .heading::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 3px;
+            bottom: -8px;
+            left: 50%;
+            background-color: #e85d04;
+            transition: width 0.4s ease, left 0.4s ease;
+        }
+
+        .heading:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        /* Custom styles for the CTA button component */
+
+        /* Switch styling for two-factor auth */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: #e85d04;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #e85d04;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(30px);
+        }
+
+        /* Fixed two-factor auth section */
+        .two-factor-auth {
+            display: flex;
+            flex-direction: column !important;
+            gap: 15px;
+            align-items: flex-start !important;
+        }
+
+        .two-factor-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+        }
+
+        .phone-number {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .phone-number:hover {
+            background-color: #f0f0f0;
+            transform: translateX(5px);
+        }
+
+        /* Adding page entry animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        main {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        article {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        article:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        article:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        /* Added hover effects for interactive elements */
+        .input-field input::placeholder,
+        .input-field textarea::placeholder {
+            transition: color 0.3s ease;
+        }
+
+        .input-field input:focus::placeholder,
+        .input-field textarea:focus::placeholder {
+            color: #e85d04;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body>
+    <app-layout></app-layout>
+    <main id="mainContent">
+        <section class="privacy-security">
+            <div class="heading-container">
+                <h2 class="heading">
+                    Privacy & Security
+                </h2>
+            </div>
+            <article class="Personal-profile">
+                <div class="save-changes">
+                    <p>Personal Profile</p>
+                    <cta-button>Save Changes</cta-button>
+                </div>
+                <div class="profile-pic-container">
+                    <div class="profile-pic">
+                        <div class="profile-pic-overlay">
+                            <img src="../../assets/camera.svg" alt="camera icon">
+                        </div>
+                    </div>
+                </div>
+                <div class="infos">
+                    <div class="input-field">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" placeholder="Enter your first name" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" placeholder="Enter your last name" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="Localisation">Location</label>
+                        <input type="text" id="Localisation" placeholder="Where are you located? :D" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="bio">Your Bio</label>
+                        <textarea id="bio" name="bio" rows="5" cols="40"
+                            placeholder="Tell us about yourself..."></textarea>
+                    </div>
+                </div>
+            </article>
+            <article class="access-security">
+                <div class="save-changes">
+                    <p>Access & Security</p>
+
+                </div>
+                <div class="data-privacy">
+                    <div class="sign-in-email">
+                        <p>
+                            Sign-in Email
+                        </p>
+                        <p>email@example.com</p>
+                        <cta-button>Change Your Email</cta-button>
+                    </div>
+                    <div class="password-part">
+                        <p>
+                            Password
+                        </p>
+                        <cta-button>Change Password</cta-button>
+                    </div>
+                    <div class="two-factor-auth">
+                        <div class="two-factor-header">
+                            <p>
+                                Two-Factor Authentication
+                            </p>
+                            <label class="switch">
+                                <input type="checkbox" id="switch">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="phone-number">
+                        <p>Phone Number</p>
+                        <p>+123 456 789</p>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script src="../../scripts/components/app-layout.js"></script>
+    <script src="../../scripts/components/button.js"></script>
+    <script>
+        // Add animation to elements when they enter viewport
+        document.addEventListener('DOMContentLoaded', function () {
+            // Animate form fields on focus
+            const inputFields = document.querySelectorAll('.input-field input, .input-field textarea');
+
+            inputFields.forEach(field => {
+                field.addEventListener('focus', () => {
+                    field.style.transform = 'translateY(-2px)';
+                });
+
+                field.addEventListener('blur', () => {
+                    if (!field.value) {
+                        field.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+
+        });
+
+        // Add smooth scrolling to sections
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

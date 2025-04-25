@@ -1,13 +1,13 @@
-const express = require("express");
-const { addReview, getReviews, deleteReview } = require("../controllers/reviewController");
-const { verifyJWT } = require("../middleware/Security");
+const express = require("express")
+const { addReview, getReviews, deleteReview } = require("../controllers/reviewController")
+const { verifyJWT } = require("../middleware/Security")
 
-const router = express.Router();
+const router = express.Router()
 
-router.post("/", verifyJWT, addReview);
+router.post("/", verifyJWT, addReview)
 
-router.get("/:gymId", getReviews);
+router.get("/:gymId", getReviews)
 
-router.delete("/:reviewId", verifyJWT, deleteReview);
+router.delete("/:reviewId", verifyJWT, deleteReview)
 
-module.exports = router;
+module.exports = router

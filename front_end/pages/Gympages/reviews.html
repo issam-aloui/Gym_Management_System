@@ -8,7 +8,7 @@
 </head>
 <body>
   <section id="reviews">
-    <h2>[Gym Name] reviews:</h2>
+    <h2>reviews :</h2>
     <div id="review-list"></div>
 
     <h3>Add a Review</h3>
@@ -35,6 +35,15 @@
       <button type="submit">Submit Review</button>
     </form>
   </section>
+
+
+    <footer>
+      <a href="/gym/<%= gym._id %>">Home</a> |
+      <a href="/gym/<%= gym._id %>/reviews">Reviews</a> |
+      <a href="/gym/<%= gym._id %>/announcements">Announcements</a>
+      
+    </footer>
+
 
   <script src="../../scripts/reviews.js"></script>
 </body>

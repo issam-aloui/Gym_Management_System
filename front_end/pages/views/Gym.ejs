@@ -1,0 +1,26 @@
+<!-- views/gym.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= gym.name %></title>
+</head>
+<body>
+  <h1><%= gym.name %></h1>
+  <p><strong>Town:</strong> <%= gym.town %></p>
+  <p><strong>Price/Month:</strong> $<%= gym.pricePerMonth %></p>
+  <p><strong>Phone:</strong> <%= gym.contact.phonenumber %></p>
+  <p><strong>Email:</strong> <%= gym.contact.email %></p>
+  <p><strong>Rating:</strong> 
+    <%= gym.reviews.totalreviews > 0 
+        ? (gym.reviews.totalstars / gym.reviews.totalreviews).toFixed(1) 
+        : 0 %> / 5
+  </p>
+
+  <footer>
+    <a href="/gym/<%= gym._id %>">Home</a> |
+    <a href="/gym/<%= gym._id %>/reviews">Reviews</a> |
+    <a href="/gym/<%= gym._id %>/announcements">Announcements</a>
+  </footer>
+</body>
+</html>

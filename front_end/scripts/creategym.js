@@ -22,11 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
       messagebox.textContent = "Invalid email format.";
       return;
     }
-    /*if (!phoneRegex.test(phonenumber)) {
+    if (!phoneRegex.test(phonenumber)) {
       messagebox.style.color = "red";
       messagebox.textContent = "Invalid Algerian phone number format.";
       return;
-    }*/
+    }
    
     if (town.length < 4 || town.length > 10) {
       messagebox.style.color = "red";
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
       messagebox.textContent = "Price must be between 0 and 10,000.";
       return;
     }
-    console.log("sent1");
+ 
     try {
       const response = await fetch("http://localhost:5000/gym/creategym", {
         method: "POST",
@@ -46,14 +46,14 @@ document.addEventListener("DOMContentLoaded", function () {
         body: JSON.stringify({ gymname, town, pricebymounth, phonenumber, email }),
         credentials: "include",
       });
-     console.log("sent2");
+
       const data = await response.json();
-      console.log("sent3");
+
       if (response.ok) {
         messagebox.style.color = "green";
         messagebox.textContent = data.message;
         setTimeout(() => {
-          window.location.href = "/"; // Redirect after success
+          window.location.href = "/"; 
         }, 1000);
       } else {
         messagebox.style.color = "red";

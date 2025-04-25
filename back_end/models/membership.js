@@ -29,4 +29,5 @@ const membershipRequestSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('MembershipRequest', membershipRequestSchema);
+const membership = mongoose.model("membership", membershipRequestSchema);
+module.exports = membership;

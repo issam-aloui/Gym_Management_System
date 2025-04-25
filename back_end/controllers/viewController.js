@@ -117,12 +117,14 @@ exports.handleNotFound = (req, res) => {
     .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
 };
 
+
 exports.serveowner = async (req, res) => {
   let { thing } = req.params;
   const token = req.cookies.token;
 
-  if (!thing.endsWith(".html")) {
-    thing += ".html";
+
+  if (!thing.endsWith(".ejs")) {
+    thing += ".ejs";
   }
 
   if (!token) {
@@ -146,7 +148,19 @@ exports.serveowner = async (req, res) => {
     );
   }
 
-  const filePath = path.resolve(__dirname, `../../front_end/pages/Ownerpages/${thing}`);
+
+  const filePath = path.resolve(__dirname, `../../front_end/pages/views/${thing}`);
+  const role = req.user.role;
+  const gymwanted = req.user.Gymowned;
+  const gym = await Gym.findById(gymwanted);
+      if (!gym) {
+        console.warn("Gym not found with ID:", id);
+        return res
+          .status(404)
+          .sendFile(
+            path.resolve(__dirname, "../../front_end/pages/error.html")
+          );
+      }
 
   fs.access(filePath, fs.constants.F_OK, (err) => {
     if (err) {
@@ -154,6 +168,8 @@ exports.serveowner = async (req, res) => {
         path.resolve(__dirname, "../../front_end/pages/error.html")
       );
     }
-    res.sendFile(filePath);
+    
+
+    res.render(`Ownerpages/${thing}`,{role,gym});
   });
 };

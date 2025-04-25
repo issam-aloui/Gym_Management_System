@@ -4,9 +4,10 @@ const logger = require("../utils/logger")
 exports.createAnnouncement = async(req,res)=>{
 try{
 const{title,yap,gym} = req.body
+
 if(!title||!yap||!gym){
 return res.status(400).json({
-    message:"some fealds are missing!"
+    message:"some fialds are missing!"
 })
 }
 const Announcement = new Announcement({
@@ -51,7 +52,7 @@ res.status(500).json({
 //deleating the an
 exports.deleteAnnouncement = async(req,res)=>{
 try{
-    
+
 const{id}=req.params
 const deleted = await Announcement.findByIdAndDelete(id)
 if(!deleted){

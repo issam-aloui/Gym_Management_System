@@ -7,6 +7,7 @@
 </head>
 <body>
   <app-layout role="<%= role %>"></app-layout>
+  <main id="mainContent">
   <h1><%= gym.name %></h1>
   <p><strong>Town:</strong> <%= gym.town %></p>
   <p><strong>Price/Month:</strong> $<%= gym.pricePerMonth %></p>
@@ -17,7 +18,7 @@
         ? (gym.reviews.totalstars / gym.reviews.totalreviews).toFixed(1) 
         : 0 %> / 5
   </p>
-
+</main>
 </body>
 <script src="../../scripts/components/app-layout.js"></script>
 <script src="../../scripts/components/map.js"></script>

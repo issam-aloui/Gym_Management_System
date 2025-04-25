@@ -20,7 +20,7 @@ router.get("/home-user",getuserfromjwt ,serveHome);
 
 router.get("/gym/:id?/:thing?",verifyJWT ,serveGymPage);
 
-router.get("/owner/:thing",verifyJWT,serveowner);
+router.get("/owner/:thing",getuserfromjwt,serveowner);
 
 router.get("/:page", async (req, res) => {
   let { page } = req.params;

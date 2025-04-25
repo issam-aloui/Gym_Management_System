@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const Gym = require("../models/Gyms");
+const User = require("../models/User");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
@@ -23,7 +24,12 @@ exports.serveHome = async (req, res) => {
       .sort({ "reviews.totalstars": -1 })
       .limit(4);
 
-    return res.render("home-user", { gyms, topstarsGyms, toptrendingGyms, role });
+    return res.render("home-user", {
+      gyms,
+      topstarsGyms,
+      toptrendingGyms,
+      role,
+    });
   } catch (err) {
     console.error("Error fetching gyms:", err);
     return res
@@ -117,7 +123,6 @@ exports.handleNotFound = (req, res) => {
     .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
 };
 
-
 exports.serveowner = async (req, res) => {
   let { thing } = req.params;
   const token = req.cookies.token;
@@ -128,48 +133,47 @@ exports.serveowner = async (req, res) => {
   }
 
   if (!token) {
-    return res.status(404).sendFile(
-      path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html")
-    );
+    return res
+      .status(404)
+      .sendFile(
+        path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html")
+      );
   }
 
   let decoded;
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
-    return res.status(403).sendFile(
-      path.resolve(__dirname, "../../front_end/pages/error.html")
-    );
+    return res
+      .status(403)
+      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
 
   if (decoded.role !== "owner") {
-    return res.status(403).sendFile(
-      path.resolve(__dirname, "../../front_end/pages/error.html")
-    );
+    return res
+      .status(403)
+      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
 
+  const role = decoded.role;
+  const userId = decoded.Oid;
+  const user = await User.findById(userId);
 
-  const filePath = path.resolve(__dirname, `../../front_end/pages/views/${thing}`);
-  const role = req.user.role;
-  const gymwanted = req.user.Gymowned;
-  const gym = await Gym.findById(gymwanted);
-      if (!gym) {
-        console.warn("Gym not found with ID:", id);
-        return res
-          .status(404)
-          .sendFile(
-            path.resolve(__dirname, "../../front_end/pages/error.html")
-          );
-      }
-
-  fs.access(filePath, fs.constants.F_OK, (err) => {
-    if (err) {
-      return res.status(404).sendFile(
-        path.resolve(__dirname, "../../front_end/pages/error.html")
-      );
+  try {
+    const gym = await Gym.findById(user.Gymowned);
+    if (!gym) {
+      return res
+        .status(404)
+        .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
-    
 
-    res.render(`Ownerpages/${thing}`,{role,gym});
-  });
+
+    const pageName = thing;
+    return res.render(`${pageName}`, { role, gym });
+  } catch (err) {
+    console.error("Error fetching gym for blwi:", err);
+    return res
+      .status(500)
+      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
+  }
 };

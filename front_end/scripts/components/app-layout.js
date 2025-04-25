@@ -60,7 +60,7 @@ customElements.define(
                     <img src="../../assets/icons/star.svg" alt="My Reviews" />
                     <span>My Reviews</span>
                   </a></li>
-                  <li><a href="owner/Myannouncements">
+                  <li><a href="owner/Myannoucements">
                     <img src="../../assets/icons/announce.svg" alt="Announcements" />
                     <span>My Announcements</span>
                   </a></li>

@@ -131,3 +131,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // Update positions on window resize
   window.addEventListener("resize", updateSlidePosition);
 });
+
+// Add smooth scrolling to sections
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute("href")).scrollIntoView({
+      behavior: "smooth",
+    });
+  });
+});

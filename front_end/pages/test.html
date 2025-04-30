@@ -6,7 +6,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body>asdasd
+<body>
   <canvas id="revenueChart" width="600" height="300"></canvas>
 
   <script>
@@ -26,16 +26,16 @@
           tension: 0.4,  // Smooth curves
           pointRadius: 0 // No dots
         }, {
-            label: 'chilling',
-            data: [210, 215, 221, 310, 50, 35, 90, 60, 70, 50, 65, 40],
-            backgroundColor: 'rgba(255, 159, 164, 0.4)',  // Light orange fill
-            borderColor: 'rgba(255, 159, 164, 1)',        // Orange border
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4,  // Smooth curves
-            pointRadius: 0 // No dots
-          }
-      ]
+          label: 'chilling',
+          data: [210, 215, 221, 310, 50, 35, 90, 60, 70, 50, 65, 40],
+          backgroundColor: 'rgba(255, 159, 164, 0.4)',  // Light orange fill
+          borderColor: 'rgba(255, 159, 164, 1)',        // Orange border
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4,  // Smooth curves
+          pointRadius: 0 // No dots
+        }
+        ]
       },
       options: {
         responsive: true,
@@ -48,7 +48,7 @@
             font: { size: 18 }
           }
         },
-        
+
         scales: {
           y: {
             beginAtZero: true,

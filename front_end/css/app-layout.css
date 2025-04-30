@@ -115,7 +115,7 @@ input[type="search"]::-webkit-search-cancel-button {
 .sidebar {
   background-color: #0e1428;
   height: calc(100vh - 60px);
-  width: 65px;
+  width: 80px;
   position: fixed;
   top: 60px;
   left: 0;
@@ -130,7 +130,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .sidebar.expanded {
-  width: 180px;
+  width: 220px;
 }
 
 .sidebar-container {
@@ -146,7 +146,7 @@ aside nav ul {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  gap: 20px;
   padding: 0;
   margin: 0;
   width: 100%;
@@ -167,8 +167,8 @@ aside nav ul li a {
   align-items: center;
   width: 40px;
   height: 40px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  border-radius: 10px;
+  transition: background-color 0.2s ease, width 0.3s ease;
   font-size: 14px;
   font-weight: 600;
   font-family: "Poppins", sans-serif;
@@ -179,7 +179,7 @@ aside nav ul li a {
 }
 
 .sidebar.expanded nav ul li a {
-  width: 210px;
+  width: 160px;
   justify-content: flex-start;
 }
 
@@ -214,6 +214,10 @@ aside nav ul li a span {
 
 /* Settings icon at bottom */
 .Settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
   margin-top: auto;
   width: 100%;
   padding-top: 20px;
@@ -239,14 +243,14 @@ aside nav ul li a span {
   align-items: center;
   width: 40px;
   height: 40px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  border-radius: 10px;
+  transition: background-color 0.2s ease, width 0.3s ease;
   justify-content: center;
   padding: 0 10px;
 }
 
 .sidebar.expanded .Settings nav ul li a {
-  width: 210px;
+  width: 160px;
   justify-content: flex-start;
 }
 
@@ -273,14 +277,14 @@ aside nav ul li a span {
 
 /* Main Content */
 main {
-  margin-left: 65px;
+  margin-left: 80px;
   margin-top: 60px;
   padding: 20px;
   transition: margin-left 0.3s ease-in-out;
 }
 
-main.shifted {
-  margin-left: 180px;
+main.shifted {  
+  margin-left: 220px;
 }
 
 /* User Info (in header if needed) */

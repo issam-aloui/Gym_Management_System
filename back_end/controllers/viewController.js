@@ -3,6 +3,7 @@ const fs = require("fs");
 const Gym = require("../models/Gyms");
 const User = require("../models/User");
 const mongoose = require("mongoose");
+const Membership = require("../models/membership");
 const jwt = require("jsonwebtoken");
 
 exports.serveHome = async (req, res) => {
@@ -127,7 +128,6 @@ exports.serveowner = async (req, res) => {
   let { thing } = req.params;
   const token = req.cookies.token;
 
-
   if (!thing.endsWith(".ejs")) {
     thing += ".ejs";
   }
@@ -167,11 +167,18 @@ exports.serveowner = async (req, res) => {
         .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
 
-
     const pageName = thing;
+
+   
+    if (pageName === "members.ejs") {
+      const memberships = await Membership.find({ gymId: gym._id });
+      return res.render(`${pageName}`, { role, gym, memberships });
+    }
+
+
     return res.render(`${pageName}`, { role, gym });
   } catch (err) {
-    console.error("Error fetching gym for blwi:", err);
+    console.error("Error fetching gym or memberships:", err);
     return res
       .status(500)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));

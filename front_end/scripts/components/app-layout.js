@@ -31,43 +31,58 @@ customElements.define(
           <div class="sidebar-container">
             <nav>
               <ul>
-                <li><a href="/home-user" class="nav-home active">
-                  <img src="../../assets/icons/home.svg" alt="Home" />
-                  <span>Home</span>
-                </a></li>
-                <li><a href="/memerships" class="nav-workout">
-                  <img src="../../assets/icons/Membership.svg" alt="Workout" />
-                  <span>My MemberShip</span>
-                </a></li>
-                <li><a href="#" class="nav-profile">
-                  <img src="../../assets/icons/classes.svg" alt="Profile" />
-                  <span>My Classes</span>
-                </a></li>
-                <li><a href="#" class="nav-progress">
-                  <img src="../../assets/icons/shart.svg" alt="Progress" />
-                  <span>Be an Owner</span>
-                </a></li>
+                <li>
+                  <details open>
+                    <summary>User Pages</summary>
+                    <ul>
+                      <li><a href="/home-user" class="nav-home active">
+                        <img src="../../assets/icons/home.svg" alt="Home" />
+                        <span>Home</span>
+                      </a></li>
+                      <li><a href="/memerships" class="nav-workout">
+                        <img src="../../assets/icons/Membership.svg" alt="Workout" />
+                        <span>My MemberShip</span>
+                      </a></li>
+                      <li><a href="#" class="nav-profile">
+                        <img src="../../assets/icons/classes.svg" alt="Profile" />
+                        <span>My Classes</span>
+                      </a></li>
+                      <li><a href="#" class="nav-progress">
+                        <img src="../../assets/icons/shart.svg" alt="Progress" />
+                        <span>Be an Owner</span>
+                      </a></li>
+                    </ul>
+                  </details>
+                </li>
+
                 ${role === "owner" ? `
-                  <li><a href="/owner/myGym">
-                    <img src="../../assets/icons/gym.svg" alt="My Gym" />
-                    <span>My Gym</span>
-                  </a></li>
-                  <li><a href="/owner/members">
-                    <img src="../../assets/icons/users.svg" alt="My Members" />
-                    <span>My Members</span>
-                  </a></li>
-                  <li><a href="/owner/Myreviews">
-                    <img src="../../assets/icons/star.svg" alt="My Reviews" />
-                    <span>My Reviews</span>
-                  </a></li>
-                  <li><a href="/owner/Myannoucements">
-                    <img src="../../assets/icons/announce.svg" alt="Announcements" />
-                    <span>My Announcements</span>
-                  </a></li>
-                  <li><a href="/owner/scanqrcode">
-                    <img src="../../assets/icons/qr.svg" alt="QR Code" />
-                    <span>Scan QR</span>
-                  </a></li>
+                  <li>
+                    <details open>
+                      <summary>Owner Pages</summary>
+                      <ul>
+                        <li><a href="/owner/myGym">
+                          <img src="../../assets/icons/gym.svg" alt="My Gym" />
+                          <span>My Gym</span>
+                        </a></li>
+                        <li><a href="/owner/members">
+                          <img src="../../assets/icons/users.svg" alt="My Members" />
+                          <span>My Members</span>
+                        </a></li>
+                        <li><a href="/owner/Myreviews">
+                          <img src="../../assets/icons/star.svg" alt="My Reviews" />
+                          <span>My Reviews</span>
+                        </a></li>
+                        <li><a href="/owner/Myannoucements">
+                          <img src="../../assets/icons/announce.svg" alt="Announcements" />
+                          <span>My Announcements</span>
+                        </a></li>
+                        <li><a href="/owner/scanqrcode">
+                          <img src="../../assets/icons/qr.svg" alt="QR Code" />
+                          <span>Scan QR</span>
+                        </a></li>
+                      </ul>
+                    </details>
+                  </li>
                 ` : ""}
               </ul>
             </nav>

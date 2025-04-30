@@ -125,62 +125,36 @@ exports.handleNotFound = (req, res) => {
 };
 
 exports.serveowner = async (req, res) => {
-  let { thing } = req.params;
+  const thing = req.params.thing;           // e.g. "members"
   const token = req.cookies.token;
-
-  if (!thing.endsWith(".ejs")) {
-    thing += ".ejs";
-  }
-
-  if (!token) {
-    return res
-      .status(404)
-      .sendFile(
-        path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html")
-      );
-  }
+  if (!token) return res.status(401).sendFile(path.resolve(__dirname,"../../front_end/pages/Homepages/ad.html"));
 
   let decoded;
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (err) {
-    return res
-      .status(403)
-      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
+  } catch {
+    return res.status(403).sendFile(path.resolve(__dirname,"../../front_end/pages/error.html"));
   }
+  if (decoded.role !== "owner") return res.status(403).sendFile(path.resolve(__dirname,"../../front_end/pages/error.html"));
 
-  if (decoded.role !== "owner") {
-    return res
-      .status(403)
-      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
-  }
+  const user = await User.findById(decoded.Oid);
+  if (!user || !user.Gymowned) return res.status(404).sendFile(path.resolve(__dirname,"../../front_end/pages/error.html"));
 
-  const role = decoded.role;
-  const userId = decoded.Oid;
-  const user = await User.findById(userId);
-
-  try {
-    const gym = await Gym.findById(user.Gymowned);
-    if (!gym) {
-      return res
-        .status(404)
-        .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
-    }
-
-    const pageName = thing;
-
-   
-    if (pageName === "members.ejs") {
-      const memberships = await Membership.find({ gymId: gym._id });
-      return res.render(`${pageName}`, { role, gym, memberships });
-    }
+  const gym = await Gym.findById(user.Gymowned);
+  if (!gym) return res.status(404).sendFile(path.resolve(__dirname,"../../front_end/pages/error.html"));
 
 
-    return res.render(`${pageName}`, { role, gym });
-  } catch (err) {
-    console.error("Error fetching gym or memberships:", err);
-    return res
-      .status(500)
-      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
-  }
+
+if (thing === "members") {
+  const memberships = await Membership.find({ gymId: gym._id });
+  return res.render("members", {
+    role: decoded.role,
+    gym,
+    memberships
+  });
+}
+
+
+  // other owner pages:
+  return res.render(thing, { role: decoded.role, gym });
 };

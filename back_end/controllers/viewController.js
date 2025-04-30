@@ -159,9 +159,25 @@ exports.serveowner = async (req, res) => {
   const userId = decoded.Oid;
   const user = await User.findById(userId);
 
+
+
   try {
+
+    if (!user.Gymowned) {
+      console.log("Gymowned is not set for this user.");
+      return res
+        .status(404)
+        .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
+    }
+
+
+
     const gym = await Gym.findById(user.Gymowned);
+
+
+
     if (!gym) {
+      console.log("Gym not found for this ID.");
       return res
         .status(404)
         .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
@@ -169,12 +185,10 @@ exports.serveowner = async (req, res) => {
 
     const pageName = thing;
 
-   
     if (pageName === "members.ejs") {
       const memberships = await Membership.find({ gymId: gym._id });
       return res.render(`${pageName}`, { role, gym, memberships });
     }
-
 
     return res.render(`${pageName}`, { role, gym });
   } catch (err) {
@@ -184,3 +198,4 @@ exports.serveowner = async (req, res) => {
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
 };
+

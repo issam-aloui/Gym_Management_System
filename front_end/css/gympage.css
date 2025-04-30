@@ -1,0 +1,245 @@
+/* main.css */
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+body {
+  background-color: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Main content styles */
+#mainContent {
+  padding: 2rem;
+  margin-left: 250px; /* Space for sidebar */
+  transition: margin-left 0.3s ease;
+}
+
+#mainContent.shifted {
+  margin-left: 80px;
+}
+
+/* Gym details card */
+.gym-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.gym-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: #ff7700;
+  border-radius: 16px 0 0 16px;
+}
+
+/* Gym name */
+h1 {
+  color: #ff7700;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+  animation: slideInRight 0.5s ease-in-out;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: #ff7700;
+  transition: width 0.3s ease;
+}
+
+h1:hover::after {
+  width: 100px;
+}
+
+/* Information rows */
+.info-row {
+  display: flex;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background: #f8f9fa;
+  transition: transform 0.3s ease;
+  animation: fadeInUp 0.6s ease-in-out;
+  animation-fill-mode: both;
+}
+
+.info-row:hover {
+  transform: translateX(10px);
+  background: #fff1e6;
+}
+
+.info-row:nth-child(1) { animation-delay: 0.1s; }
+.info-row:nth-child(2) { animation-delay: 0.2s; }
+.info-row:nth-child(3) { animation-delay: 0.3s; }
+.info-row:nth-child(4) { animation-delay: 0.4s; }
+.info-row:nth-child(5) { animation-delay: 0.5s; }
+
+.info-icon {
+  width: 40px;
+  height: 40px;
+  background: #ff7700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.info-content {
+  flex: 1;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #888;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.info-value {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Rating stars */
+.rating {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.stars {
+  display: flex;
+  margin-right: 1rem;
+}
+
+.star {
+  color: #ffd700;
+  font-size: 1.5rem;
+  margin-right: 0.25rem;
+}
+
+.rating-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  animation: fadeInUp 0.8s ease-in-out;
+}
+
+.btn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: #ff7700;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #e66b00;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(255, 119, 0, 0.3);
+}
+
+.btn-secondary {
+  background: white;
+  color: #ff7700;
+  border: 2px solid #ff7700;
+}
+
+.btn-secondary:hover {
+  background: #fff1e6;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(255, 119, 0, 0.1);
+}
+
+.btn-icon {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  #mainContent {
+    margin-left: 0;
+    padding: 1rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+}

@@ -22,7 +22,9 @@ customElements.define(
             </div>
             <div class="user-details">
               <h3 class="user-name">username</h3>
-              <p class="user-type">${role === "owner" ? "Gym Owner" : "Gym User"}</p>
+              <p class="user-type">${
+                role === "owner" ? "Gym Owner" : "Gym User"
+              }</p>
             </div>
           </div>
         </header>
@@ -31,11 +33,11 @@ customElements.define(
           <div class="sidebar-container">
             <nav>
               <ul>
-                <li><a href="/home-user" class="nav-home active">
-                  <img src="../../assets/icons/home.svg" alt="Home" />
-                  <span>Home</span>
+                <li><a href="home-user" class="nav-home active">
+                  <img src="../../assets/icons/dashboard.svg" alt="Home" />
+                  <span>General</span>
                 </a></li>
-                <li><a href="/memerships" class="nav-workout">
+                <li><a href="memerships" class="nav-workout">
                   <img src="../../assets/icons/Membership.svg" alt="Workout" />
                   <span>My MemberShip</span>
                 </a></li>
@@ -47,28 +49,6 @@ customElements.define(
                   <img src="../../assets/icons/shart.svg" alt="Progress" />
                   <span>Be an Owner</span>
                 </a></li>
-                ${role === "owner" ? `
-                  <li><a href="/owner/myGym">
-                    <img src="../../assets/icons/gym_icon.svg" alt="My Gym" />
-                    <span>My Gym</span>
-                  </a></li>
-                  <li><a href="/owner/members">
-                    <img src="../../assets/icons/members.svg" alt="My Members" />
-                    <span>My Members</span>
-                  </a></li>
-                  <li><a href="/owner/Myreviews">
-                    <img src="../../assets/icons/reviews.svg" alt="My Reviews" />
-                    <span>My Reviews</span>
-                  </a></li>
-                  <li><a href="/owner/Myannoucements">
-                    <img src="../../assets/icons/announcement.svg" alt="Announcements" />
-                    <span>My Announcements</span>
-                  </a></li>
-                  <li><a href="/owner/scanqrcode">
-                    <img src="../../assets/icons/qrcodescan.svg" alt="QR Code" />
-                    <span>Scan QR</span>
-                  </a></li>
-                ` : ""}
               </ul>
             </nav>
 

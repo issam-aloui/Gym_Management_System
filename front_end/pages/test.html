@@ -1,149 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading - Gym Management Platform</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Poppins", sans-serif;
-      background-color: #0a0e1ae5;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-    }
-    
-    .loading-container {
-      text-align: center;
-      position: relative;
-    }
-    
-    .logo {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 2rem;
-      color: #ff8a00;
-    }
-    
-    .loading-text {
-      font-size: 1.2rem;
-      margin-bottom: 1.5rem;
-    }
-    
-    .weight-bar {
-      width: 300px;
-      height: 20px;
-      background-color: #1a223a;
-      border-radius: 10px;
-      overflow: hidden;
-      position: relative;
-      margin: 0 auto;
-    }
-    
-    .weight-progress {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #ff8a00, #ff5100);
-      border-radius: 10px;
-      animation: loading 5s infinite ease-in-out;
-    }
-    
-    .weight-icons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 1rem;
-    }
-    
-    .weight-icon {
-      font-size: 1.5rem;
-      opacity: 0.5;
-      transition: opacity 0.3s;
-    }
-    
-    .weight-icon.active {
-      opacity: 1;
-    }
-    
-    @keyframes loading {
-      0% {
-        width: 0%;
-      }
-      50% {
-        width: 100%;
-      }
-      100% {
-        width: 0%;
-      }
-    }
-    
-    .motivational-text {
-      margin-top: 2rem;
-      font-style: italic;
-      opacity: 0.8;
-      animation: fadeInOut 4s infinite;
-    }
-    
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.9; }
-    }
-  </style>
+  <title>Revenue Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-  <div class="loading-container">
-    <div class="logo">GYM MANAGEMENT PRO</div>
-    <div class="loading-text">Preparing your fitness dashboard...</div>
-    
-    <div class="weight-bar">
-      <div class="weight-progress"></div>
-    </div>
-    
-    <div class="weight-icons">
-      <span class="weight-icon">🏋️</span>
-      <span class="weight-icon">⏱️</span>
-      <span class="weight-icon">📊</span>
-      <span class="weight-icon">👥</span>
-      <span class="weight-icon">💪</span>
-    </div>
-    
-    <div class="motivational-text" id="motivational-text">
-      Success is loading...
-    </div>
-  </div>
-  
+
+<body>asdasd
+  <canvas id="revenueChart" width="600" height="300"></canvas>
+
   <script>
-    // Array of motivational quotes to cycle through
-    const quotes = [
-      "Success is loading...",
-      "Building your gym's future...",
-      "Getting everything in shape...",
-      "No pain, no gain - even in loading...",
-      "Preparing for peak performance..."
-    ];
-    
-    let currentQuote = 0;
-    const motivationalText = document.getElementById('motivational-text');
-    
-    // Change quote every 4 seconds
-    setInterval(() => {
-      currentQuote = (currentQuote + 1) % quotes.length;
-      motivationalText.textContent = quotes[currentQuote];
-    }, 4000);
-    
-    // Animate the weight icons
-    const weightIcons = document.querySelectorAll('.weight-icon');
-    let activeIcon = 0;
-    
-    setInterval(() => {
-      weightIcons.forEach(icon => icon.classList.remove('active'));
-      weightIcons[activeIcon].classList.add('active');
-      activeIcon = (activeIcon + 1) % weightIcons.length;
-    }, 800);
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['5k', '10k', '15k', '20k', '25k', '30k', '35k', '40k', '45k', '50k', '55k', '60k', '65k', '70k', '75k', '80k', '85k', '90k', '95k', '100k', '105k', '110k'],
+        datasets: [{
+          label: 'Revenue',
+          data: [20, 25, 22, 30, 50, 35, 90, 60, 70, 50, 65, 40],
+          backgroundColor: 'rgba(255, 159, 64, 0.4)',  // Light orange fill
+          borderColor: 'rgba(255, 159, 64, 1)',        // Orange border
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4,  // Smooth curves
+          pointRadius: 0 // No dots
+        }, {
+            label: 'chilling',
+            data: [210, 215, 221, 310, 50, 35, 90, 60, 70, 50, 65, 40],
+            backgroundColor: 'rgba(255, 159, 164, 0.4)',  // Light orange fill
+            borderColor: 'rgba(255, 159, 164, 1)',        // Orange border
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,  // Smooth curves
+            pointRadius: 0 // No dots
+          }
+      ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true },
+          title: {
+            display: true,
+            text: 'Revenue Chart',
+            align: 'start',
+            font: { size: 18 }
+          }
+        },
+        
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { stepSize: 20 }
+          },
+          x: {
+            grid: { display: false }
+          }
+        }
+      }
+    });
   </script>
 </body>
+
 </html>

@@ -1,8 +1,3 @@
-function getGymIdFromUrl() {
-  const pathParts = window.location.pathname.split("/");
-  return pathParts[pathParts.length - 1]; // Assumes last part is gymId
-}
-
 async function onScanSuccess(decodedText, decodedResult) {
   const resultElement = document.getElementById("result");
   const readerElement = document.getElementById("reader");
@@ -25,8 +20,28 @@ async function onScanSuccess(decodedText, decodedResult) {
     console.error("Failed to clear scanner:", err);
   }
 
-  // Send check-in request to the server
-  const gymId = getGymIdFromUrl();
+  try {
+    const response = await fetch("http://localhost:5000/gym/getgym", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      gymId = data.gymId;
+      console.log("Gym ID:", gymId);
+    } else {
+      console.log("Failed to fetch gym:", data.message);
+    }
+  } catch (error) {
+    console.log("Error fetching gym:", error);
+  }
+
+  if (!gymId) {
+    console.log("No gym ID found");
+    return;
+  }
 
   try {
     const response = await fetch("http://localhost:5000/scan/checkin", {

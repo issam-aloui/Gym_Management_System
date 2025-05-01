@@ -1,20 +1,22 @@
 const jwt = require("jsonwebtoken");
 const Checkin = require("../models/checkin");
 const Gym = require("../models/Gyms");
+const User = require("../models/User");
 
 exports.handleCheckin = async (req, res) => {
   try {
-    const token = req.cookies.token;
-    if (!token) return res.status(401).json({ message: "Unauthorized" });
-    
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
-    const { gymId } = req.query;
+    const { memberId, gymId } = req.body;
 
-    const gym = await Gym.findById(gymId);
-    if (!gym) return res.status(404).json({ message: "Gym not found" });
+    // Extract the user ID using regex
+    const match = memberId.match(/user_id:([\w\d]+)-/);
+    if (!match) {
+      return res.status(400).json({ message: "Invalid QR code data format" });
+    }
 
-    const checkin = new Checkin({ user: userId, gym: gym._id });
+    const userId = match[1]; 
+
+ 
+    const checkin = new Checkin({ user: userId, gym: gymId });
     await checkin.save();
 
     res.status(200).json({ message: "Check-in successful", checkin });
@@ -22,3 +24,4 @@ exports.handleCheckin = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+

@@ -15,8 +15,17 @@ exports.createGym = async (req, res) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
+
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.Oid;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(401).json({ message: "All fields are required" });
+    }
+
+    if(user.Gymowned) {res.status(400).json({ message: "You already own a gym buddy" })}
 
     const { gymname, town, pricebymounth, phonenumber, email } = req.body;
     const { lat, lng } = await getCoordinates(town);
@@ -74,10 +83,7 @@ exports.createGym = async (req, res) => {
 
     await newGym.save();
 
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(401).json({ message: "All fields are required" });
-    }
+    
     user.Gymowned = newGym;
     user.role = "owner";
     await user.save();

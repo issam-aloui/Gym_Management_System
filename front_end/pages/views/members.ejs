@@ -1,38 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Members</title>
-  <style>
-    .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:600px; margin:auto; }
-  </style>
-</head>
-<body>
-  <app-layout role="<%= role %>"></app-layout>
-  <main id="mainContent">
-    <h2 style="text-align:center;">Membership Requests for <%= gym.name %></h2>
-    <div class="grid">
-      <% if (!memberships.length) { %>
+  <head>
+    <meta charset="utf-8" />
+    <title>Members</title>
+    <style>
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        max-width: 600px;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <app-layout role="<%= role %>"></app-layout>
+    <main id="mainContent">
+      <h2 style="text-align: center">
+        Membership Requests for <%= gym.name %>
+      </h2>
+      <div class="grid">
+        <% if (!memberships.length) { %>
         <p>No membership requests.</p>
-      <% } else { %>
-        <% memberships.forEach(m => { %>
-          <member-card
-            name="<%= m.fullName %>"
-            status="<%= m.status %>"
-            src="<%= m.profileImage||'/assets/user.png' %>"
-        
-            data-user-id   ="<%= m.userId       %>"
-            data-gym-id    ="<%= m.gymId        %>"
-            data-full-name ="<%= m.fullName     %>"
-            data-description="<%= m.description || '' %>"
-            data-password  ="<%= gym.Secretpass %>"
-          ></member-card>
-        <% }) %>
-      <% } %>
-    </div>
-  </main>
+        <% } else { %> <% memberships.forEach(m => { %>
+        <member-card
+          name="<%= m.fullName %>"
+          status="<%= m.status %>"
+          src="<%= m.profileImage||'/assets/user.png' %>"
+          data-user-id="<%= m.userId       %>"
+          data-gym-id="<%= m.gymId        %>"
+          data-full-name="<%= m.fullName     %>"
+          data-description="<%= m.description || '' %>"
+          data-password="<%= gym.Secretpass %>"
+        ></member-card>
+        <% }) %> <% } %>
+      </div>
+    </main>
 
-  <script src="/scripts/components/app-layout.js"></script>
-  <script src="/scripts/components/member-layout.js"></script>
-</body>
+    <script src="/scripts/components/app-layout.js"></script>
+    <script src="/scripts/components/member-layout.js"></script>
+  </body>
 </html>

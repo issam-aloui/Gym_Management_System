@@ -1,8 +1,8 @@
-const jwt           = require("jsonwebtoken");
-const User          = require("../models/User");
-const Gym           = require("../models/Gyms");
-const Statistiques  = require("../models/statistiques");
-const Membership    = require("../models/membership");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const Gym = require("../models/Gyms");
+const Statistiques = require("../models/statistiques");
+const Membership = require("../models/membership");
 
 exports.sendrequest = async (req, res) => {
   const { fullName, description, gymId, password } = req.body;
@@ -13,7 +13,9 @@ exports.sendrequest = async (req, res) => {
     const userId = decoded.Oid;
 
     if (!fullName || !gymId || !password) {
-      return res.status(400).json({ error: "Full name, password, and gym ID are required." });
+      return res
+        .status(400)
+        .json({ error: "Full name, password, and gym ID are required." });
     }
 
     const user = await User.findById(userId);
@@ -45,8 +47,8 @@ exports.sendrequest = async (req, res) => {
 
 exports.acceptRequest = async (req, res) => {
   const { fullName, gymId, password, userId } = req.body;
-  console.log(fullName,gymId,password,userId);
-  
+  console.log(fullName, gymId, password, userId);
+
   const token = req.cookies.token;
 
   if (!token) {
@@ -55,7 +57,9 @@ exports.acceptRequest = async (req, res) => {
 
   try {
     if (!fullName || !gymId || !password || !userId) {
-      return res.status(400).json({ error: "fullName, gymId, password and userId are required." });
+      return res
+        .status(400)
+        .json({ error: "fullName, gymId, password and userId are required." });
     }
 
     const user = await User.findById(userId);
@@ -63,6 +67,10 @@ exports.acceptRequest = async (req, res) => {
 
     const gym = await Gym.findById(gymId);
     if (!gym) return res.status(404).json({ error: "Gym not found." });
+
+    if (password != gym.password) {
+      return res.status(404).json({ error: "wrong password :}." });
+    }
 
     // add gym to user
     user.Gymsjoined.push(gym._id);
@@ -103,11 +111,17 @@ exports.declinerequest = async (req, res) => {
 
   try {
     if (!fullName || !gymId || !userId) {
-      return res.status(400).json({ error: "fullName, gymId and userId are required." });
+      return res
+        .status(400)
+        .json({ error: "fullName, gymId and userId are required." });
     }
 
     // remove the membership request (not the user!)
-    const result = await Membership.findOneAndDelete({ userId, gymId, fullName });
+    const result = await Membership.findOneAndDelete({
+      userId,
+      gymId,
+      fullName,
+    });
     if (!result) {
       return res.status(404).json({ error: "Request not found." });
     }

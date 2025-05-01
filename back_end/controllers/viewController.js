@@ -125,35 +125,48 @@ exports.handleNotFound = (req, res) => {
 };
 
 exports.serveowner = async (req, res) => {
-  const thing = req.params.thing;           // e.g. "members"
+  const thing = req.params.thing; // e.g. "members"
   const token = req.cookies.token;
-  if (!token) return res.status(401).sendFile(path.resolve(__dirname,"../../front_end/pages/Homepages/ad.html"));
+  if (!token)
+    return res
+      .status(401)
+      .sendFile(
+        path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html")
+      );
 
   let decoded;
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch {
-    return res.status(403).sendFile(path.resolve(__dirname,"../../front_end/pages/error.html"));
+    return res
+      .status(403)
+      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
-  if (decoded.role !== "owner") return res.status(403).sendFile(path.resolve(__dirname,"../../front_end/pages/error.html"));
+  if (decoded.role !== "owner")
+    return res
+      .status(403)
+      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
 
   const user = await User.findById(decoded.Oid);
-  if (!user || !user.Gymowned) return res.status(404).sendFile(path.resolve(__dirname,"../../front_end/pages/error.html"));
+  if (!user || !user.Gymowned)
+    return res
+      .status(404)
+      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
 
   const gym = await Gym.findById(user.Gymowned);
-  if (!gym) return res.status(404).sendFile(path.resolve(__dirname,"../../front_end/pages/error.html"));
+  if (!gym)
+    return res
+      .status(404)
+      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
 
-
-
-if (thing === "members") {
-  const memberships = await Membership.find({ gymId: gym._id });
-  return res.render("members", {
-    role: decoded.role,
-    gym,
-    memberships
-  });
-}
-
+  if (thing === "members") {
+    const memberships = await Membership.find({ gymId: gym._id });
+    return res.render("members", {
+      role: decoded.role,
+      gym,
+      memberships,
+    });
+  }
 
   // other owner pages:
   return res.render(thing, { role: decoded.role, gym });

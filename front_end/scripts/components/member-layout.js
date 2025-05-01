@@ -1,16 +1,15 @@
 class MemberCard extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({mode:'open'});
+    this.attachShadow({ mode: "open" });
   }
 
-  connectedCallback(){
-    const name   = this.getAttribute('name');
-    const status = this.getAttribute('status');
-    const src    = this.getAttribute('src');
+  connectedCallback() {
+    const name = this.getAttribute("name");
+    const status = this.getAttribute("status");
+    const src = this.getAttribute("src");
 
-
-    const { userId, gymId, fullName, description, password } = this.dataset; //learned datasetway
+    const { userId, gymId, fullName, description, password } = this.dataset; //learned dataset way
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -48,47 +47,57 @@ class MemberCard extends HTMLElement {
           <h3>${name}</h3>
           <div class="stat ${status}">${status}</div>
         </div>
-        ${status==='pending'?`
+        ${
+          status === "pending"
+            ? `
           <div class="actions">
             <button class="accept">Accept</button>
             <button class="decline">Decline</button>
-          </div>`:``}
+          </div>`
+            : ``
+        }
       </div>
     `;
 
-    if(status==='pending'){
-      this.shadowRoot.querySelector('.accept')
-        .addEventListener('click', () => this._submit('A',{ userId, gymId, fullName, description, password }));
-      this.shadowRoot.querySelector('.decline')
-        .addEventListener('click', () => this._submit('D',{ userId, gymId, fullName, description }));
+    if (status === "pending") {
+      this.shadowRoot
+        .querySelector(".accept")
+        .addEventListener("click", () =>
+          this._submit("A", { userId, gymId, fullName, description, password })
+        );
+      this.shadowRoot
+        .querySelector(".decline")
+        .addEventListener("click", () =>
+          this._submit("D", { userId, gymId, fullName, description })
+        );
     }
   }
 
   async _submit(action, body) {
-    const url = action==='A' ? '/joingym/memreqA' : '/joingym/memreqD';
+    const url = action === "A" ? "/joingym/memreqA" : "/joingym/memreqD";
 
-    console.log('Submitting', action, body);
+    console.log("Submitting", action, body);
 
     try {
       const res = await fetch(url, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(body)
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
       });
-      if(!res.ok) throw await res.json();
+      if (!res.ok) throw await res.json();
 
       // update UI
-      const badge = this.shadowRoot.querySelector('.stat');
-      const newStatus = action==='A' ? 'approved' : 'rejected';
+      const badge = this.shadowRoot.querySelector(".stat");
+      const newStatus = action === "A" ? "approved" : "rejected";
       badge.textContent = newStatus;
       badge.className = `stat ${newStatus}`;
-      this.shadowRoot.querySelector('.actions').remove();
+      this.shadowRoot.querySelector(".actions").remove();
     } catch (err) {
       console.error(err);
-      alert(err.error || 'Request failed');
+      alert(err.error || "Request failed");
     }
   }
 }
 
-customElements.define('member-card', MemberCard);
+customElements.define("member-card", MemberCard);

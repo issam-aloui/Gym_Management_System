@@ -8,6 +8,7 @@ const Gymdes = require("../models/GymDescription");
 const User = require("../models/User"); // DO ME PLEASE DONT FORGET ME
 
 exports.createGym = async (req, res) => {
+  console.log("hell nooooooooooooooo 0");
   try {
     const token = req.cookies.token;
     if (!token) {
@@ -25,6 +26,7 @@ exports.createGym = async (req, res) => {
 
     if (user.Gymowned) {
       res.status(400).json({ message: "You already own a gym buddy" });
+      console.log("hell nooooooooooooooo 1");
     }
 
     const { gymname, town, pricebymounth, phonenumber, email } = req.body;
@@ -34,6 +36,8 @@ exports.createGym = async (req, res) => {
 
     if (!lat || !lng) {
       logger.warn("town coocked in map (fuck isreal if he choosed it)");
+            console.log("hell nooooooooooooooo 2");
+
       return res
         .status(400)
         .json({ message: "Couldn’t generate lat/lng. Try a different town." });
@@ -48,6 +52,8 @@ exports.createGym = async (req, res) => {
       !pass
     ) {
       logger.warn("Missing required fields in gym creation");
+            console.log("hell nooooooooooooooo 3");
+
       return res.status(400).json({ message: "All fields are required" });
     }
 

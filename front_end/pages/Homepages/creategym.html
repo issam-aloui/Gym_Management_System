@@ -1,34 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Your Gym</title>
+    <title>Register Your Gym | GymFit</title>
     <link rel="stylesheet" href="../../css/creategym.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" href="../../assets/static/shart.png">
 </head>
+
 <body>
-    <div class="container">
-        <h2>Register Your Gym</h2>
-        <form id="gymForm">
-            <label for="name">Gym Name:</label>
-            <input type="text" id="name" name="name" required>
+    <div class="page-container">
+        <div class="form-container">
+            <div class="form-header">
+                <div class="logo-container">
+                    <img src="../../assets/static/shart.png" alt="GymFit Logo" class="logo">
+                </div>
+                <h1>Register Your Gym</h1>
+                <p class="subtitle">Join our network of fitness centers and grow your business!</p>
+            </div>
 
-            <label for="town">Town:</label>
-            <input type="text" id="town" name="town" required>
+            <form id="gymForm" class="animated-form">
+                <div class="single-step active" id="gymRegistrationForm">
+                    <div class="input-group">
+                        <label for="name">Gym Name</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-dumbbell"></i>
+                            <input type="text" id="name" name="gymname" required>
+                        </div>
+                    </div>
 
-            <label for="pricePerMonth">Price Per Month ($):</label>
-            <input type="number" id="pricePerMonth" name="pricePerMonth" required min="0">
+                    <div class="input-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
 
-            <label for="phone">Phone Number:</label>
-            <input type="text" id="phone" name="phone" required>
+                    <div class="input-group">
+                        <label for="phone">Phone Number</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" name="phonenumber" required>
+                        </div>
+                    </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+                    <div class="input-group">
+                        <label for="town">Town/City</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-city"></i>
+                            <input type="text" id="town" name="town" required>
+                        </div>
+                    </div>
 
-            <button type="submit">Register Gym</button>
-            <p id="messagebox"></p>
-        </form>
+                    <div class="input-group">
+                        <label for="pricePerMonth">Monthly Membership Price (DZD)</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-tag"></i>
+                            <input type="number" id="pricePerMonth" name="pricebymounth" required min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="submit" class="submit-btn">Register Gym <i class="fas fa-check"></i></button>
+                    </div>
+                </div>
+            </form>
+
+            <div id="messagebox" class="message-container"></div>
+
+            <div class="form-footer">
+                <a href="/" class="back-link"><i class="fas fa-home"></i> Back to Home</a>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <div class="image-overlay"></div>
+            <div class="benefits-list">
+                <h2>Benefits of Registering Your Gym</h2>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Attract new members through our platform</li>
+                    <li><i class="fas fa-check-circle"></i> Manage memberships and payments online</li>
+                    <li><i class="fas fa-check-circle"></i> Track attendance and membership statistics</li>
+                    <li><i class="fas fa-check-circle"></i> Create and promote fitness classes</li>
+                    <li><i class="fas fa-check-circle"></i> Receive and respond to member reviews</li>
+                </ul>
+            </div>
+        </div>
     </div>
+
     <script src="../../scripts/creategym.js"></script>
 </body>
+
 </html>

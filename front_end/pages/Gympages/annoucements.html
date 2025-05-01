@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gym Announcements</title>
   <link rel="stylesheet" href="../../css/annoucements.css" />
-  <title>Document</title>
 </head>
 <body>
+  <section id="announcements">
+    <h2>Announcements:</h2>
+    <div id="announcement-list"></div>
+  </section>
+
   <footer>
-    <a href="/">Home</a> |
-    <a id="home-link">About</a> |
+    <a id="home-link">Home</a> |
     <a id="reviews-link">Reviews</a> |
     <a id="announcements-link">Announcements</a>
   </footer>
-</body>
-<script>
-  const pathSegments = window.location.pathname.split('/');
-  const gymId = pathSegments[2]; 
 
-  document.getElementById('home-link').href = `/gym/${gymId}`;
-  document.getElementById('reviews-link').href = `/gym/${gymId}/reviews`;
-  document.getElementById('announcements-link').href = `/gym/${gymId}/annoucements`;
-</script>
+  <script src="../../scripts/announcements.js"></script>
+</body>
 </html>

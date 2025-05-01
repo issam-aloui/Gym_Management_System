@@ -37,7 +37,7 @@ router.get("/:page", async (req, res) => {
   
     const gyms = user.Gymsjoined;
   
-    // Optional: Ensure reviews field always exists
+   
     gyms.forEach(gym => {
       if (!gym.reviews) {
         gym.reviews = { totalreviews: 0, totalstars: 0 };
@@ -45,6 +45,14 @@ router.get("/:page", async (req, res) => {
     });
   
     return res.render("memerships", { gyms ,role:decoded.role});
+  }
+  if (page == "settings") {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
+  
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.Oid;
+    return res.render("settings", {role:decoded.role});
   }
   
   if (!page.endsWith(".html")) {

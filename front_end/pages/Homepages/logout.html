@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <button id="logout">log out</button>
+  
+</body>
+<script>
+  const buttonl = document.getElementById("logout");
+
+buttonl.addEventListener("click", async function (event) {
+  event.preventDefault();
+  try {
+    const res = await fetch("/auth/logout", {
+      method: "POST", 
+      credentials: "include"
+    });
+
+    if (res.ok) {
+      window.location.href = "/";
+    } else {
+      console.error("Logout failed");
+      alert("Failed to log out");
+    }
+  } catch (err) {
+    console.error("Error during logout:", err);
+    alert("Error occurred while logging out");
+  }
+});
+
+  
+</script>
+</html>

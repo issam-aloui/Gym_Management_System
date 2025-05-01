@@ -100,7 +100,7 @@ customElements.define(
               <nav>
                 <ul>
                   <li>
-                    <a href="/settings.html" class="nav-settings">
+                    <a href="/settings" class="nav-settings">
                       <img src="../../assets/icons/settings.svg" alt="Settings" />
                       <span>Settings</span>
                     </a>

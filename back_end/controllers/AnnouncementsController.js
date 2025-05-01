@@ -3,43 +3,44 @@ const logger = require("../utils/logger")
 //creating:
 exports.createAnnouncement = async(req,res)=>{
 try{
-const{title,yap,gym} = req.body
+const {title,yap,gym} = req.body;
+
 
 if(!title||!yap||!gym){
 return res.status(400).json({
     message:"some fialds are missing!"
 })
 }
-const Announcement = new Announcement({
-title,
-yap,
-gym :gymId,
-})
+const announcement = new Announcement({
+    title,
+    yap,
+    gym,
+  });
+  
+await announcement.save()
 
-await Announcement.save()
-//seccess:
-logger.info("announcement created:D,gym id is:${gymId}")
+logger.info(`announcement created :D, gym id is: ${gym}`);
+
 res.status(201).json({
-
     message:"announcement created",
-    Announcement,
 })
 }
-catch(error){//if smth went wrong:
-logger.error('failed to create the announcement:( : ${error.message}')
-
+catch(error){
+logger.error(`failed to create the announcement :( : ${error.message}`);
 res.status(500).json({
 message:"internal server error",
 })
 }
 }
+
+
 exports.getAllAnnouncements = async(req,res)=>{
 try{
-const {gymId}=req.params
-//the annoucements are sorted discending order by createdAt date:
+const {gymId}=req.params;
+
 const announcements = await Announcement.find({gym:gymId}).sort({createdAt :-1})
 
-res.status(200).json(announcements)
+res.status(200).json(announcements);
 
 }catch(error){
 
@@ -49,7 +50,7 @@ res.status(500).json({
 })
 }
 }
-//deleating the an
+
 exports.deleteAnnouncement = async(req,res)=>{
 try{
 
@@ -67,9 +68,10 @@ res.status(200).json({
 })
 }catch(error){
 logger.error('failed to delet the announcement: ${error.message}')
-res.status(500).jsom({
-    message:"internal server error"
-})
+res.status(500).json({
+    message: "internal server error"
+  });
+  
 }
 }
 

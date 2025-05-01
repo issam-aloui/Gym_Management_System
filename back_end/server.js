@@ -15,7 +15,8 @@ const gymjoin = require("./routes/gymjoin");
 const paypalRoutes = require("./routes/paypal");
 const path = require("path");
 const fuckurahim = require("./routes/Reviews");
-const checkin = require("./routes/CheckIn")
+const checkin = require("./routes/CheckIn");
+const annoucementsi = require("./routes/Announcement")
 
 
 dotenv.config();
@@ -36,6 +37,7 @@ app.use("/joingym", gymjoin);
 app.use("/reviews",fuckurahim);
 app.use("/user", user1);
 app.use("/gym", gym);
+app.use("/announcements", annoucementsi);
 app.use("/scan",checkin)
 app.use("/services", fuckuissam);
 app.use("/paypal", paypalRoutes);

@@ -12,8 +12,8 @@ const { verifyJWT }= require("../middleware/Security")
 
 const router = express.Router()
 
-router.post("/",verifyJWT,verifyAdmin,createAnnouncement)
-router.get("/:gymId",verifyJWT,verifyAdmin,getAllAnnouncements)
+router.post("/",verifyJWT,createAnnouncement)
+router.get("/:gymId",verifyJWT,getAllAnnouncements)
 router.delete("/:id",verifyJWT,deleteAnnouncement)
 
-module.exports = router
+module.exports = router;

@@ -91,10 +91,15 @@ exports.serveGymPage = async (req, res) => {
     if (thing === "reviews" && id) {
       file = "reviews.html";
     } else {
+      if(thing == "annoucements" && id) {
+        file = "annoucements.html";
+      }
+      else {
       return res
         .status(404)
         .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
+  }
   }
 
   res.sendFile(

@@ -37,14 +37,26 @@
   </section>
 
 
-    <footer>
-      <a href="/gym/<%= gym._id %>">Home</a> |
-      <a href="/gym/<%= gym._id %>/reviews">Reviews</a> |
-      <a href="/gym/<%= gym._id %>/announcements">Announcements</a>
-      
-    </footer>
+  <footer>
+    <a href="/">Home</a> |
+    <a id="home-link">About</a> |
+    <a id="reviews-link">Reviews</a> |
+    <a id="announcements-link">Announcements</a>
+  </footer>
+  
+  
 
-
-  <script src="../../scripts/reviews.js"></script>
+  
 </body>
+<script src="../../scripts/reviews.js"></script>
+
+<script>
+  const pathSegments = window.location.pathname.split('/');
+  const gymId = pathSegments[2]; 
+
+  document.getElementById('home-link').href = `/gym/${gymId}`;
+  document.getElementById('reviews-link').href = `/gym/${gymId}/reviews`;
+  document.getElementById('announcements-link').href = `/gym/${gymId}/annoucements`;
+</script>
+
 </html>

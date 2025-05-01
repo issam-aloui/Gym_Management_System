@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../css/annoucements.css" />
+  <title>Document</title>
+</head>
+<body>
+  <footer>
+    <a href="/">Home</a> |
+    <a id="home-link">About</a> |
+    <a id="reviews-link">Reviews</a> |
+    <a id="announcements-link">Announcements</a>
+  </footer>
+</body>
+<script>
+  const pathSegments = window.location.pathname.split('/');
+  const gymId = pathSegments[2]; 
+
+  document.getElementById('home-link').href = `/gym/${gymId}`;
+  document.getElementById('reviews-link').href = `/gym/${gymId}/reviews`;
+  document.getElementById('announcements-link').href = `/gym/${gymId}/annoucements`;
+</script>
+</html>

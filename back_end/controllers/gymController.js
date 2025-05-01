@@ -15,8 +15,6 @@ exports.createGym = async (req, res) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-
-
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.Oid;
 
@@ -25,7 +23,9 @@ exports.createGym = async (req, res) => {
       return res.status(401).json({ message: "All fields are required" });
     }
 
-    if(user.Gymowned) {res.status(400).json({ message: "You already own a gym buddy" })}
+    if (user.Gymowned) {
+      res.status(400).json({ message: "You already own a gym buddy" });
+    }
 
     const { gymname, town, pricebymounth, phonenumber, email } = req.body;
     const { lat, lng } = await getCoordinates(town);
@@ -83,7 +83,6 @@ exports.createGym = async (req, res) => {
 
     await newGym.save();
 
-    
     user.Gymowned = newGym;
     user.role = "owner";
     await user.save();
@@ -91,17 +90,16 @@ exports.createGym = async (req, res) => {
     logger.info(`Gym created: "${gymname}" by User ID: ${userId}`);
 
     const newToken = jwt.sign(
-      { Oid: user._id, role: user.role , username:user.username },
+      { Oid: user._id, role: user.role, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
-    
+
     res.cookie("token", newToken, {
       httpOnly: true,
       secure: true,
       sameSite: "Strict",
     });
-    
 
     res.status(201).json({
       message: "Gym and statistics created successfully",
@@ -139,10 +137,12 @@ exports.getgym = async (req, res) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const gymId = Gym.findOne({ owner:userId });
-
-    res.status(200).json({gymId});
+    const gym = await Gym.findOne({ owner: userId });
+    if (!gym) {
+      return res.status(404).json({ message: "Gym not found" });
+    }
+    return res.status(200).json({ gymId: gym._id });
   } catch (err) {
-    res.status(400).json({ message: "servererror" });
+    return res.status(400).json({ message: "servererror" });
   }
 };

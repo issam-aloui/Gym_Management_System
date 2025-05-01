@@ -552,3 +552,46 @@ main.shifted {
 .sidebar.expanded details ul li a span {
   display: block;
 }
+/* Hide summary text when collapsed */
+.sidebar:not(.expanded) details summary span {
+  display: none;
+}
+
+/* Center group icon */
+.sidebar:not(.expanded) details summary {
+  justify-content: center;
+  padding: 10px 0;
+}
+
+/* Group icon size */
+.sidebar:not(.expanded) details summary img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Tooltip on hover */
+.sidebar:not(.expanded) details summary {
+  position: relative;
+}
+
+.sidebar:not(.expanded) details summary::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #0e1428;
+  color: white;
+  padding: 4px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 2000;
+}
+
+.sidebar:not(.expanded) details summary:hover::after {
+  opacity: 1;
+}

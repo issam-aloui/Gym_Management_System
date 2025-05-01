@@ -145,11 +145,17 @@
 
 /* Footer styling */
 footer {
-  margin-top: 50px;
-  padding: 20px 0;
-  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 0;
+  background-color: #fff;
   border-top: 1px solid #eee;
+  text-align: center;
   color: #666;
+  z-index: 100;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
 }
 
 footer a {
@@ -196,4 +202,11 @@ footer a:hover {
   background-color: #f8f9fa;
   border-radius: 8px;
   grid-column: 1 / -1;
+}
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: #ff6b00;
+  border-bottom: 2px solid #ffddb8;
+  padding-bottom: 0.5rem;
 }

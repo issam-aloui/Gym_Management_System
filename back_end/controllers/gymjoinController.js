@@ -68,7 +68,7 @@ exports.acceptRequest = async (req, res) => {
     const gym = await Gym.findById(gymId);
     if (!gym) return res.status(404).json({ error: "Gym not found." });
 
-    if (password != gym.password) {
+    if (password != gym.Secretpass) {
       return res.status(404).json({ error: "wrong password :}." });
     }
 

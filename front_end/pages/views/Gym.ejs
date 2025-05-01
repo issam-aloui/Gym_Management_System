@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <title><%= gym.name %></title>
+  <link rel="stylesheet" href="../../css/gympage.css" />
 </head>
 <body>
   <h1><%= gym.name %></h1>
@@ -18,9 +19,11 @@
   </p>
 
   <footer>
-    <a href="/gym/<%= gym._id %>">Home</a> |
+    <a href="/">Home</a> |
+    <a href="/gym/<%= gym._id %>">About</a> |
     <a href="/gym/<%= gym._id %>/reviews">Reviews</a> |
-    <a href="/gym/<%= gym._id %>/announcements">Announcements</a>
+    <a href="/gym/<%= gym._id %>/annoucements">Announcements</a>
   </footer>
+  
 </body>
 </html>

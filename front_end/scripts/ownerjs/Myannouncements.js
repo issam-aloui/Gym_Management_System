@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (response.ok) {
       gymId = data.gymId;
-      console.log("Gym ID:", gymId);
     } else {
       console.log("Failed to fetch gym:", data.message);
     }

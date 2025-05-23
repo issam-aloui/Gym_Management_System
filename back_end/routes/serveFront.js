@@ -18,7 +18,7 @@ router.get("/",getuserfromjwt ,serveHome);
 
 router.get("/home-user",getuserfromjwt ,serveHome);
 
-router.get("/gym/:id?/:thing?",verifyJWT ,serveGymPage);
+router.get("/gym/:id?/:thing?",verifyaccess ,verifyJWT ,serveGymPage);
 
 router.get("/owner/:thing",getuserfromjwt,serveowner);
 

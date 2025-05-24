@@ -1,13 +1,403 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>GymFit QR Code Scanner</title>
-    <script src="https://unpkg.com/html5-qrcode"></script>
-    <link rel="stylesheet" href="../../css/scanqrcode.css" />
-  </head>
-  <body>
-    <div id="loader-placeholder" style="
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GymFit QR Code Scanner</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <style>
+    /* CSS Variables */
+    :root {
+      --primary-dark: #0e1428;
+      --primary-orange: #e85d04;
+      --primary-light: #f5f5f5;
+      --secondary-dark: #1a2332;
+      --accent-orange: #ff7f50;
+      --text-light: #fefdf8;
+      --shadow-light: rgba(14, 20, 40, 0.08);
+      --shadow-medium: rgba(14, 20, 40, 0.15);
+      --orange-glow: rgba(232, 93, 4, 0.3);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-heading: "Poppins", sans-serif;
+      --font-body: "Nunito Sans", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-body);
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    /* Main Content */
+    #mains {
+      margin-left: 80px;
+      margin-top: 60px;
+      padding: 20px;
+      transition: margin-left 0.3s ease-in-out;
+    }
+
+    #mains.shifted {
+      margin-left: 220px;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+      color: var(--text-light);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin: 0 auto 2rem auto;
+      max-width: 800px;
+      box-shadow: 0 8px 32px var(--shadow-medium);
+      border: 1px solid rgba(232, 93, 4, 0.1);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .header-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      background: rgba(232, 93, 4, 0.2);
+      border-radius: 50%;
+      border: 3px solid var(--primary-orange);
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px var(--orange-glow);
+    }
+
+    .header-icon i {
+      color: var(--primary-orange);
+      font-size: 1.8rem;
+    }
+
+    .page-title {
+      font-family: var(--font-heading);
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .page-subtitle {
+      margin: 0.5rem 0 0 0;
+      font-size: 1rem;
+      opacity: 0.9;
+      font-weight: 400;
+    }
+
+    /* Container */
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 32px var(--shadow-light);
+      border: 1px solid rgba(14, 20, 40, 0.05);
+    }
+
+    .container h1 {
+      font-family: var(--font-heading);
+      color: var(--primary-dark);
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 0 0 2rem 0;
+      text-align: center;
+    }
+
+    /* Scanner Instructions */
+    .scanner-instructions {
+      background: rgba(232, 93, 4, 0.1);
+      border: 1px solid rgba(232, 93, 4, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 0 0 2rem 0;
+      text-align: center;
+    }
+
+    .scanner-instructions h3 {
+      font-family: var(--font-heading);
+      color: var(--primary-orange);
+      margin: 0 0 1rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .scanner-instructions p {
+      color: var(--primary-dark);
+      margin: 0.5rem 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Scanner Container */
+    #reader-container {
+
+      background: linear-gradient(135deg, #fefdf8 0%, #f8f9fa 100%);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 2rem 0;
+      border: 2px solid rgba(232, 93, 4, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #reader-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-orange) 0%, var(--accent-orange) 100%);
+    }
+
+    #reader {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f8f9fa;
+      max-width: 100%;
+    }
+
+    /* Result Display */
+    #result {
+      background: linear-gradient(135deg, var(--primary-orange) 0%, var(--accent-orange) 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-align: center;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 16px var(--orange-glow);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60px;
+      text-align: center;
+    }
+
+    /* Button Styling */
+    .button,
+    #restart-button {
+      background: linear-gradient(135deg, var(--primary-orange) 0%, var(--accent-orange) 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 16px var(--orange-glow);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1rem auto;
+      min-width: 160px;
+    }
+
+    .button:hover,
+    #restart-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(232, 93, 4, 0.4);
+      background: linear-gradient(135deg, #ff6b04 0%, #ff8f60 100%);
+    }
+
+    .button:active,
+    #restart-button:active {
+      transform: translateY(0);
+    }
+
+    .button::before,
+    #restart-button::before {
+      content: '\f029';
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+    }
+
+    /* QR Scanner Library Styling */
+    #reader button,
+    #reader input[type="button"] {
+      background: linear-gradient(135deg, var(--primary-orange) 0%, var(--accent-orange) 100%) !important;
+      color: white !important;
+      border: none !important;
+      padding: 0.875rem 1.75rem !important;
+      border-radius: 12px !important;
+      font-family: var(--font-heading) !important;
+      font-size: 0.95rem !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      transition: var(--transition) !important;
+      box-shadow: 0 4px 16px var(--orange-glow) !important;
+      text-transform: none !important;
+      letter-spacing: 0.25px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.5rem !important;
+      margin: 0.75rem 0.5rem !important;
+      min-width: 140px !important;
+      text-align: center !important;
+    }
+
+    #reader button:hover,
+    #reader input[type="button"]:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 24px rgba(232, 93, 4, 0.4) !important;
+      background: linear-gradient(135deg, #ff6b04 0%, #ff8f60 100%) !important;
+    }
+
+    #reader button:active,
+    #reader input[type="button"]:active {
+      transform: translateY(0) !important;
+    }
+
+    #reader>div {
+      text-align: center !important;
+    }
+
+    #reader .qr-code-camera-permission-dialog {
+      background: white !important;
+      border-radius: 16px !important;
+      padding: 2rem !important;
+      margin: 1rem auto !important;
+      box-shadow: 0 8px 32px var(--shadow-medium) !important;
+      border: 1px solid rgba(232, 93, 4, 0.2) !important;
+      max-width: 400px !important;
+    }
+
+    #reader .qr-code-camera-permission-dialog .qr-code-camera-permission-dialog-message {
+      font-family: var(--font-body) !important;
+      color: var(--primary-dark) !important;
+      font-size: 1rem !important;
+      line-height: 1.5 !important;
+      margin-bottom: 1.5rem !important;
+    }
+
+    #reader select {
+      background: white !important;
+      border: 2px solid rgba(232, 93, 4, 0.3) !important;
+      border-radius: 8px !important;
+      padding: 0.75rem 1rem !important;
+      font-family: var(--font-body) !important;
+      font-size: 0.95rem !important;
+      color: var(--primary-dark) !important;
+      margin: 0.5rem !important;
+      min-width: 200px !important;
+    }
+
+    #reader select:focus {
+      outline: none !important;
+      border-color: var(--primary-orange) !important;
+      box-shadow: 0 0 0 3px rgba(232, 93, 4, 0.2) !important;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      #mainContent {
+        padding: 1rem 0.5rem;
+      }
+
+      .page-header {
+        padding: 1.5rem;
+        margin: 0 0.5rem 1.5rem 0.5rem;
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .page-title {
+        font-size: 1.8rem;
+      }
+
+      .container {
+        margin: 0 0.5rem;
+        padding: 1.5rem;
+      }
+
+      #reader-container {
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+
+      .button,
+      #restart-button {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-title {
+        font-size: 1.5rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      #reader-container {
+        padding: 0.75rem;
+      }
+
+      .header-icon {
+        width: 60px;
+        height: 60px;
+      }
+
+      .header-icon i {
+        font-size: 1.5rem;
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
+  <div id="loader-placeholder" style="
       position:fixed;
       top:0; left:0; width:100vw; height:100vh;
       background:rgba(255,255,255,0.95);
@@ -18,27 +408,44 @@
       z-index:9999;
       transition:opacity 0.4s;
     ">
-      <div style="
-        border: 6px solid #e0e0e0;
+    <div style="
+        border: 6px solid rgba(232, 93, 4, 0.2);
         border-top: 6px solid #e85d04;
         border-radius: 50%;
-        width: 48px;
-        height: 48px;
+        width: 56px;
+        height: 56px;
         animation: spin 0.8s linear infinite;
-        margin-bottom: 1.2rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 0 20px rgba(232, 93, 4, 0.3);
       "></div>
-      <div style="font-family: 'Poppins', sans-serif; color: #222; font-size: 1.1rem;">
-        Loading, please wait...
+    <div style="font-family: 'Poppins', sans-serif; color: #0e1428; font-size: 1.1rem; font-weight: 500;">
+      Loading scanner, please wait...
+    </div>
+  </div>
+
+  <app-layout role="<%= role %>" username="<%= username %>"></app-layout>
+
+  <div id="mains">
+    <div class="page-header">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-qrcode"></i>
+        </div>
+        <div class="header-text">
+          <h1 class="page-title">QR Code Scanner</h1>
+          <p class="page-subtitle">Scan member QR codes for quick check-in</p>
+        </div>
       </div>
     </div>
-    <style>
-      @keyframes spin { to { transform: rotate(360deg); } }
-    </style>
-    <app-layout role="<%= role %>" username="<%= username %>"></app-layout>
-    //test
 
     <div class="container">
       <h1>Member Check-In</h1>
+
+      <div class="scanner-instructions">
+        <h3><i class="fas fa-info-circle"></i> How to Scan</h3>
+        <p>Point your camera at a member's QR code to automatically scan and check them in.</p>
+        <p>Make sure the QR code is well-lit and clearly visible within the camera frame.</p>
+      </div>
 
       <div id="reader-container">
         <div id="reader"></div>
@@ -50,18 +457,17 @@
         Scan Another
       </button>
     </div>
-  
+  </div>
+  <script src="../../scripts/ownerjs/scanqrcode.js"></script>
+  <script src="../../scripts/components/app-layout.js"></script>
+  <script src="../../scripts/components/map.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      const loader = document.getElementById('loader-placeholder');
+      loader.style.opacity = 0;
+      setTimeout(() => loader.style.display = 'none', 400);
+    });
+  </script>
+</body>
 
-
-    <script src="../../scripts/ownerjs/scanqrcode.js"></script>
-    <script src="../../scripts/components/app-layout.js"></script>
-    <script src="../../scripts/components/map.js"></script>
-<script>
-  window.addEventListener('load', function() {
-    const loader = document.getElementById('loader-placeholder');
-    loader.style.opacity = 0;
-    setTimeout(() => loader.style.display = 'none', 400);
-  });
-</script>
-  </body>
 </html>

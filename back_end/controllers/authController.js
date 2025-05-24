@@ -10,7 +10,6 @@ const { uploadImage } = require("../services/cloudservice");
 
 exports.signup = async (req, res) => {
   try {
-    
     const { username, email, password } = req.body;
 
     const existingEmail = await User.findOne({ email });

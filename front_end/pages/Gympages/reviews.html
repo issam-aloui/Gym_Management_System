@@ -1,62 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gym Reviews</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../../css/reviews.css" />
 </head>
+
 <body>
-  <section id="reviews">
-    <h2>reviews :</h2>
-    <div id="review-list"></div>
+  <div class="container">
+    <header class="page-header">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="header-text">
+          <h1 class="page-title">Reviews & Ratings</h1>
+          <p class="page-subtitle">See what our members think and share your experience</p>
+        </div>
+      </div>
+    </header>
 
-    <h3>Add a Review</h3>
-    <form id="add-review-form">
-      <label for="rating">Rating:</label>
-      <select id="rating" name="rating" required>
-        <option value="1">1 Star</option>
-        <option value="2">2 Stars</option>
-        <option value="3">3 Stars</option>
-        <option value="4">4 Stars</option>
-        <option value="5">5 Stars</option>
-      </select>
+    <main class="content">
+      <section id="reviews">
+        <div class="reviews-section">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i class="fas fa-comments"></i>
+              Member Reviews
+            </h2>
+          </div>
+          <div id="review-list" class="reviews-grid"></div>
+        </div>
 
-      <label for="comment">Comment:</label>
-      <textarea
-        id="comment"
-        name="comment"
-        rows="4"
-        maxlength="500"
-        placeholder="Write a review!"
-        required
-      ></textarea>
+        <div class="add-review-section">
+          <div class="section-header">
+            <h3 class="section-title">
+              <i class="fas fa-plus-circle"></i>
+              Share Your Experience
+            </h3>
+            <p class="section-subtitle">Help others by sharing your honest review</p>
+          </div>
 
-      <button type="submit">Submit Review</button>
-    </form>
-  </section>
+          <form id="add-review-form" class="review-form">
+            <div class="form-group">
+              <label for="rating" class="form-label">
+                <i class="fas fa-star"></i>
+                Your Rating
+              </label>
+              <div class="rating-container">
+                <select id="rating" name="rating" required class="rating-select">
+                  <option value="">Select a rating</option>
+                  <option value="1">⭐ 1 Star - Poor</option>
+                  <option value="2">⭐⭐ 2 Stars - Fair</option>
+                  <option value="3">⭐⭐⭐ 3 Stars - Good</option>
+                  <option value="4">⭐⭐⭐⭐ 4 Stars - Very Good</option>
+                  <option value="5">⭐⭐⭐⭐⭐ 5 Stars - Excellent</option>
+                </select>
+              </div>
+            </div>
 
+            <div class="form-group">
+              <label for="comment" class="form-label">
+                <i class="fas fa-comment"></i>
+                Your Review
+              </label>
+              <textarea id="comment" name="comment" rows="4" maxlength="500"
+                placeholder="Share your experience with this gym... What did you like? What could be improved?" required
+                class="review-textarea"></textarea>
+              <div class="character-count">
+                <span id="char-count">0</span>/500 characters
+              </div>
+            </div>
 
-  <footer>
-    <a href="/">Home</a> |
-    <a id="home-link">About</a> |
-    <a id="reviews-link">Reviews</a> |
-    <a id="announcements-link">Announcements</a>
-  </footer>
-  
-  
+            <button type="submit" class="submit-btn">
+              <i class="fas fa-paper-plane"></i>
+              Submit Review
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
 
-  
+    <footer class="modern-footer">
+      <nav class="footer-nav">
+        <a href="/" class="footer-link">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a id="home-link" class="footer-link">
+          <i class="fas fa-dumbbell"></i>
+          <span>Gym</span>
+        </a>
+        <a id="reviews-link" class="footer-link active">
+          <i class="fas fa-star"></i>
+          <span>Reviews</span>
+        </a>
+        <a id="announcements-link" class="footer-link">
+          <i class="fas fa-bullhorn"></i>
+          <span>News</span>
+        </a>
+      </nav>
+    </footer>
+  </div>
+
+  <script src="../../scripts/reviews.js"></script>
+  <script>
+    const pathSegments = window.location.pathname.split('/');
+    const gymId = pathSegments[2];
+
+    document.getElementById('home-link').href = `/gym/${gymId}`;
+    document.getElementById('reviews-link').href = `/gym/${gymId}/reviews`;
+    document.getElementById('announcements-link').href = `/gym/${gymId}/annoucements`;
+
+    // Character counter for textarea
+    const textarea = document.getElementById('comment');
+    const charCount = document.getElementById('char-count');
+
+    textarea.addEventListener('input', function () {
+      charCount.textContent = this.value.length;
+      if (this.value.length > 450) {
+        charCount.style.color = '#e85d04';
+      } else {
+        charCount.style.color = '#666';
+      }
+    });
+  </script>
 </body>
-<script src="../../scripts/reviews.js"></script>
-
-<script>
-  const pathSegments = window.location.pathname.split('/');
-  const gymId = pathSegments[2]; 
-
-  document.getElementById('home-link').href = `/gym/${gymId}`;
-  document.getElementById('reviews-link').href = `/gym/${gymId}/reviews`;
-  document.getElementById('announcements-link').href = `/gym/${gymId}/annoucements`;
-</script>
 
 </html>

@@ -1,29 +1,150 @@
 <!-- views/gym.ejs -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <title><%= gym.name %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    <%= gym.name %>
+  </title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../../css/gympage.css" />
 </head>
-<body>
-  <h1><%= gym.name %></h1>
-  <p><strong>Town:</strong> <%= gym.town %></p>
-  <p><strong>Price/Month:</strong> $<%= gym.pricePerMonth %></p>
-  <p><strong>Phone:</strong> <%= gym.contact.phonenumber %></p>
-  <p><strong>Email:</strong> <%= gym.contact.email %></p>
-  <p><strong>Rating:</strong> 
-    <%= gym.reviews.totalreviews > 0 
-        ? (gym.reviews.totalstars / gym.reviews.totalreviews).toFixed(1) 
-        : 0 %> / 5
-  </p>
 
-  <footer>
-    <a href="/">Home</a> |
-    <a href="/gym/<%= gym._id %>">About</a> |
-    <a href="/gym/<%= gym._id %>/reviews">Reviews</a> |
-    <a href="/gym/<%= gym._id %>/annoucements">Announcements</a>
-  </footer>
-  
+<body>
+  <div class="container">
+    <header class="page-header">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-dumbbell"></i>
+        </div>
+        <div class="header-text">
+          <h1 class="page-title">
+            <%= gym.name %>
+          </h1>
+          <p class="page-subtitle">Complete gym information and details</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="gym-details-container">
+        <div class="details-grid">
+          <div class="detail-card location-card">
+            <div class="card-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Location</h3>
+              <p class="card-value">
+                <%= gym.town %>
+              </p>
+            </div>
+          </div>
+
+          <div class="detail-card price-card">
+            <div class="card-icon">
+              <i class="fas fa-dollar-sign"></i>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Monthly Price</h3>
+              <p class="card-value">$<%= gym.pricePerMonth %>
+              </p>
+            </div>
+          </div>
+
+          <div class="detail-card contact-card">
+            <div class="card-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Phone</h3>
+              <p class="card-value">
+                <%= gym.contact.phonenumber %>
+              </p>
+            </div>
+          </div>
+
+          <div class="detail-card email-card">
+            <div class="card-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Email</h3>
+              <p class="card-value">
+                <%= gym.contact.email %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rating-section">
+          <div class="rating-card">
+            <div class="rating-header">
+              <div class="rating-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="rating-content">
+                <h3 class="rating-title">Member Rating</h3>
+                <div class="rating-display">
+                  <span class="rating-number">
+                    <%= gym.reviews.totalreviews> 0
+                      ? (gym.reviews.totalstars / gym.reviews.totalreviews).toFixed(1)
+                      : 0 %>
+                  </span>
+                  <div class="rating-details">
+                    <div class="stars">
+                      <% const rating=gym.reviews.totalreviews> 0 ? (gym.reviews.totalstars / gym.reviews.totalreviews)
+                        : 0;
+                        const fullStars = Math.floor(rating);
+                        const hasHalfStar = rating % 1 >= 0.5;
+                        const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                        %>
+                        <% for(let i=0; i < fullStars; i++) { %>
+                          <i class="fas fa-star filled"></i>
+                          <% } %>
+                            <% if(hasHalfStar) { %>
+                              <i class="fas fa-star-half-alt filled"></i>
+                              <% } %>
+                                <% for(let i=0; i < emptyStars; i++) { %>
+                                  <i class="far fa-star empty"></i>
+                                  <% } %>
+                    </div>
+                    <span class="review-count">(<%= gym.reviews.totalreviews %> reviews)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="modern-footer">
+      <nav class="footer-nav">
+        <a href="/" class="footer-link">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="/gym/<%= gym._id %>" class="footer-link active">
+          <i class="fas fa-dumbbell"></i>
+          <span>About</span>
+        </a>
+        <a href="/gym/<%= gym._id %>/reviews" class="footer-link">
+          <i class="fas fa-star"></i>
+          <span>Reviews</span>
+        </a>
+        <a href="/gym/<%= gym._id %>/annoucements" class="footer-link">
+          <i class="fas fa-bullhorn"></i>
+          <span>News</span>
+        </a>
+      </nav>
+    </footer>
+  </div>
 </body>
+
 </html>

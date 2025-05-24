@@ -26,9 +26,11 @@ router.get("/:page", async (req, res) => {
   let { page } = req.params;
   
   if (page == "memerships") {
+  
     const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: "Unauthorized" });
   
+    
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.Oid;
   
@@ -44,7 +46,7 @@ router.get("/:page", async (req, res) => {
       }
     });
   
-    return res.render("memerships", { gyms ,role:decoded.role});
+    return res.render("memerships", { gyms ,role:decoded.role,username:decoded.username});
   }
   if (page == "settings") {
     const token = req.cookies.token;
@@ -52,7 +54,7 @@ router.get("/:page", async (req, res) => {
   
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.Oid;
-    return res.render("settings", {role:decoded.role});
+    return res.render("settings", {role:decoded.role,username:decoded.username});
   }
   
   if (!page.endsWith(".html")) {

@@ -11,45 +11,50 @@ exports.addReview = async (req, res) => {
       const { gymId, rating, comment } = req.body;
       const token = req.cookies.token;  
 
-   
       if (!token) {
           return res.status(403).json({ message: "No token provided" });
       }
 
-
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const userId = decoded.Oid;  
+      const userId = decoded.Oid;
 
-     
-      const user = await User.findById(userId); 
+      const user = await User.findById(userId);
       const gym = await Gym.findById(gymId);
 
-      if (!user||!gym) {
+      if (!user || !gym) {
           return res.status(404).json({ message: "User or gym not found" });
       }
 
+      const ratingNum = Number(rating);
+      if (isNaN(ratingNum) || ratingNum < 1 || ratingNum > 5) {
+          return res.status(400).json({ message: "Invalid rating value" });
+      }
+
+      gym.reviews.totalstars = gym.reviews.totalstars || 0;
+      gym.reviews.totalreviews = gym.reviews.totalreviews || 0;
 
       const existingReview = await Review.findOne({ user: user._id, gym: gymId });
 
       if (existingReview) {
-          gym.reviews.totalstars -= existingReview.rating;
-          gym.reviews.totalstars += rating;
-          existingReview.rating = rating;
+          if (existingReview.rating !== ratingNum) {
+              gym.reviews.totalstars = gym.reviews.totalstars - existingReview.rating + ratingNum;
+              existingReview.rating = ratingNum;
+          }
           existingReview.comment = comment;
           await existingReview.save();
           await gym.save();
           return res.status(200).json({ message: "Review updated successfully", review: existingReview });
       }
 
-
+      // New review
       const review = new Review({
-          user: user._id, 
+          user: user._id,
           gym: gymId,
-          rating,
+          rating: ratingNum,
           comment,
       });
 
-      gym.reviews.totalstars += rating;
+      gym.reviews.totalstars += ratingNum;
       gym.reviews.totalreviews += 1;
 
       await gym.save();
@@ -60,6 +65,7 @@ exports.addReview = async (req, res) => {
       res.status(500).json({ message: "Error", error: error.message });
   }
 };
+
 
 
 

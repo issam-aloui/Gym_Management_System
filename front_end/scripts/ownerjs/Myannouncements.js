@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       alert("All fields are required.");
       return;
     }
+    
 
     try {
       const res = await fetch("/announcements", {

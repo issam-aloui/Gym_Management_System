@@ -7,6 +7,33 @@
   <link rel="stylesheet" href="../../css/Ogympage.css" />
 </head>
 <body>
+  <div id="loader-placeholder" style="
+      position:fixed;
+      top:0; left:0; width:100vw; height:100vh;
+      background:rgba(255,255,255,0.95);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
+      transition:opacity 0.4s;
+    ">
+      <div style="
+        border: 6px solid #e0e0e0;
+        border-top: 6px solid #e85d04;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        animation: spin 0.8s linear infinite;
+        margin-bottom: 1.2rem;
+      "></div>
+      <div style="font-family: 'Poppins', sans-serif; color: #222; font-size: 1.1rem;">
+        Loading, please wait...
+      </div>
+    </div>
+    <style>
+      @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
   <app-layout role="<%= role %>" username="<%= username %>"></app-layout>
   <main id="mainContent">
   <h1><%= gym.name %></h1>
@@ -20,6 +47,13 @@
         : 0 %> / 5
   </p>
 </main>
+<script>
+  window.addEventListener('load', function() {
+    const loader = document.getElementById('loader-placeholder');
+    loader.style.opacity = 0;
+    setTimeout(() => loader.style.display = 'none', 400);
+  });
+</script>
 </body>
 <script src="../../scripts/components/app-layout.js"></script>
 <script src="../../scripts/components/map.js"></script>

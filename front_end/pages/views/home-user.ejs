@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="../../assets/static/shart.png" />
-    <link rel="stylesheet" href="../../css/home-user.css" />
-    <title>GymFit</title>
-  </head>
 
-  <body>
-    <div id="loader-placeholder" style="
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../../assets/static/shart.png" />
+  <link rel="stylesheet" href="../../css/home-user.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <title>GymFit</title>
+</head>
+
+<body>
+  <div id="loader-placeholder" style="
       position:fixed;
       top:0; left:0; width:100vw; height:100vh;
       background:rgba(255,255,255,0.95);
@@ -20,7 +22,7 @@
       z-index:9999;
       transition:opacity 0.4s;
     ">
-      <div style="
+    <div style="
         border: 6px solid #e0e0e0;
         border-top: 6px solid #e85d04;
         border-radius: 50%;
@@ -29,114 +31,183 @@
         animation: spin 0.8s linear infinite;
         margin-bottom: 1.2rem;
       "></div>
-      <div style="font-family: 'Poppins', sans-serif; color: #222; font-size: 1.1rem;">
-        Loading, please wait...
-      </div>
+    <div style="font-family: 'Poppins', sans-serif; color: #222; font-size: 1.1rem;">
+      Loading, please wait...
     </div>
-    <style>
-      @keyframes spin { to { transform: rotate(360deg); } }
-    </style>
-    <app-layout role="<%= role %>" username="<%= username %>"></app-layout>
-    <main id="mainContent">
-      <section class="slider">
-        <div class="slide-track">
-          <div class="slide slide-1">
-            <div class="slide-1-content">
-              <div class="slide-1-heading">
-                <h1>Own a Gym ?</h1>
-                <h1>Manage it Easily with us!</h1>
-                <p>
-                  Join our platform and grow your gym business online, Simplify
-                  class management, track members, and boost your revenue
-                </p>
-                <cta-button onclick="window.location.href='/creategym'">Become a Gym Owner</cta-button>
+  </div>
+  <style>
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+  <app-layout role="<%= role %>" username="<%= username %>"></app-layout>
+  <main id="mainContent">
+    <section class="slider">
+      <div class="slide-track">
+        <div class="slide slide-1">
+          <div class="slide-1-content">
+            <div class="slide-1-heading">
+              <h1>Own a Gym ?</h1>
+              <h1>Manage it Easily with us!</h1>
+              <p>
+                Join our platform and grow your gym business online, Simplify
+                class management, track members, and boost your revenue
+              </p>
+              <cta-button onclick="window.location.href='/creategym'">Become a Gym Owner</cta-button>
+            </div>
+          </div>
+        </div>
+        <div class="slide slide-2">
+          <div class="slide-2-content">
+            <div class="slide-2-visual">
+              <div class="map-preview">
+                <div class="map-pin">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="location-rings">
+                  <div class="ring ring-1"></div>
+                  <div class="ring ring-2"></div>
+                  <div class="ring ring-3"></div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-2-text">
+              <h1>Find Gyms Near You</h1>
+              <h2>Interactive Map Experience</h2>
+              <p>
+                Discover the perfect gym in your neighborhood with our advanced map feature.
+                View real-time locations, check distances, and explore facilities before you visit.
+              </p>
+              <div class="feature-highlights">
+                <div class="highlight">
+                  <i class="fas fa-location-arrow"></i>
+                  <span>GPS Navigation</span>
+                </div>
+                <div class="highlight">
+                  <i class="fas fa-route"></i>
+                  <span>Distance Calculator</span>
+                </div>
+                <div class="highlight">
+                  <i class="fas fa-star"></i>
+                  <span>Ratings & Reviews</span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="slide slide-2"></div>
-          <div class="slide slide-3"></div>
         </div>
-        <!-- Dots navigation -->
-        <div class="slider-dots">
-          <span class="dot active" data-index="0"></span>
-          <span class="dot" data-index="1"></span>
-          <span class="dot" data-index="2"></span>
+        <div class="slide slide-3">
+          <div class="slide-3-content">
+            <div class="slide-3-visual">
+              <div class="ad-showcase">
+                <div class="spotlight-effect"></div>
+                <div class="featured-badge">
+                  <i class="fas fa-crown"></i>
+                  <span>FEATURED</span>
+                </div>
+                <div class="promotional-cards">
+                  <div class="promo-card card-1">
+                    <div class="card-glow"></div>
+                  </div>
+                  <div class="promo-card card-2 main-card">
+                    <div class="card-content">
+                      <i class="fas fa-bullhorn"></i>
+                      <span>Your Gym Here</span>
+                    </div>
+                  </div>
+                  <div class="promo-card card-3">
+                    <div class="card-glow"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="slide-3-text">
+              <h1>Boost Your Gym's Visibility</h1>
+              <h2>Premium Advertising Slots</h2>
+              <p>
+                Get your gym featured in our promotional slider and reach thousands of potential members.
+                Stand out from the competition with premium placement and enhanced visibility.
+              </p>
+              <div class="benefit-list">
+                <div class="benefit">
+                  <i class="fas fa-eye"></i>
+                  <span>Maximum Exposure</span>
+                </div>
+                <div class="benefit">
+                  <i class="fas fa-users"></i>
+                  <span>Targeted Audience</span>
+                </div>
+                <div class="benefit">
+                  <i class="fas fa-chart-line"></i>
+                  <span>Increased Bookings</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
-      <section class="Explore">
-        <article class="Trending-gyms">
-          <h2>Trending Gyms</h2>
-          <div class="gym-list">
-            <% toptrendingGyms.forEach(gym => { %>
-            <gym-card
-              src="<%= gym.image %>"
-              name="<%= gym.name %>"
-              place="<%= gym.town %>"
-              total-feedback="<%= gym.reviews.totalreviews %>"
-              rate="<%= gym.reviews.totalreviews > 0 
+      </div>
+      <!-- Dots navigation -->
+      <div class="slider-dots">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+      </div>
+    </section>
+    <section class="Explore">
+      <article class="Trending-gyms">
+        <h2>Trending Gyms</h2>
+        <div class="gym-list">
+          <% toptrendingGyms.forEach(gym=> { %>
+            <gym-card src="<%= gym.image %>" name="<%= gym.name %>" place="<%= gym.town %>"
+              total-feedback="<%= gym.reviews.totalreviews %>" rate="<%= gym.reviews.totalreviews > 0 
               ? Math.min((gym.reviews.totalstars / gym.reviews.totalreviews), 5).toFixed(1) 
-              : 0 %>"   
-              gym-id="<%= gym._id %>"
-              gym-route="/join"
-            >
+              : 0 %>" gym-id="<%= gym._id %>" gym-route="/join">
             </gym-card>
             <% }); %>
-          </div>
-        </article>
-        <article class="local-gyms">
-          <h2>Best Gyms</h2>
-          <div class="gym-list">
-            <% topstarsGyms.forEach(gym => { %>
-            <gym-card
-              src="<%= gym.image %>"
-              name="<%= gym.name %>"
-              place="<%= gym.town %>"
-              total-feedback="<%= gym.reviews.totalreviews %>"
-              rate="<%= gym.reviews.totalreviews > 0 
+        </div>
+      </article>
+      <article class="local-gyms">
+        <h2>Best Gyms</h2>
+        <div class="gym-list">
+          <% topstarsGyms.forEach(gym=> { %>
+            <gym-card src="<%= gym.image %>" name="<%= gym.name %>" place="<%= gym.town %>"
+              total-feedback="<%= gym.reviews.totalreviews %>" rate="<%= gym.reviews.totalreviews > 0 
               ? Math.min((gym.reviews.totalstars / gym.reviews.totalreviews), 5).toFixed(1) 
-              : 0 %>"            
-              gym-id="<%= gym._id %>"
-              gym-route="/join"
-            >
+              : 0 %>" gym-id="<%= gym._id %>" gym-route="/join">
             </gym-card>
             <% }); %>
-          </div>
-        </article>
-        <article class="Explore-gyms">
-          <h2>Explore new gyms</h2>
-          <div class="gym-list">
-            <% gyms.forEach(gym => { %>
-            <gym-card
-              src="<%= gym.image %>"
-              name="<%= gym.name %>"
-              place="<%= gym.town %>"
-              total-feedback="<%= gym.reviews.totalreviews %>"
-              rate="<%= gym.reviews.totalreviews > 0 
+        </div>
+      </article>
+      <article class="Explore-gyms">
+        <h2>Explore new gyms</h2>
+        <div class="gym-list">
+          <% gyms.forEach(gym=> { %>
+            <gym-card src="<%= gym.image %>" name="<%= gym.name %>" place="<%= gym.town %>"
+              total-feedback="<%= gym.reviews.totalreviews %>" rate="<%= gym.reviews.totalreviews > 0 
               ? Math.min((gym.reviews.totalstars / gym.reviews.totalreviews), 5).toFixed(1) 
-              : 0 %>"   
-              gym-id="<%= gym._id %>"
-              gym-route="/join"
-            >
+              : 0 %>" gym-id="<%= gym._id %>" gym-route="/join">
             </gym-card>
 
             <% }); %>
-          </div>
-          <cta-button>Explore more</cta-button>
-        </article>
-      </section>
-    </main>
-    <!-- Scripts -->
-    <script src="../../scripts/components/app-layout.js"></script>
-    <script src="../../scripts/components/map.js"></script>
-    <script src="../../scripts/components/gym-card.js"></script>
-    <script src="../../scripts/home-user.js"></script>
-    <script src="../../scripts/components/button.js"></script>
-    <script>
-  window.addEventListener('load', function() {
-    const loader = document.getElementById('loader-placeholder');
-    loader.style.opacity = 0;
-    setTimeout(() => loader.style.display = 'none', 400);
-  });
-</script>
-  </body>
+        </div>
+        <cta-button>Explore more</cta-button>
+      </article>
+    </section>
+  </main>
+  <!-- Scripts -->
+  <script src="../../scripts/components/app-layout.js"></script>
+  <script src="../../scripts/components/map.js"></script>
+  <script src="../../scripts/components/gym-card.js"></script>
+  <script src="../../scripts/home-user.js"></script>
+  <script src="../../scripts/components/button.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      const loader = document.getElementById('loader-placeholder');
+      loader.style.opacity = 0;
+      setTimeout(() => loader.style.display = 'none', 400);
+    });
+  </script>
+</body>
+
 </html>

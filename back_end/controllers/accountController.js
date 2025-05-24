@@ -17,6 +17,36 @@ exports.getUsername = (req, res) => {
   }
 };
 
+exports.getinfo = async (req, res) => {
+   const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized: No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findOne({ id: decoded.id });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({
+      username: user.username,
+      id: user.id,
+      phone: user.phone,
+      email: user.email,
+      qrcode: user.Qrcode || "" 
+    });
+  } catch (err) {
+    logger.error(`Get user info failed: ${err.message}`);
+    return res.status(403).json({ message: "Invalid Token" });
+  }
+};
+
+
+
 exports.changeUsername = async (req, res) => {
   let token = req.cookies.token;
   let { username1, username2 } = req.body;

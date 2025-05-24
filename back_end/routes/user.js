@@ -6,6 +6,7 @@ const express = require("express");
    changeEmail,
    changePassword,
    deleteAccount,
+   getinfo,
  } = require("../controllers/accountController");
  
  const router = express.Router();
@@ -15,6 +16,7 @@ const express = require("express");
  router.use(cookieParser());
  router.use(express.json());
  
+router.post("/getinfo",verifyJWT ,getinfo);
  router.get("/username",verifyJWT ,getUsername);
  router.put("/changename",verifyJWT ,changeUsername);
  router.put("/changeemail",verifyJWT , changeEmail);

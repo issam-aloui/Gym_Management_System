@@ -58,13 +58,26 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const title = document.getElementById("title").value.trim();
     const yap = document.getElementById("yap").value.trim();
+    const messageBox = document.getElementById("message-box");
+
+    if (title.length <= 6) {
+      messageBox.textContent = "Title must be more than 6 characters.";
+      messageBox.classList.add("error");
+      return;
+    }
+
+    if (yap.length <= 10) {
+      messageBox.textContent = "Yap must be more than 10 characters.";
+      messageBox.classList.add("error");
+      return;
+    }
+
     const gym = gymId;
 
     if (!title || !yap || !gym) {
       alert("All fields are required.");
       return;
     }
-    
 
     try {
       const res = await fetch("/announcements", {

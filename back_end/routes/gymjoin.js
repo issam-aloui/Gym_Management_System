@@ -2,10 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 const {sendrequest,declinerequest,acceptRequest} = require('../controllers/gymjoinController');
-const {verifyJWT} = require("../middleware/Security")
+const {verifyJWT,sendgLimitter} = require("../middleware/Security")
 
 
-router.post("/memreq",verifyJWT ,sendrequest );
+router.post("/memreq",verifyJWT ,sendgLimitter ,sendrequest );
 router.post("/memreqA",verifyJWT ,acceptRequest );
 router.post("/memreqD",verifyJWT , declinerequest);
 

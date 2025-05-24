@@ -1,23 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gym Announcements</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../../css/annoucements.css" />
 </head>
-<body>
-  <section id="announcements">
-    <h2>Announcements:</h2>
-    <div id="announcement-list"></div>
-  </section>
 
-  <footer>
-    <a id="home-link">Home</a> |
-    <a id="reviews-link">Reviews</a> |
-    <a id="announcements-link">Announcements</a>
-  </footer>
+<body>
+  <div class="container">
+    <header class="page-header">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-bullhorn"></i>
+        </div>
+        <div class="header-text">
+          <h1 class="page-title">Announcements</h1>
+          <p class="page-subtitle">Stay updated with the latest gym news and updates</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <section id="announcements">
+        <div id="announcement-list" class="announcements-grid"></div>
+        <div id="loading" class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Loading announcements...</p>
+        </div>
+        <div id="empty-state" class="empty-state" style="display: none;">
+          <div class="empty-icon">
+            <i class="fas fa-inbox"></i>
+          </div>
+          <h3 class="empty-title">No Announcements Yet</h3>
+          <p class="empty-description">Check back later for updates and news from your gym.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="modern-footer">
+      <nav class="footer-nav">
+        <a id="home-link" class="footer-link">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a id="reviews-link" class="footer-link">
+          <i class="fas fa-star"></i>
+          <span>Reviews</span>
+        </a>
+        <a id="announcements-link" class="footer-link active">
+          <i class="fas fa-bullhorn"></i>
+          <span>Announcements</span>
+        </a>
+      </nav>
+    </footer>
+  </div>
 
   <script src="../../scripts/announcements.js"></script>
 </body>
+
 </html>

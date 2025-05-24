@@ -10,7 +10,6 @@ const { uploadImage } = require("../services/cloudservice");
 
 exports.signup = async (req, res) => {
   try {
-    
     const { username, email, password } = req.body;
 
     const existingEmail = await User.findOne({ email });
@@ -27,7 +26,7 @@ exports.signup = async (req, res) => {
     try {
       await newUser.save();
 
-      const qrData = `user_id:${newUser._id}-name:${newUser.username}-email${newUser.email}`;
+      const qrData = `user_id:${newUser._id}-name:${newUser.username}-email:${newUser.email}`;
       const qrPath = path.join(__dirname, `../qr-codes/user-${newUser.id}.png`);
 
       await QRCode.toFile(qrPath, qrData, {

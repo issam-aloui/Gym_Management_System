@@ -60,6 +60,7 @@ exports.verifyJWT = (req, res, next) => {
       const newToken = jwt.sign(
         {
           id: decoded.id,
+          Oid:decoded.Oid,
           username: decoded.username,
           role: decoded.role,
         },

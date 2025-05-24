@@ -16,6 +16,14 @@ exports.serveHome = async (req, res) => {
   }
 
   try {
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch {
+      return res
+        .status(403)
+        .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
+    }
     const gyms = await Gym.find();
     const role = req.user.role;
     const toptrendingGyms = await Gym.find()
@@ -30,6 +38,7 @@ exports.serveHome = async (req, res) => {
       topstarsGyms,
       toptrendingGyms,
       role,
+      username: decoded.username,
     });
   } catch (err) {
     console.error("Error fetching gyms:", err);
@@ -91,15 +100,16 @@ exports.serveGymPage = async (req, res) => {
     if (thing === "reviews" && id) {
       file = "reviews.html";
     } else {
-      if(thing == "annoucements" && id) {
+      if (thing == "annoucements" && id) {
         file = "annoucements.html";
+      } else {
+        return res
+          .status(404)
+          .sendFile(
+            path.resolve(__dirname, "../../front_end/pages/error.html")
+          );
       }
-      else {
-      return res
-        .status(404)
-        .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
-  }
   }
 
   res.sendFile(
@@ -170,6 +180,7 @@ exports.serveowner = async (req, res) => {
       role: decoded.role,
       gym,
       memberships,
+      username: decoded.username,
     });
   }
 

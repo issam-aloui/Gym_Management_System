@@ -3,7 +3,7 @@ customElements.define(
   class extends HTMLElement {
     connectedCallback() {
       const role = this.getAttribute("role");
-
+      const username = this.getAttribute("username");
       this.innerHTML = `
         <header>
           <div class="menu-icon" id="menuToggle">
@@ -21,7 +21,7 @@ customElements.define(
               <img src="../../assets/icons/pfp.png" alt="user pfp">
             </div>
             <div class="user-details">
-              <h3 class="user-name">username</h3>
+              <h3 class="user-name">${username || "username"}</h3>
               <p class="user-type">${role === "owner" ? "Gym Owner" : "Gym User"}</p>
             </div>
           </div>

@@ -79,100 +79,38 @@ exports.verifyAdmin = (req, res, next) => {
   next();
 };
 
-// Fixed Gym member access middleware
 exports.verifymember = async (req, res, next) => {
   const { id, thing } = req.params;
   const publicThings = ["reviews", "annoucements"];
 
-  console.log("verifymember middleware - params:", { id, thing });
-
-  // If no specific thing is requested or it's a public thing, allow access
-  if (!thing || publicThings.includes(thing)) {
-    console.log("Public access or no specific thing requested");
-    return next();
+  // Only protect pages where 'thing' is missing or it's one of the publicThings
+  if (thing && !publicThings.includes(thing)) {
+    return next(); // e.g., thing = "join" → skip check
   }
 
-  // For protected routes, verify membership
+  // Proceed with token verification
   const token = req.cookies.token;
-  
-  if (!id) {
-    console.log("No gym ID provided");
-    return res.status(400).json({ message: "Gym ID is required." });
-  }
-
   if (!token) {
-    console.log("No token provided");
-    return res.status(401).sendFile(
-      path.resolve(__dirname, "../../front_end/pages/error.html")
-    );
+    return res.status(401).sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Token decoded successfully:", { userId: decoded.id || decoded.Oid });
-
-    // Use the correct field name from your JWT payload
-    const userId = decoded.id || decoded.Oid;
-    
-    if (!userId) {
-      console.log("No user ID found in token");
-      return res.status(401).json({ message: "Invalid token format." });
-    }
+    const userId = decoded.Oid || decoded.id;
 
     const user = await User.findById(userId);
-    
     if (!user) {
-      console.log("User not found in database:", userId);
       return res.status(401).json({ message: "User not found." });
     }
 
-    console.log("User found:", { 
-      userId: user._id, 
-      gymsJoined: user.Gymsjoined 
-    });
-
-    // Check if user is a member of this gym
-    const isMember = user.Gymsjoined?.some(gymId => {
-      const gymIdStr = gymId.toString();
-      console.log("Comparing gym IDs:", { gymIdStr, requestedId: id });
-      return gymIdStr === id;
-    });
-
-    console.log("Membership check result:", isMember);
-
+    const isMember = user.Gymsjoined?.some(gymId => gymId.toString() === id);
     if (!isMember) {
-      console.log("User is not a member of this gym");
-      return res.status(403).sendFile(
-        path.resolve(__dirname, "../../front_end/pages/error.html")
-      );
+      return res.status(403).sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
 
-    // User is a member, allow access
     req.user = decoded;
-    console.log("Access granted - user is a member");
     next();
-
   } catch (err) {
-    console.error("Error in verifymember middleware:", err);
-    
-    if (err.name === 'JsonWebTokenError') {
-      console.log("JWT verification failed");
-      return res.status(401).sendFile(
-        path.resolve(__dirname, "../../front_end/pages/error.html")
-      );
-    }
-    
-    if (err.name === 'TokenExpiredError') {
-      console.log("JWT expired");
-      return res.status(401).sendFile(
-        path.resolve(__dirname, "../../front_end/pages/error.html")
-      );
-    }
-
-    // Database or other errors
-    console.log("Database or other error occurred");
-    return res.status(500).sendFile(
-      path.resolve(__dirname, "../../front_end/pages/error.html")
-    );
+    return res.status(401).sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
 };

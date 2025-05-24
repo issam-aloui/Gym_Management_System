@@ -49,7 +49,7 @@ customElements.define(
                         <img src="../../assets/icons/Membership.svg" alt="Membership" />
                         <span>My Membership</span>
                       </a></li>
-                      <li><a href="#">
+                      <li><a href="/classes">
                         <img src="../../assets/icons/classes.svg" alt="Classes" />
                         <span>My Classes</span>
                       </a></li>

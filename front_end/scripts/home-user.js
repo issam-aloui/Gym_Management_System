@@ -8,6 +8,45 @@ document.addEventListener("DOMContentLoaded", () => {
   let isSliderHovered = false;
   let autoSlideTimeout;
 
+  // Dynamic scaling function
+  function updateSliderScale() {
+    if (slider) {
+      const sliderHeight = slider.offsetHeight;
+      const baseHeight = window.innerHeight * 0.4; // 40vh baseline
+      const scaleFactor = sliderHeight / baseHeight;
+
+      // Update CSS custom properties for dynamic scaling
+      slider.style.setProperty("--actual-height", `${sliderHeight}px`);
+      slider.style.setProperty("--scale-factor", scaleFactor);
+      slider.style.setProperty(
+        "--dynamic-vmin",
+        `${Math.min(window.innerWidth, window.innerHeight) * 0.01}px`
+      );
+    }
+  }
+
+  // Initialize scaling
+  updateSliderScale();
+
+  // Update scaling on window resize
+  let resizeTimeout;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(updateSliderScale, 150);
+  });
+
+  // Observer for slider height changes
+  if (window.ResizeObserver) {
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        if (entry.target === slider) {
+          updateSliderScale();
+        }
+      }
+    });
+    resizeObserver.observe(slider);
+  }
+
   // Set the width of the slider track based on the number of slides
   slide_track.style.width = `${numberOfSlides * 100}vw`;
 

@@ -251,14 +251,24 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Handle registration error
-  function handleRegistrationError(error) {
-    console.error("Error:", error);
-    showMessage(
-      "error",
-      "There was an error registering your gym. Please try again."
-    );
+// Handle API response with detailed error parsing
+function handleApiResponse(response) {
+  return response.json().then((data) => {
+    if (!response.ok) {
+      // Attach status code for extra debugging if needed
+      const error = new Error(data.error || "Registration failed");
+      error.status = response.status;
+      throw error;
+    }
+    return data;
+  });
+}
 
-    // Reset button state
-    toggleSubmitButtonLoading(false);
-  }
+// Handle registration error with specific message
+function handleRegistrationError(error) {
+  console.error("Registration error:", error);
+  showMessage("error", error.message || "An unexpected error occurred.");
+  toggleSubmitButtonLoading(false);
+}
+
 });

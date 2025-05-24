@@ -93,7 +93,7 @@ exports.changeEmail = async (req, res) => {
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
     }
-    //change this part so it edit old token 
+    //change this part so it edit old token
     const newToken = jwt.sign(
       {
         id: decoded.id,

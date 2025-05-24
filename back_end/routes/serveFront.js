@@ -9,7 +9,7 @@ const {
   handleNotFound,
   serveGymPage
 } = require("../controllers/viewController");
-const { verifyJWT } = require("../middleware/Security");
+const { verifyJWT,verifymember } = require("../middleware/Security");
 const {getuserfromjwt} = require("../middleware/auths");
 const router = express.Router();
 
@@ -18,7 +18,7 @@ router.get("/",getuserfromjwt ,serveHome);
 
 router.get("/home-user",getuserfromjwt ,serveHome);
 
-router.get("/gym/:id?/:thing?",verifyJWT ,serveGymPage);
+router.get("/gym/:id?/:thing?",verifyJWT,verifymember ,serveGymPage);
 
 router.get("/owner/:thing",getuserfromjwt,serveowner);
 

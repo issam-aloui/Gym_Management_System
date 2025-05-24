@@ -8,7 +8,6 @@ const Gymdes = require("../models/GymDescription");
 const User = require("../models/User"); // DO ME PLEASE DONT FORGET ME
 
 exports.createGym = async (req, res) => {
-  console.log("hell nooooooooooooooo 0");
   try {
     const token = req.cookies.token;
     if (!token) {
@@ -20,44 +19,34 @@ exports.createGym = async (req, res) => {
     const userId = decoded.Oid;
 
     const user = await User.findById(userId);
+
     if (!user) {
-      return res.status(401).json({ message: "All fields are required" });
+      logger.warn(`User not found for ID: ${userId}`);
+      return res.status(404).json({ message: "User not found" });
     }
 
     if (user.Gymowned) {
-      res.status(400).json({ message: "You already own a gym buddy" });
-      console.log("hell nooooooooooooooo 1");
+      logger.warn(`User ${userId} attempted to create another gym`);
+      return res.status(400).json({ error: "You have already created a gym." });
+
     }
 
     const { gymname, town, pricebymounth, phonenumber, email } = req.body;
     const { lat, lng } = await getCoordinates(town);
-
     const pass = generatePassword(13);
 
     if (!lat || !lng) {
-      logger.warn("town coocked in map (fuck isreal if he choosed it)");
-            console.log("hell nooooooooooooooo 2");
-
+      logger.warn("Town not found on map");
       return res
         .status(400)
-        .json({ message: "Couldn’t generate lat/lng. Try a different town." });
+        .json({ message: "Invalid town. Try another one." });
     }
 
-    if (
-      !gymname ||
-      !town ||
-      !pricebymounth ||
-      !phonenumber ||
-      !email ||
-      !pass
-    ) {
+    if (!gymname || !town || !pricebymounth || !phonenumber || !email) {
       logger.warn("Missing required fields in gym creation");
-            console.log("hell nooooooooooooooo 3");
-
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Create new gym (not saved yet)
     const newGym = new Gym({
       name: gymname,
       town,
@@ -68,7 +57,6 @@ exports.createGym = async (req, res) => {
       Secretpass: pass,
     });
 
-    // Create statistiques doc and link it to gym
     const statistiques = new Statistiques({
       Gymid: newGym._id,
       totalMembers: 0,
@@ -84,12 +72,11 @@ exports.createGym = async (req, res) => {
     });
 
     await statistiques.save();
-
     newGym.statistiques = statistiques._id;
 
     await newGym.save();
 
-    user.Gymowned = newGym;
+    user.Gymowned = newGym._id;
     user.role = "owner";
     await user.save();
 

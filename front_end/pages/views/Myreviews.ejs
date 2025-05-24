@@ -1,22 +1,412 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gym Reviews</title>
-    <link rel="stylesheet" href="../../css/reviews.css" />
-  </head>
-  <body>
-    <app-layout role="<%= role %>" username="<%= username %>"></app-layout>
-    <main id="mainContent">
-      <section id="reviews">
-        <h2>reviews :</h2>
-        <div id="review-list"></div>
-      </section>
-    </main>
 
-    <script src="../../scripts/components/app-layout.js"></script>
-    <script src="../../scripts/components/map.js"></script>
-    <script src="../../scripts/ownerjs/Myreviews.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Gym Reviews</title>
+  <link rel="stylesheet" href="../../css/reviews.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Brand Colors and Reset */
+    :root {
+      --primary-dark: #0e1428;
+      --accent-orange: #e85d04;
+      --light-bg: #f5f5f5;
+      --white: #ffffff;
+      --gray-light: #e0e0e0;
+      --gray-medium: #888;
+      --gray-dark: #333;
+      --shadow-light: rgba(0, 0, 0, 0.1);
+      --shadow-medium: rgba(0, 0, 0, 0.15);
+      --shadow-heavy: rgba(0, 0, 0, 0.2);
+      --gradient-primary: linear-gradient(135deg, var(--primary-dark) 0%, #1a2040 100%);
+      --gradient-orange: linear-gradient(135deg, var(--accent-orange) 0%, #f76707 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Nunito Sans", sans-serif;
+      background: var(--light-bg);
+      color: var(--gray-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Header Enhancement */
+    #mainContent {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Reviews Section */
+    #reviews {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 30px var(--shadow-light);
+      border: 1px solid var(--gray-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #reviews::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--gradient-orange);
+    }
+
+    #reviews h2 {
+      font-family: "Poppins", sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+      text-transform: capitalize;
+    }
+
+    #reviews h2::before {
+      content: '\f005';
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--accent-orange);
+      margin-right: 1rem;
+      display: inline-block;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    @keyframes sparkle {
+
+      0%,
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+
+      50% {
+        transform: scale(1.1) rotate(10deg);
+      }
+    }
+
+    #reviews h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gradient-orange);
+      border-radius: 2px;
+    }
+
+    /* Review List Container */
+    #review-list {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    /* Individual Review Cards */
+    .review {
+      background: var(--white);
+      border-radius: 15px;
+      padding: 1.8rem;
+      box-shadow: 0 4px 20px var(--shadow-light);
+      border: 1px solid var(--gray-light);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      animation: slideInUp 0.5s ease-out forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .review:nth-child(odd) {
+      animation-delay: 0.1s;
+    }
+
+    .review:nth-child(even) {
+      animation-delay: 0.2s;
+    }
+
+    @keyframes slideInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .review::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: var(--gradient-orange);
+      transition: width 0.3s ease;
+    }
+
+    .review:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 35px var(--shadow-medium);
+      border-color: var(--accent-orange);
+    }
+
+    .review:hover::before {
+      width: 8px;
+    }
+
+    /* Rating Display */
+    .review-rating {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .review-rating::before {
+      content: '\f27a';
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      color: var(--accent-orange);
+      font-size: 1.2rem;
+      margin-right: 0.5rem;
+    }
+
+    /* Star styling */
+    .review-rating {
+      color: var(--accent-orange);
+      text-shadow: 0 1px 2px var(--shadow-light);
+      filter: drop-shadow(0 0 2px rgba(232, 93, 4, 0.3));
+    }
+
+    /* Comment Text */
+    .review-comment {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--gray-dark);
+      margin-bottom: 1.2rem;
+      padding: 1rem;
+      background: var(--light-bg);
+      border-radius: 10px;
+      border-left: 4px solid var(--accent-orange);
+      position: relative;
+    }
+
+    .review-comment::before {
+      content: '\201C';
+      font-size: 2rem;
+      color: var(--accent-orange);
+      position: absolute;
+      top: -5px;
+      left: 10px;
+      opacity: 0.3;
+    }
+
+    /* Author Information */
+    .review-author {
+      font-weight: 600;
+      color: var(--primary-dark);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .review-author::before {
+      content: '\f007';
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      color: var(--accent-orange);
+      font-size: 0.9rem;
+    }
+
+    /* Empty State */
+    #review-list:empty::after {
+      content: 'No reviews available yet. Be the first to share your experience!';
+      display: block;
+      text-align: center;
+      padding: 3rem;
+      color: var(--gray-medium);
+      font-size: 1.1rem;
+      background: var(--light-bg);
+      border-radius: 15px;
+      border: 2px dashed var(--gray-light);
+      position: relative;
+    }
+
+    #review-list:empty::before {
+      content: '\f4b3';
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      font-size: 3rem;
+      color: var(--gray-light);
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    /* Error Message Styling */
+    #review-list p {
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+      color: var(--white);
+      border-radius: 15px;
+      font-weight: 600;
+      box-shadow: 0 4px 20px rgba(255, 107, 107, 0.2);
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+    }
+
+    .loading::after {
+      content: '';
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--gray-light);
+      border-top: 4px solid var(--accent-orange);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      #mainContent {
+        padding: 1rem;
+      }
+
+      #reviews {
+        padding: 1.5rem;
+        border-radius: 15px;
+      }
+
+      #reviews h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .review {
+        padding: 1.2rem;
+      }
+
+      .review-comment {
+        font-size: 1rem;
+        padding: 0.8rem;
+      }
+
+      .review-rating {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #reviews h2 {
+        font-size: 1.8rem;
+      }
+
+      #reviews h2::before {
+        font-size: 1.2rem;
+      }
+
+      .review {
+        padding: 1rem;
+      }
+
+      .review-comment {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* Accessibility Enhancements */
+    .review:focus-within {
+      outline: 2px solid var(--accent-orange);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+      .review {
+        border: 2px solid var(--primary-dark);
+      }
+
+      .review-comment {
+        border-left-width: 6px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <app-layout role="<%= role %>" username="<%= username %>"></app-layout>
+  <main id="mainContent">
+    <section id="reviews">
+      <h2>My Gym Reviews</h2>
+      <div id="review-list"></div>
+    </section>
+  </main>
+
+  <script src="../../scripts/components/app-layout.js"></script>
+  <script src="../../scripts/components/map.js"></script>
+  <script src="../../scripts/ownerjs/Myreviews.js"></script>
+</body>
+
 </html>

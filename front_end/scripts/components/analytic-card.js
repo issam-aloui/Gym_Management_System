@@ -237,7 +237,9 @@ class AnalyticsCard extends HTMLElement {
     this.iconContainer = this.shadowRoot.querySelector(".icon-container");
     this.trendIndicator = this.shadowRoot.querySelector(".trend-indicator");
     this.trendArrow = this.shadowRoot.querySelector(".trend-indicator .arrow");
-    this.trendPercentage = this.shadowRoot.querySelector(".trend-indicator .percentage");
+    this.trendPercentage = this.shadowRoot.querySelector(
+      ".trend-indicator .percentage"
+    );
     this.trendText = this.shadowRoot.querySelector(".trend-indicator .text");
 
     // Add event listeners for effects
@@ -245,7 +247,7 @@ class AnalyticsCard extends HTMLElement {
 
     // Initial icon
     this.updateIcon();
-    
+
     // Add initial animations
     this.container.style.opacity = "0";
   }
@@ -253,18 +255,18 @@ class AnalyticsCard extends HTMLElement {
   // Called when the element is added to the DOM
   connectedCallback() {
     this.render();
-    
+
     // Add entrance animation with a slight delay based on DOM position
     const delay = this.getPositionInParent() * 150;
     setTimeout(() => {
       this.container.style.animation = `fadeIn 0.6s ease forwards ${delay}ms`;
       this.container.style.opacity = "1";
     }, 100);
-    
+
     // Add pulse animation after a while
     setTimeout(() => {
       this.container.classList.add("pulse");
-      
+
       // Remove pulse after animation completes
       setTimeout(() => {
         this.container.classList.remove("pulse");
@@ -275,7 +277,7 @@ class AnalyticsCard extends HTMLElement {
   // Get the position of this element among siblings to stagger animations
   getPositionInParent() {
     if (!this.parentNode) return 0;
-    
+
     const siblings = Array.from(this.parentNode.children);
     return siblings.indexOf(this);
   }
@@ -287,29 +289,29 @@ class AnalyticsCard extends HTMLElement {
       const ripple = document.createElement("span");
       ripple.className = "ripple";
       this.iconContainer.appendChild(ripple);
-      
+
       // Remove ripple after animation completes
       setTimeout(() => {
         ripple.remove();
       }, 800);
     });
-    
+
     // Add hover effects
     this.container.addEventListener("mousemove", (e) => {
       // Subtle tilt effect based on mouse position
       const rect = this.container.getBoundingClientRect();
-      const x = e.clientX - rect.left; 
+      const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      
-      const tiltX = (x - centerX) / centerX * 3;
-      const tiltY = (y - centerY) / centerY * 3;
-      
+
+      const tiltX = ((x - centerX) / centerX) * 3;
+      const tiltY = ((y - centerY) / centerY) * 3;
+
       this.container.style.transform = `perspective(1000px) rotateX(${-tiltY}deg) rotateY(${tiltX}deg) translateY(-5px)`;
     });
-    
+
     // Reset transform on mouse leave
     this.container.addEventListener("mouseleave", () => {
       this.container.style.transform = "translateY(0)";
@@ -352,18 +354,18 @@ class AnalyticsCard extends HTMLElement {
   animateDataChange(oldValue, newValue) {
     // Add animation class
     this.dataElement.classList.add("data-updated");
-    
+
     // Update the value
     this.dataElement.textContent = newValue;
-    
+
     // Remove animation class after animation completes
     setTimeout(() => {
       this.dataElement.classList.remove("data-updated");
     }, 500);
-    
+
     // Add pulse effect to the card
     this.container.classList.add("pulse");
-    
+
     // Remove pulse after animation completes
     setTimeout(() => {
       this.container.classList.remove("pulse");
@@ -427,11 +429,11 @@ class AnalyticsCard extends HTMLElement {
 
     // Update the icon container with animation
     const oldIcon = this.iconContainer.innerHTML;
-    
+
     // Fade out
     this.iconContainer.style.opacity = "0";
     this.iconContainer.style.transform = "scale(0.8)";
-    
+
     // Update content and fade in
     setTimeout(() => {
       this.iconContainer.innerHTML = iconSvg;
@@ -443,7 +445,7 @@ class AnalyticsCard extends HTMLElement {
   // Update the icon background color
   updateIconBackground() {
     const bgColor = this.getAttribute("icon-bg") || "#fff3e0";
-    
+
     // Animated background color transition is handled by CSS transitions
     this.iconContainer.style.backgroundColor = bgColor;
   }
@@ -482,7 +484,6 @@ class AnalyticsCard extends HTMLElement {
 
 // Register the custom element
 customElements.define("analytics-card", AnalyticsCard);
-
 
 /* 
     Usage Example:

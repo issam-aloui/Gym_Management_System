@@ -1,0 +1,516 @@
+.analytics-summary__header {
+    margin-bottom: 2.5rem;
+    position: relative;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #e85d04;
+    overflow: hidden;
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  .analytics-summary__header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("../../assets/static/shart.png") no-repeat;
+    background-position: right center;
+    background-size: contain;
+    opacity: 0.05;
+    z-index: 0;
+  }
+  
+  .analytics-summary__header h1 {
+    font-size: 2.4rem;
+    margin-bottom: 0.6rem;
+    color: #333;
+    position: relative;
+    font-weight: 700;
+    background: linear-gradient(to right, #e85d04, #f48c06);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+  
+  .analytics-summary__header p {
+    color: #6c757d;
+    font-size: 1.1rem;
+    max-width: 80%;
+    position: relative;
+  }
+  
+  .analytics-summary__meta {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    gap: 2rem;
+    position: relative;
+  }
+  
+  .analytics-summary__meta-item {
+    display: flex;
+    align-items: center;
+    color: #6c757d;
+  }
+  
+  .analytics-summary__meta-item strong {
+    margin-right: 0.5rem;
+    color: #e85d04;
+  }
+  
+  .analytics-summary__time {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    color: #6c757d;
+  }
+  
+  .analytics-summary__time::before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #4caf50;
+    margin-right: 8px;
+  }
+  
+  .analytics-summary__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .analytics-summary__cards {
+      grid-template-columns: 1fr;
+    }
+  
+    .analytics-summary__header {
+      padding: 1rem;
+    }
+  
+    .analytics-summary__header h1 {
+      font-size: 1.8rem;
+    }
+  
+    .analytics-summary__header p {
+      max-width: 100%;
+    }
+  
+    .analytics-summary__meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+  
+  /* Animation for header */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Revenue Chart */
+  .revenue-chart-container {
+    background: white;
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--card-shadow);
+    padding: 24px;
+    margin-bottom: 24px;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .revenue-chart-container:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .chart-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+    position: relative;
+    padding-left: 12px;
+  }
+  
+  .chart-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(to bottom, #e85d04, #f48c06);
+    border-radius: 4px;
+  }
+  
+  .chart-dropdown {
+    padding: 8px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 14px;
+    color: var(--text-color);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .chart-dropdown:hover {
+    border-color: #cbd5e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+  
+  .chart-dropdown:focus {
+    outline: none;
+    border-color: #e85d04;
+    box-shadow: 0 0 0 3px rgba(232, 93, 4, 0.2);
+  }
+  
+  .chart-wrapper {
+    position: relative;
+    height: 280px;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  /* Registration Table Section */
+  .registrations-section {
+    margin-bottom: 30px;
+  }
+  
+  .registrations-layout {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+  
+  .left-analytics-cards {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 33.33%;
+  }
+  
+  .left-analytics-cards analytics-card {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  
+  .registrations-container {
+    flex: 2;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    width: 66.67%;
+  }
+  
+  .analytics-stat-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .analytics-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  .stat-icon-container {
+    flex-shrink: 0;
+  }
+  
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+  
+  .new-members-icon {
+    background-color: #fff3e0;
+    color: #ff9a62;
+  }
+  
+  .active-members-icon {
+    background-color: #eff1ff;
+    color: #5470ff;
+  }
+  
+  .daily-visits-icon {
+    background-color: #e8f5f0;
+    color: #00c07f;
+  }
+  
+  .stat-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .stat-title {
+    color: #6c757d;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+  }
+  
+  .stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+  
+  .stat-period {
+    font-size: 12px;
+    color: #6c757d;
+    margin: 4px 0 8px 0;
+  }
+  
+  .stat-trend {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    gap: 4px;
+  }
+  
+  .trend-up {
+    color: #00c07f;
+  }
+  
+  .trend-down {
+    color: #ef4444;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+  
+  .section-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .view-all-btn {
+    background-color: transparent;
+    color: #e85d04;
+    border: 1px solid #e85d04;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .view-all-btn:hover {
+    background-color: #fff8f0;
+  }
+  
+  .table-container {
+    padding: 0;
+    overflow-x: auto;
+  }
+  
+  .registrations-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .registrations-table thead tr {
+    background-color: #e85d04;
+    color: white;
+  }
+  
+  .registrations-table th {
+    padding: 14px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  
+  .registrations-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+    font-size: 14px;
+  }
+  
+  .registrations-table tbody tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .registrations-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .member-name {
+    font-weight: 600;
+  }
+  
+  .registration-time {
+    color: #666;
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 100px;
+  }
+  
+  .status-badge.registered {
+    background-color: #f2f2f2;
+    color: #6e6e6e;
+  }
+  
+  .status-badge.pending {
+    background-color: #fff3e0;
+    color: #f59e0b;
+  }
+  
+  .status-badge.not-approved {
+    background-color: #fee2e2;
+    color: #ef4444;
+  }
+  
+  .registrations-table-dates,
+  .registrations-table-names,
+  .registrations-table-status {
+    cursor: pointer;
+  }
+  
+  /* Sortable table headers */
+  .registrations-table th.sortable {
+    position: relative;
+    padding-right: 28px;
+    transition: background-color 0.2s;
+  }
+  
+  .registrations-table th.sortable:hover {
+    background-color: #d15303;
+  }
+  
+  .registrations-table th.sortable::after {
+    content: "⇅";
+    position: absolute;
+    right: 8px;
+    opacity: 0.5;
+    font-size: 14px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  
+  .registrations-table th.sorted.asc::after {
+    content: "↑";
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+  
+  .registrations-table th.sorted.desc::after {
+    content: "↓";
+    opacity: 1;
+    transform: translateY(2px);
+  }
+  
+  .registrations-table th.sorted {
+    background-color: #d45a0e;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 992px) {
+    .registrations-layout {
+      flex-direction: column;
+    }
+  
+    .left-analytics-cards {
+      width: 100%;
+      margin-bottom: 24px;
+    }
+  
+    .registrations-container {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .registrations-table th,
+    .registrations-table td {
+      padding: 12px 16px;
+    }
+  
+    .status-badge {
+      min-width: 80px;
+    }
+  
+    .left-analytics-cards {
+      flex-direction: column;
+    }
+  
+    .analytics-stat-card {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .registrations-table th,
+    .registrations-table td {
+      padding: 10px 12px;
+    }
+  }

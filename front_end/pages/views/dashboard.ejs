@@ -4,135 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/analytics.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <title>GymFit -- Dashboard</title>
-    <style>
-        .analytics-summary__header {
-            margin-bottom: 2.5rem;
-            position: relative;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            border-left: 4px solid #e85d04;
-            overflow: hidden;
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .analytics-summary__header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('../../assets/static/shart.png') no-repeat;
-            background-position: right center;
-            background-size: contain;
-            opacity: 0.05;
-            z-index: 0;
-        }
-
-        .analytics-summary__header h1 {
-            font-size: 2.4rem;
-            margin-bottom: 0.6rem;
-            color: #333;
-            position: relative;
-            font-weight: 700;
-            background: linear-gradient(to right, #e85d04, #f48c06);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
-        }
-
-        .analytics-summary__header p {
-            color: #6c757d;
-            font-size: 1.1rem;
-            max-width: 80%;
-            position: relative;
-        }
-
-        .analytics-summary__meta {
-            display: flex;
-            align-items: center;
-            margin-top: 1rem;
-            gap: 2rem;
-            position: relative;
-        }
-
-        .analytics-summary__meta-item {
-            display: flex;
-            align-items: center;
-            color: #6c757d;
-        }
-
-        .analytics-summary__meta-item strong {
-            margin-right: 0.5rem;
-            color: #e85d04;
-        }
-
-        .analytics-summary__time {
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            color: #6c757d;
-        }
-
-        .analytics-summary__time::before {
-            content: '';
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: #4CAF50;
-            margin-right: 8px;
-        }
-
-        .analytics-summary__cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .analytics-summary__cards {
-                grid-template-columns: 1fr;
-            }
-
-            .analytics-summary__header {
-                padding: 1rem;
-            }
-
-            .analytics-summary__header h1 {
-                font-size: 1.8rem;
-            }
-
-            .analytics-summary__header p {
-                max-width: 100%;
-            }
-
-            .analytics-summary__meta {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-        }
-
-        /* Animation for header */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -172,70 +46,118 @@
             </div>
         </section>
         <section class="analytics_chart">
-            <div class="analytics-chart__header">
-                <h2>Revenue Chart</h2>
-                <p>Track your gym's revenue growth over the past months.</p>
+            <div class="revenue-chart-container">
+                <div class="chart-header">
+                    <h2 class="chart-title">Revenue Chart</h2>
+                    <select class="chart-dropdown">
+                        <option value="monthly">Monthly</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="daily">Daily</option>
+                    </select>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="revenueChart" width="600" height="300"></canvas>
+                </div>
             </div>
-            <div>
-                <canvas id="revenueChart" width="600" height="300"></canvas>
-            </div>
+        </section>
 
+        <!-- Registration Section with Analytics Cards and Table -->
+        <section class="registrations-section">
+            <div class="registrations-layout">
+                <!-- Left side analytics cards - 1/3 width -->
+                <div class="left-analytics-cards">
+                    <!-- Using the custom analytics-card component -->
+                    <analytics-card title="New Members" data="68" icon="users" icon-color="#FF9A62" icon-bg="#fff3e0"
+                        trend-percentage="12.5" trend-direction="up" trend-period="last month">
+                    </analytics-card>
+
+                    <analytics-card title="Active Members" data="1,842" icon="activity" icon-color="#5470FF"
+                        icon-bg="#EFF1FF" trend-percentage="3.2" trend-direction="down" trend-period="previous month">
+                    </analytics-card>
+
+                    <analytics-card title="Daily Visits" data="142" icon="chart" icon-color="#00C07F" icon-bg="#E8F5F0"
+                        trend-percentage="5.7" trend-direction="up" trend-period="last week">
+                    </analytics-card>
+                </div>
+
+                <!-- Right side table - 2/3 width -->
+                <div class="registrations-container">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Registrations</h2>
+                        <div class="section-actions">
+                            <button class="view-all-btn">View All</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="registrations-table">
+                            <thead>
+                                <tr>
+                                    <th class="sortable">Name</th>
+                                    <th class="sortable">Date · Time</th>
+                                    <th class="sortable">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="member-name">Ahmed Benmoussa</td>
+                                    <td class="registration-time">01.05.2025 · 09:24 AM</td>
+                                    <td><span class="status-badge pending">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="member-name">Mohammed Khaled</td>
+                                    <td class="registration-time">30.04.2025 · 16:42 PM</td>
+                                    <td><span class="status-badge registered">Registered</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="member-name">Amina Benali</td>
+                                    <td class="registration-time">30.04.2025 · 14:15 PM</td>
+                                    <td><span class="status-badge registered">Registered</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="member-name">Karim Mehdaoui</td>
+                                    <td class="registration-time">30.04.2025 · 10:37 AM</td>
+                                    <td><span class="status-badge not-approved">Not Approved</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="member-name">Yasmine Boudiaf</td>
+                                    <td class="registration-time">29.04.2025 · 17:53 PM</td>
+                                    <td><span class="status-badge registered">Registered</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="member-name">Ahmed Benmoussa</td>
+                                    <td class="registration-time">01.05.2025 · 09:24 AM</td>
+                                    <td><span class="status-badge pending">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="member-name">Mohammed Khaled</td>
+                                    <td class="registration-time">30.04.2025 · 16:42 PM</td>
+                                    <td><span class="status-badge registered">Registered</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="member-name">Amina Benali</td>
+                                    <td class="registration-time">30.04.2025 · 14:15 PM</td>
+                                    <td><span class="status-badge registered">Registered</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="member-name">Karim Mehdaoui</td>
+                                    <td class="registration-time">30.04.2025 · 10:37 AM</td>
+                                    <td><span class="status-badge not-approved">Not Approved</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="member-name">Yasmine Boudiaf</td>
+                                    <td class="registration-time">29.04.2025 · 17:53 PM</td>
+                                    <td><span class="status-badge registered">Registered</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
     <script src="../../scripts/components/app-layout.js"></script>
     <script src="../../scripts/components/analytic-card.js"></script>
-    <script>
-        const ctx = document.getElementById('revenueChart').getContext('2d');
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['5k', '10k', '15k', '20k', '25k', '30k', '35k', '40k', '45k', '50k', '55k', '60k', '65k', '70k', '75k', '80k', '85k', '90k', '95k', '100k', '105k', '110k'],
-                datasets: [{
-                    label: 'Revenue',
-                    data: [20, 25, 22, 30, 50, 35, 90, 60, 70, 50, 65, 40],
-                    backgroundColor: 'rgba(255, 159, 64, 0.4)',  // Light orange fill
-                    borderColor: 'rgba(255, 159, 64, 1)',        // Orange border
-                    borderWidth: 2,
-                    fill: true,
-                    tension: 0.4,  // Smooth curves
-                    pointRadius: 0 // No dots
-                }, {
-                    label: 'chilling',
-                    data: [210, 215, 221, 310, 50, 35, 90, 60, 70, 50, 65, 40],
-                    backgroundColor: 'rgba(255, 159, 164, 0.4)',  // Light orange fill
-                    borderColor: 'rgba(255, 159, 164, 1)',        // Orange border
-                    borderWidth: 2,
-                    fill: true,
-                    tension: 0.4,  // Smooth curves
-                    pointRadius: 0 // No dots
-                }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: true },
-                    title: {
-                        display: true,
-                        text: 'Revenue Chart',
-                        align: 'start',
-                        font: { size: 18 }
-                    }
-                },
-
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: { stepSize: 20 }
-                    },
-                    x: {
-                        grid: { display: false }
-                    }
-                }
-            }
-        });
-    </script>
+    <script src="../../scripts/ownerjs/analytics.js"></script>
 </body>
 
 </html>

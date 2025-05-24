@@ -185,5 +185,5 @@ exports.serveowner = async (req, res) => {
   }
 
   // other owner pages:
-  return res.render(thing, { role: decoded.role, gym });
+  return res.render(thing, { role: decoded.role, gym ,username: decoded.username,});
 };

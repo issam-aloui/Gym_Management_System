@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gym Membership Card</title>
+  <link rel="stylesheet" href="../../css/card.css">
+</head>
+<body>
+   <a href="/settings" class="back-link">← Back to Settings</a>
+  <div class="card">
+    <div class="left-section">
+      <div class="frame11">
+        <div class="frame10">
+          <h1 class="name" id="userName">Loading...</h1>
+          <div class="job-title-container">
+            <span class="job-title" id="userId">#ID</span>
+          </div>
+        </div>
+        <div class="frame9">
+          <div class="contact-row">
+            <div class="icon-circle phone-icon"></div>
+            <span class="contact-text" id="userPhone">Phone</span>
+          </div>
+          <div class="contact-row">
+            <div class="icon-circle email-icon"></div>
+            <span class="contact-text" id="userEmail">Email</span>
+          </div>
+          <div class="contact-row">
+            <div class="icon-circle location-icon"></div>
+            <span class="contact-text" id="userAddress">Address</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="green-bg"></div>
+    <div class="white-bg"></div>
+
+    <div class="frame13">
+      <div class="frame12">
+        <div class="logo">
+          <div class="s-part"></div>
+          <div class="b-part"></div>
+        </div>
+        <div class="company-name">GymCard</div>
+      </div>
+      <div class="qr-wrapper">
+        <img id="qrImage" class="qr-inner" alt="QR Code" />
+      </div>
+    </div>
+  </div>
+
+  <script src="../../scripts/card.js"></script>
+</body>
+</html>

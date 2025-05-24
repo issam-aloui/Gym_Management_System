@@ -22,7 +22,9 @@ customElements.define(
             </div>
             <div class="user-details">
               <h3 class="user-name">${username || "username"}</h3>
-              <p class="user-type">${role === "owner" ? "Gym Owner" : "Gym User"}</p>
+              <p class="user-type">${
+                role === "owner" ? "Gym Owner" : "Gym User"
+              }</p>
             </div>
           </div>
         </header>
@@ -51,15 +53,23 @@ customElements.define(
                         <img src="../../assets/icons/classes.svg" alt="Classes" />
                         <span>My Classes</span>
                       </a></li>
-                      <li><a href="/creategym">
-                        <img src="../../assets/icons/shart.svg" alt="Be an Owner" />
-                        <span>Be an Owner</span>
-                      </a></li>
+                      ${
+                        role !== "owner"
+                          ? `
+    <li><a href="/creategym">
+      <img src="../../assets/icons/shart.svg" alt="Be an Owner" />
+      <span>Be an Owner</span>
+    </a></li>
+  `
+                          : ""
+                      }
                     </ul>
                   </details>
                 </li>
 
-                ${role === "owner" ? `
+                ${
+                  role === "owner"
+                    ? `
                 <!-- OWNER PAGES -->
                 <li class="nav-group">
                   <details open>
@@ -91,7 +101,9 @@ customElements.define(
                     </ul>
                   </details>
                 </li>
-                ` : ""}
+                `
+                    : ""
+                }
               </ul>
             </nav>
 

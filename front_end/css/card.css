@@ -1,0 +1,201 @@
+body {
+  margin: 0;
+  background: #eee;
+  font-family: 'Poppins', sans-serif;
+}
+
+.card {
+  position: relative;
+  width: 1050px;
+  height: 600px;
+  background: #000000; /* changed from #233251 */
+  margin: 40px auto;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.orange-bg {
+  position: absolute;
+  left: 563px;
+  width: 487px;
+  height: 600px;
+  background: #FF6600; /* changed from #00AFA3 */
+  top: 0;
+}
+
+.white-bg {
+  position: absolute;
+  left: 605px;
+  width: 445px;
+  height: 600px;
+  background: #FFFFFF;
+  top: 0;
+}
+
+.frame13 {
+  position: absolute;
+  top: 50%;
+  left: 685px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
+  width: 286px;
+  height: 388px;
+}
+
+.frame12 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  width: 286px;
+  height: 163px;
+}
+
+.logo {
+  width: 113px;
+  height: 111px;
+  position: relative;
+}
+
+.s-part {
+  position: absolute;
+  width: 70.88px;
+  height: 111px;
+  background: #000000; /* changed from #233251 */
+  left: 0;
+  top: 0;
+}
+
+.b-part {
+  position: absolute;
+  width: 81.99px;
+  height: 105.9px;
+  background: #FF6600; /* changed from #00AFA3 */
+  left: 31.01px;
+  top: 2.56px;
+}
+
+.company-name {
+  font-family: 'Source Serif Pro', serif;
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 50px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #000000; /* changed from #233251 */
+}
+
+.qr-wrapper {
+  width: 145px;
+  height: 145px;
+  border: 4.8px solid #FF6600; /* changed from #00AFA3 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-inner {
+  width: 125.79px;
+  height: 125.79px;
+  background: #000000; /* changed from #233251 */
+}
+
+.left-section {
+  position: absolute;
+  left: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 489px;
+  height: 411px;
+}
+
+.frame11 {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  height: 100%;
+}
+
+.frame10 {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.name {
+  color: white;
+  font-size: 54px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.job-title-container {
+  width: 298px;
+  border-bottom: 4px solid #FF6600; /* changed from #00AFA3 */
+  padding-bottom: 25px;
+}
+
+.job-title {
+  font-size: 32px;
+  font-weight: 500;
+  color: white;
+}
+
+.frame9 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 50px;
+}
+
+.icon-circle {
+  width: 50px;
+  height: 50px;
+  background: #FF6600; /* changed from #00AFA3 */
+  border-radius: 50%;
+  position: relative;
+}
+
+.contact-text {
+  font-size: 24px;
+  font-weight: 500;
+  color: white;
+}
+
+.phone-icon::after,
+.email-icon::after,
+.website-icon::after,
+.location-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  background: white;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+}
+.back-link {
+  display: inline-block;
+  margin: 10px;
+  font-size: 16px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

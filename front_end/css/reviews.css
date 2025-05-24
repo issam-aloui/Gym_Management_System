@@ -1,11 +1,9 @@
 /* Enhanced CSS for Gym Reviews - Matching Website Theme */
 
-/* Base styling */
 #reviews {
-  margin: 30px 0;
+  margin: 30px auto;
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   max-width: 1200px;
-  margin: 30px auto;
   padding: 0 20px;
 }
 
@@ -34,7 +32,6 @@
   margin: 40px 0 20px;
 }
 
-/* Review list styling */
 #review-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -42,26 +39,25 @@
   margin-bottom: 40px;
 }
 
-#review-list .review {
-  margin-bottom: 0;
+.review {
   padding: 20px;
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s, box-shadow 0.2s;
-  border: none;
 }
 
-#review-list .review:hover {
+.review:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 .review-rating {
   color: #FF6B00;
-  font-size: 1.2em;
+  font-size: 1.6rem; /* bigger stars */
   margin-bottom: 15px;
-  font-weight: 600;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
 .review-comment {
@@ -79,7 +75,6 @@
   margin-top: 15px;
 }
 
-/* Form styling */
 #add-review-form {
   margin-top: 30px;
   background-color: #f8f9fa;
@@ -96,7 +91,7 @@
   font-size: 1rem;
 }
 
-#add-review-form select, 
+#add-review-form select,
 #add-review-form textarea {
   width: 100%;
   padding: 14px;
@@ -108,7 +103,7 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-#add-review-form select:focus, 
+#add-review-form select:focus,
 #add-review-form textarea:focus {
   outline: none;
   border-color: #FF6B00;
@@ -130,7 +125,6 @@
   font-weight: 600;
   font-size: 1rem;
   transition: all 0.2s;
-  display: inline-block;
 }
 
 #add-review-form button:hover {
@@ -139,11 +133,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-#add-review-form button:active {
-  transform: translateY(0);
-}
-
-/* Footer styling */
 footer {
   position: fixed;
   bottom: 0;
@@ -171,27 +160,20 @@ footer a:hover {
   text-decoration: underline;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   #review-list {
     grid-template-columns: 1fr;
   }
-  
+
   #add-review-form {
     padding: 20px;
   }
-  
+
   #reviews h2 {
     font-size: 1.8em;
   }
 }
 
-/* Star rating enhancement */
-.review-rating::before {
-  content: "★ ";
-}
-
-/* Empty state */
 #review-list:empty::after {
   content: "No reviews yet.";
   display: block;
@@ -202,11 +184,4 @@ footer a:hover {
   background-color: #f8f9fa;
   border-radius: 8px;
   grid-column: 1 / -1;
-}
-h1 {
-  font-size: 2.2rem;
-  margin-bottom: 1.5rem;
-  color: #ff6b00;
-  border-bottom: 2px solid #ffddb8;
-  padding-bottom: 0.5rem;
 }

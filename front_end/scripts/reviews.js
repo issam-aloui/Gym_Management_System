@@ -1,4 +1,3 @@
-// Function to extract the gym ID from the URL path
 function getGymIdFromUrl() {
   const parts = window.location.pathname.split("/");
   return parts[2] || null;
@@ -26,13 +25,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     result.forEach((review) => {
       const reviewHTML = `
         <div class="review">
-            <div class="review-rating">${"★".repeat(review.rating)}${"☆".repeat(
-        5 - review.rating
-      )}</div>
-            <p class="review-comment">${review.comment}</p>
-            <p class="review-author">- ${review.user?.username || "Unknown"}</p>
+          <div class="review-rating">${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}</div>
+          <p class="review-comment">${review.comment}</p>
+          <p class="review-author">- ${review.user?.username || "Unknown"}</p>
         </div>
-    `;
+      `;
       reviewList.innerHTML += reviewHTML;
     });
   } catch (error) {
@@ -41,7 +38,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-// Handle the review form submission
 const reviewForm = document.getElementById("add-review-form");
 
 if (reviewForm) {
@@ -50,7 +46,7 @@ if (reviewForm) {
 
     const rating = document.getElementById("rating").value;
     const comment = document.getElementById("comment").value;
-    const gymId = getGymIdFromUrl(); // Get the gym ID from the URL
+    const gymId = getGymIdFromUrl();
 
     if (!gymId) {
       alert("Gym ID not found.");

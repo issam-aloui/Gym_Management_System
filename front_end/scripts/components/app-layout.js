@@ -71,6 +71,7 @@ customElements.define(
                   role === "owner"
                     ? `
                 <!-- OWNER PAGES -->
+                
                 <li class="nav-group">
                   <details open>
                     <summary data-tooltip="Owner Pages">
@@ -86,6 +87,10 @@ customElements.define(
                         <img src="../../assets/icons/users.svg" alt="My Members" />
                         <span>My Members</span>
                       </a></li>
+                      <li><a href="/owner/dashboard">
+                     <img src="../../assets/icons/dashboard.svg" alt="Dashboard" />
+                      <span>Dashboard</span>
+                       </a></li>
                       <li><a href="/owner/Myreviews">
                         <img src="../../assets/icons/star.svg" alt="My Reviews" />
                         <span>My Reviews</span>

@@ -13,7 +13,7 @@ exports.signupLimiter = rateLimit({
 
 exports.sendgLimitter = rateLimit({
   windowMs: 100 * 60 * 1000,
-  max: 1,
+  max: 10,
   message: { error: "Too many requests attempts. Please try again later." },
   headers: true,
 });

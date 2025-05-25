@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Redirect to dashboard after a delay
     setTimeout(() => {
-      window.location.href = "/dashboard";
+      window.location.href = "/owner/dashboard";
     }, 2000);
   }
 

@@ -7,8 +7,6 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  min-height: 100vh;
-  padding: 20px;
 }
 
 .container {
@@ -16,13 +14,13 @@ body {
   margin: 0 auto;
 }
 
-.header {
+.headers {
   text-align: center;
   margin-bottom: 30px;
   color: white;
 }
 
-.header h1 {
+.headers h1 {
   font-size: 2.5rem;
   margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
@@ -32,7 +30,7 @@ body {
   background-clip: text;
 }
 
-.header p {
+.headers p {
   font-size: 1.1rem;
   opacity: 0.9;
   color: #cbd5e1;
@@ -438,7 +436,7 @@ body {
     justify-content: center;
   }
   
-  .header h1 {
+  .headers h1 {
     font-size: 2rem;
   }
   

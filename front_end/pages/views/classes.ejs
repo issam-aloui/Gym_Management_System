@@ -10,9 +10,9 @@
 </head>
 <body>
   <app-layout role="<%= role %>" username="<%= username %>" announcements='<%- JSON.stringify(LA) %>'></app-layout>
-
+  <main id="mainContent">
   <div class="container">
-    <div class="header">
+    <div class="headers">
       <h1>🏋️ GymFit Pro Calendar</h1>
       <p>Manage your fitness schedule across multiple gyms</p>
     </div>
@@ -151,7 +151,7 @@
   </div>
 
   <input type="file" id="importFile" accept=".json" style="display: none;" />
-
+</main>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
   <script type="module" src="../../scripts/calendar.js"></script>
   <script defer src="../../scripts/components/app-layout.js"></script>

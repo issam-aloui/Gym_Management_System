@@ -1,131 +1,113 @@
 const DB_NAME = "GymAttendanceDB";
-const DB_VERSION = 1;
-const STORE_NAME = "events"; // Renamed from "attendance" to "events" for clarity
+const DB_VERSION = 2;
+const STORE_NAME = "events";
 
-// Open or create the IndexedDB database, returns a Promise with the db instance
 function openDB() {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
 
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result;
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      let store;
       if (!db.objectStoreNames.contains(STORE_NAME)) {
-        // We set keyPath to 'id' assuming FullCalendar events will have an 'id'
-        // autoIncrement is removed because we expect an 'id' from FullCalendar
-        db.createObjectStore(STORE_NAME, { keyPath: "id" });
+        store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
+      } else {
+        store = e.target.transaction.objectStore(STORE_NAME);
+      }
+
+      if (!store.indexNames.contains("gymId")) {
+        store.createIndex("gymId", "extendedProps.gymId", { unique: false });
       }
     };
 
-    request.onsuccess = (event) => {
-      resolve(event.target.result);
+    req.onsuccess = (e) => {
+      resolve(e.target.result);
     };
-
-    request.onerror = (event) => {
-      console.error("IndexedDB Error:", event.target.error);
-      reject(event.target.error);
-    };
-  });
-}
-
-/**
- * Adds a new event to IndexedDB.
- * @param {object} 
- */
-async function addEventToIndexedDB(eventData) {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE_NAME, "readwrite");
-    const store = tx.objectStore(STORE_NAME);
-    const request = store.add(eventData); // Use add for new records
-
-    request.onsuccess = () => resolve();
-    request.onerror = (e) => {
-      console.error("Error adding event:", e.target.error);
+    req.onerror = (e) => {
       reject(e.target.error);
     };
   });
 }
 
-/**
- * Updates an existing event in IndexedDB.
- * @param {object} eventData - The event object with updated data. Must include the existing 'id'.
- */
-async function updateEventInIndexedDB(eventData) {
+async function addOrUpdateEvent(eventData) {
   const db = await openDB();
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     const tx = db.transaction(STORE_NAME, "readwrite");
-    const store = tx.objectStore(STORE_NAME);
-    const request = store.put(eventData); // Use put for updating existing records (or adding if ID doesn't exist)
-
-    request.onsuccess = () => resolve();
-    request.onerror = (e) => {
-      console.error("Error updating event:", e.target.error);
-      reject(e.target.error);
-    };
+    const request = tx.objectStore(STORE_NAME).put(eventData);
+    request.onsuccess = () => {};
+    tx.oncomplete = () => res();
+    tx.onerror = (e) => rej(e.target.error);
   });
 }
 
-/**
- * Deletes an event from IndexedDB by its ID.
- * @param {string} eventId - The ID of the event to delete.
- */
-async function deleteEventFromIndexedDB(eventId) {
+async function deleteEventFromIndexedDB(id) {
   const db = await openDB();
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     const tx = db.transaction(STORE_NAME, "readwrite");
-    const store = tx.objectStore(STORE_NAME);
-    const request = store.delete(eventId);
-
-    request.onsuccess = () => resolve();
-    request.onerror = (e) => {
-      console.error("Error deleting event:", e.target.error);
-      reject(e.target.error);
-    };
+    const request = tx.objectStore(STORE_NAME).delete(id);
+    request.onsuccess = () => {};
+    tx.oncomplete = () => res();
+    tx.onerror = (e) => rej(e.target.error);
   });
 }
 
-/**
- * Loads all events from IndexedDB.
- * @returns {Promise<Array>} A promise that resolves with an array of event objects.
- */
-async function loadAllEventsFromIndexedDB() {
+async function loadEventsByGymId(gymId) {
   const db = await openDB();
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     const tx = db.transaction(STORE_NAME, "readonly");
     const store = tx.objectStore(STORE_NAME);
-    const request = store.getAll();
+    const index = store.index("gymId");
+    const events = [];
 
-    request.onsuccess = (event) => resolve(event.target.result);
-    request.onerror = (e) => {
-      console.error("Error loading events:", e.target.error);
-      reject(e.target.error);
+    const request = index.openCursor(IDBKeyRange.only(gymId));
+    request.onsuccess = (e) => {
+      const cursor = e.target.result;
+      if (cursor) {
+        events.push(cursor.value);
+        cursor.continue();
+      }
     };
+    tx.oncomplete = () => res(events);
+    tx.onerror = (e) => rej(e.target.error);
   });
 }
 
-/**
- * Clears all events from IndexedDB.
- */
+async function loadAllEventsFromIndexedDB() {
+  const db = await openDB();
+  return new Promise((res, rej) => {
+    const tx = db.transaction(STORE_NAME, "readonly");
+    const store = tx.objectStore(STORE_NAME);
+    const events = [];
+
+    const request = store.openCursor();
+    request.onsuccess = (e) => {
+      const cursor = e.target.result;
+      if (cursor) {
+        events.push(cursor.value);
+        cursor.continue();
+      }
+    };
+    tx.oncomplete = () => res(events);
+    tx.onerror = (e) => rej(e.target.error);
+  });
+}
+
 async function clearAllEventsInIndexedDB() {
   const db = await openDB();
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     const tx = db.transaction(STORE_NAME, "readwrite");
     const store = tx.objectStore(STORE_NAME);
     const request = store.clear();
-
-    request.onsuccess = () => resolve();
-    request.onerror = (e) => {
-      console.error("Error clearing all events:", e.target.error);
-      reject(e.target.error);
-    };
+    request.onsuccess = () => {};
+    tx.oncomplete = () => res();
+    tx.onerror = (e) => rej(e.target.error);
   });
 }
 
-// Export functions as ES modules
 export {
-  addEventToIndexedDB,
-  updateEventInIndexedDB,
+  addOrUpdateEvent,
   deleteEventFromIndexedDB,
+  loadEventsByGymId,
   loadAllEventsFromIndexedDB,
   clearAllEventsInIndexedDB
 };

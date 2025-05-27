@@ -75,7 +75,16 @@ customElements.define(
           </div>
         </div>
 
-        <aside class="sidebar" id="sidebar">
+
+
+
+
+
+
+
+
+        
+        <aside class="sidebar" id="sidebar">//nigger
           <div class="sidebar-container">
             <nav>
               <ul>

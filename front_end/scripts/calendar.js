@@ -189,21 +189,29 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function refreshEvents() {
-  calendar.removeAllEvents();
+  try {
+    calendar.removeAllEvents();
 
-  const gymId = document.getElementById("gymSelect").value;
-  let eventsToDisplay = [];
+    const gymId = document.getElementById("gymSelect").value;
+    let eventsToDisplay = [];
 
-  if (gymId === "") {
-    eventsToDisplay = await loadAllEventsFromIndexedDB();
-  } else {
-    eventsToDisplay = await loadEventsByGymId(gymId);
+    if (gymId === "") {
+      eventsToDisplay = await loadAllEventsFromIndexedDB();
+    } else {
+      eventsToDisplay = await loadEventsByGymId(gymId);
+    }
+
+    eventsToDisplay.forEach(e => {
+      calendar.addEvent(e);
+    });
+
+    updateStats(eventsToDisplay);
+    // ← No more calendar.rerenderEvents()
+  } catch (err) {
+    console.error("Failed to refresh events:", err);
   }
-
-  eventsToDisplay.forEach(e => calendar.addEvent(e));
-  updateStats(eventsToDisplay);
-  calendar.rerenderEvents();
 }
+
 
 function updateStats(events) {
   document.getElementById("totalEvents").textContent = events.length;

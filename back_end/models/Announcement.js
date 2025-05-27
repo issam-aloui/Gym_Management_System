@@ -20,6 +20,7 @@ const AnnouncementSchema = new mongoose.Schema(
       required: true,
       ref: "Gym",
     },
+    gymname:{type: String,},
   },
   {
     timestamps: true, 

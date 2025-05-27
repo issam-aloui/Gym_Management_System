@@ -1,5 +1,6 @@
 const Announcement = require("../models/Announcement");
 const logger = require("../utils/logger");
+const Gym = require("../models/Gyms");
 //creating:
 exports.createAnnouncement = async (req, res) => {
   try {
@@ -10,10 +11,12 @@ exports.createAnnouncement = async (req, res) => {
         message: "some fialds are missing!",
       });
     }
+    const mygym = await Gym.findById(gym);
     const announcement = new Announcement({
       title,
       yap,
       gym,
+      gymname:mygym.name,
     });
 
     await announcement.save();

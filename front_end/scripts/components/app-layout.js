@@ -4,6 +4,17 @@ customElements.define(
     connectedCallback() {
       const role = this.getAttribute("role");
       const username = this.getAttribute("username");
+      const announcements = this.getAttribute("announcements");
+
+      let parsedAnnouncements = [];
+      if (announcements) {
+        try {
+          parsedAnnouncements = JSON.parse(announcements);
+        } catch (e) {
+          console.error("Error parsing announcements:", e);
+        }
+      }
+
       this.innerHTML = `
         <header>
           <div class="menu-icon" id="menuToggle">
@@ -14,8 +25,13 @@ customElements.define(
             <input type="search" placeholder="Search" class="search-bar" id="searchInput">
           </div>
           <div class="user-info">
-            <div class="notification-icon">
-              <img src="../../assets/icons/noti.svg" alt="notifications">
+            <div class="notification-icon" id="notificationToggle">
+              <img src="../../assets/icons/notif.svg" alt="notifications">
+              ${
+                parsedAnnouncements.length > 0
+                  ? `<span class="notification-badge">${parsedAnnouncements.length}</span>`
+                  : ""
+              }
             </div>
             <div class="user-pfp">
               <img src="../../assets/icons/pfp.png" alt="user pfp">
@@ -28,6 +44,36 @@ customElements.define(
             </div>
           </div>
         </header>
+
+        <!-- Notification Bar -->
+        <div class="notification-bar" id="notificationBar">
+          <div class="notification-header">
+            <h3>Recent Announcements</h3>
+            <button class="close-btn" id="closeNotifications">&times;</button>
+          </div>
+          <div class="notification-content">
+            ${
+              parsedAnnouncements.length > 0
+                ? parsedAnnouncements
+                    .map(
+                      (announcement) => `
+                <div class="announcement-item">
+                  <div class="announcement-gym">${
+                    announcement.gymname || "Unknown Gym"
+                  }</div>
+                  <div class="announcement-title">${announcement.title}</div>
+                  <div class="announcement-yap">${announcement.yap}</div>
+                  <div class="announcement-date">${new Date(
+                    announcement.createdAt
+                  ).toLocaleDateString()}</div>
+                </div>
+              `
+                    )
+                    .join("")
+                : '<div class="no-announcements">No recent announcements</div>'
+            }
+          </div>
+        </div>
 
         <aside class="sidebar" id="sidebar">
           <div class="sidebar-container">
@@ -129,13 +175,56 @@ customElements.define(
         </aside>
       `;
 
-      // Sidebar toggle
+      this.setupEventListeners();
+    }
+
+    setupEventListeners() {
       document.getElementById("menuToggle").addEventListener("click", () => {
         const sidebar = document.getElementById("sidebar");
         sidebar.classList.toggle("expanded");
 
         const main = document.getElementById("mainContent");
         if (main) main.classList.toggle("shifted");
+      });
+
+      document
+        .getElementById("notificationToggle")
+        .addEventListener("click", () => {
+          const notificationBar = document.getElementById("notificationBar");
+          notificationBar.classList.toggle("open");
+        });
+
+      document
+        .getElementById("closeNotifications")
+        .addEventListener("click", () => {
+          const notificationBar = document.getElementById("notificationBar");
+          notificationBar.classList.remove("open");
+        });
+
+      document.addEventListener("click", (e) => {
+        const notificationBar = document.getElementById("notificationBar");
+        const notificationToggle =
+          document.getElementById("notificationToggle");
+
+        if (
+          !notificationBar.contains(e.target) &&
+          !notificationToggle.contains(e.target)
+        ) {
+          notificationBar.classList.remove("open");
+        }
+      });
+
+      // Search functionality
+      const input = document.getElementById("searchInput");
+      input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          const query = input.value.trim();
+          if (query) {
+            window.location.href = `/results?search_query=${encodeURIComponent(
+              query
+            )}`;
+          }
+        }
       });
     }
   }
@@ -146,18 +235,3 @@ const link = document.createElement("link");
 link.rel = "stylesheet";
 link.href = "../../css/app-layout.css";
 document.head.appendChild(link);
-
-
-const input = document.getElementById("searchInput");
-
-input.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    const query = input.value.trim();
-    if (query) {
-      // Redirect to your search route with query as URL parameter
-      window.location.href = `/results?search_query=${encodeURIComponent(
-        query
-      )}`;
-    }
-  }
-});

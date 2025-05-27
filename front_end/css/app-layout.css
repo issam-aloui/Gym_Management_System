@@ -621,3 +621,126 @@ main.shifted {
 .sidebar:not(.expanded) details summary:hover::after {
   opacity: 1;
 }
+ .notification-icon {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ff4444;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  .notification-bar {
+    position: fixed;
+    top: 60px;
+    right: -400px;
+    width: 380px;
+    height: calc(100vh - 60px);
+    background: white;
+    border-left: 1px solid #e0e0e0;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .notification-bar.open {
+    right: 0;
+  }
+
+  .notification-header {
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+  }
+
+  .notification-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-btn:hover {
+    color: #333;
+  }
+
+  .notification-content {
+    padding: 20px;
+  }
+
+  .announcement-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #fafafa;
+  }
+
+  .announcement-gym {
+    font-weight: bold;
+    color: #0066cc;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .announcement-title {
+    font-weight: 600;
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .announcement-yap {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+
+  .announcement-date {
+    color: #999;
+    font-size: 12px;
+  }
+
+  .no-announcements {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 40px 20px;
+  }
+
+  @media (max-width: 768px) {
+    .notification-bar {
+      width: 100%;
+      right: -100%;
+    }
+  }

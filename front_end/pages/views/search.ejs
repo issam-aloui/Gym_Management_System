@@ -226,7 +226,7 @@
             }
         }
     </style>
-    <app-layout role="<%= role %>" username="<%= username %>"></app-layout>
+    <app-layout role="<%= role %>" username="<%= username %>" announcements='<%- JSON.stringify(LA) %>'></app-layout>
 
     <main id="mainContent">
         <section>
@@ -243,7 +243,7 @@
                                 <gym-card src="<%= gym.image %>" name="<%= gym.name %>" place="<%= gym.town %>"
                                     total-feedback="<%= gym.reviews.totalreviews %>" rate="<%= gym.reviews.totalreviews > 0 
                                 ? Math.min((gym.reviews.totalstars / gym.reviews.totalreviews), 5).toFixed(1) 
-                                : 0 %>" gym-id="<%= gym._id %>">
+                                : 0 %>" gym-id="<%= gym._id %>" gym-route="/join">
                                 </gym-card>
                                 <% }); %>
                                     <% } %>

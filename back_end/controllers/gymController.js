@@ -5,7 +5,7 @@ const { getCoordinates } = require("../services/geoservice");
 const { generatePassword } = require("../utils/passwordGen");
 const Statistiques = require("../models/statistiques");
 const Gymdes = require("../models/GymDescription");
-const User = require("../models/User"); // DO ME PLEASE DONT FORGET ME
+const User = require("../models/User");
 
 exports.createGym = async (req, res) => {
   try {
@@ -171,6 +171,132 @@ exports.leaveGym = async (req, res) => {
     statistics.totalMembers -= 1;
     await statistics.save();
     res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.changegymname = async (req, res) => {
+  try {
+    const { gymid } = req.params;
+    const { newname } = req.body;
+    const token = req.cookies.token;
+    if (!token) {
+      logger.warn("Unauthorized attempt to changename for gym");
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    const mygym = Gym.findById(gymid);
+
+    if (!mygym) {
+      return res.status(404).json({ message: "gym not found" });
+    }
+
+    mygym.name = newname;
+    await mygym.save();
+    res.status(200).json({ message: "gym name changed!" });
+    return;
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.changegymemail = async (req, res) => {
+  try {
+    const { gymid } = req.params;
+    const { newemail } = req.body;
+    const token = req.cookies.token;
+    if (!token) {
+      logger.warn("Unauthorized attempt to changename for gym");
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    const mygym = Gym.findById(gymid);
+
+    if (!mygym) {
+      return res.status(404).json({ message: "gym not found" });
+    }
+
+    mygym.contact.email = newemail;
+    await mygym.save();
+    res.status(200).json({ message: "gym email changed!" });
+    return;
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.changegymphone = async (req, res) => {
+  try {
+    const { gymid } = req.params;
+    const { newphone } = req.body;
+    const token = req.cookies.token;
+    if (!token) {
+      logger.warn("Unauthorized attempt to changename for gym");
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    const mygym = Gym.findById(gymid);
+
+    if (!mygym) {
+      return res.status(404).json({ message: "gym not found" });
+    }
+
+    mygym.contact.phonenumber = newphone;
+    await mygym.save();
+    res.status(200).json({ message: "gym phone changed!" });
+    return;
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.changegympriceBymounth = async (req, res) => {
+  try {
+    const { gymid } = req.params;
+    const { newprice } = req.body;
+    const token = req.cookies.token;
+    if (!token) {
+      logger.warn("Unauthorized attempt to changename for gym");
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    const mygym = Gym.findById(gymid);
+
+    if (!mygym) {
+      return res.status(404).json({ message: "gym not found" });
+    }
+
+    mygym.pricePerMonth = newprice;
+
+    await mygym.save();
+    res.status(200).json({ message: "gym price changed!" });
+    return;
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.changegympass = async (req, res) => {
+  try {
+    const { gymid } = req.params;
+    const token = req.cookies.token;
+    if (!token) {
+      logger.warn("Unauthorized attempt to changename for gym");
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    const mygym = Gym.findById(gymid);
+
+    if (!mygym) {
+      return res.status(404).json({ message: "gym not found" });
+    }
+    const newpass = generatePassword(13);
+    mygym.Secretpass = newpass;
+
+    await mygym.save();
+    res.status(200).json({ message: "gym price changed!" });
+    return;
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Server error" });

@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const logger = require("../utils/logger");
+const Announcement = require("../models/Announcement");
 
 exports.getUsername = (req, res) => {
   let token = req.cookies.token;
@@ -226,5 +227,27 @@ exports.deleteAccount = async (req, res) => {
   } catch (err) {
     logger.error(`Delete account failed: ${err.message}`);
     return res.status(403).json({ message: "Invalid Token" });
+  }
+};
+
+exports.getLastnotifications = async (req, res) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized: No token provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+ 
+    const announcements = await Announcement.find({ owner: decoded.Oid })
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    return res.status(200).json(announcements);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };

@@ -5,6 +5,7 @@ const User = require("../models/User");
 const mongoose = require("mongoose");
 const Membership = require("../models/membership");
 const jwt = require("jsonwebtoken");
+const Announcement = require("../models/Announcement");
 
 exports.serveHome = async (req, res) => {
   const token = req.cookies.token;
@@ -24,6 +25,7 @@ exports.serveHome = async (req, res) => {
         .status(403)
         .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
+    const user = await User.findById(decoded.Oid);
     const gyms = await Gym.find();
     const role = req.user.role;
     const toptrendingGyms = await Gym.find()
@@ -33,12 +35,18 @@ exports.serveHome = async (req, res) => {
       .sort({ "reviews.totalstars": -1 })
       .limit(4);
 
+    const joinedGyms = user.Gymsjoined || [];
+    const announcements = await Announcement.find({ gym: { $in: joinedGyms } })
+      .sort({ createdAt: -1 })
+      .limit(5);
+
     return res.render("home-user", {
       gyms,
       topstarsGyms,
       toptrendingGyms,
       role,
       username: decoded.username,
+      LA: announcements,
     });
   } catch (err) {
     console.error("Error fetching gyms:", err);
@@ -157,12 +165,17 @@ exports.serveowner = async (req, res) => {
       .status(403)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
+
   if (decoded.role !== "owner")
     return res
       .status(403)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
 
   const user = await User.findById(decoded.Oid);
+  const joinedGyms = user.Gymsjoined || [];
+  const announcements = await Announcement.find({ gym: { $in: joinedGyms } })
+    .sort({ createdAt: -1 })
+    .limit(5);
   if (!user || !user.Gymowned)
     return res
       .status(404)
@@ -181,6 +194,7 @@ exports.serveowner = async (req, res) => {
       gym,
       memberships,
       username: decoded.username,
+      LA: announcements,
     });
   }
 
@@ -189,6 +203,7 @@ exports.serveowner = async (req, res) => {
     role: decoded.role,
     gym,
     username: decoded.username,
+    LA: announcements,
   });
 };
 exports.serveSettings = async (req, res) => {
@@ -208,11 +223,19 @@ exports.serveSettings = async (req, res) => {
       .status(403)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
+
   const user = await User.findById(decoded.Oid);
+
+  const joinedGyms = user.Gymsjoined || [];
+  const announcements = await Announcement.find({ gym: { $in: joinedGyms } })
+    .sort({ createdAt: -1 })
+    .limit(5);
+
   res.render("settings", {
     role: decoded.role,
     username: decoded.username,
     email: user.email,
+    LA: announcements,
   });
 };
 exports.serveSearch = async (req, res) => {
@@ -232,13 +255,16 @@ exports.serveSearch = async (req, res) => {
       .status(403)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
+  const user = await User.findById(decoded.Oid);
+  const joinedGyms = user.Gymsjoined || [];
+  const announcements = await Announcement.find({ gym: { $in: joinedGyms } })
+    .sort({ createdAt: -1 })
+    .limit(5);
   let search_query = req.query.search_query;
   let Gyms;
   if (!search_query) {
     Gyms = [];
-  }else
-  {
-
+  } else {
     Gyms = await Gym.find({
       name: { $regex: search_query, $options: "i" }, // 'i' for case-insensitive
     });
@@ -248,5 +274,6 @@ exports.serveSearch = async (req, res) => {
     role: decoded.role,
     username: decoded.username,
     gyms: Gyms,
+    LA: announcements,
   });
 };

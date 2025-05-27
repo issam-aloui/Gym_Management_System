@@ -83,6 +83,7 @@ exports.acceptRequest = async (req, res) => {
         stats.members.push(user._id);
         stats.totalMembers++;
         stats.newSignUps++;
+        stats.newMembers++;
         await stats.save();
       }
     }

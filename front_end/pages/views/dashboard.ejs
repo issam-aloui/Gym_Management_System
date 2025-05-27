@@ -28,19 +28,19 @@
                 </div>
             </div>
             <div class="analytics-summary__cards">
-                <analytics-card title="Total Members" data="2,689" icon="users" icon-color="#FF9A62" icon-bg="#fff3e0"
+                <analytics-card title="Total Members" data="<%= stats.totalMembers%>" icon="users" icon-color="#FF9A62" icon-bg="#fff3e0"
                     trend-percentage="8.5" trend-direction="up" trend-period="last month">
                 </analytics-card>
 
-                <analytics-card title="Monthly Revenue" data="69,420 DZD" icon="revenue" icon-color="#5470FF"
+                <analytics-card title="Monthly Revenue" data="<%= stats.totalMembers * gym.pricePerMonth%> DZD" icon="revenue" icon-color="#5470FF"
                     icon-bg="#EFF1FF" trend-percentage="12.3" trend-direction="up" trend-period="last month">
                 </analytics-card>
 
-                <analytics-card title="Daily Visits" data="142" icon="visits" icon-color="#00C07F" icon-bg="#E8F5F0"
+                <analytics-card title="Daily Visits" data="<%= stats.newSignUps%>" icon="visits" icon-color="#00C07F" icon-bg="#E8F5F0"
                     trend-percentage="4.2" trend-direction="up" trend-period="yesterday">
                 </analytics-card>
 
-                <analytics-card title="Active Sessions" data="38" icon="activity" icon-color="#F59E0B" icon-bg="#FEF3C7"
+                <analytics-card title="Active Sessions" data="<%=stats.classes.Totalclasses%>" icon="activity" icon-color="#F59E0B" icon-bg="#FEF3C7"
                     trend-percentage="2.1" trend-direction="down" trend-period="last hour">
                 </analytics-card>
             </div>
@@ -67,15 +67,15 @@
                 <!-- Left side analytics cards - 1/3 width -->
                 <div class="left-analytics-cards">
                     <!-- Using the custom analytics-card component -->
-                    <analytics-card title="New Members" data="68" icon="users" icon-color="#FF9A62" icon-bg="#fff3e0"
+                    <analytics-card title="New Members" data="<%=stats.newMembers%>" icon="users" icon-color="#FF9A62" icon-bg="#fff3e0"
                         trend-percentage="12.5" trend-direction="up" trend-period="last month">
                     </analytics-card>
 
-                    <analytics-card title="Active Members" data="1,842" icon="activity" icon-color="#5470FF"
+                    <analytics-card title="Active Members" data="<%=stats.dailyCheckIns%>" icon="activity" icon-color="#5470FF"
                         icon-bg="#EFF1FF" trend-percentage="3.2" trend-direction="down" trend-period="previous month">
                     </analytics-card>
 
-                    <analytics-card title="Daily Visits" data="142" icon="chart" icon-color="#00C07F" icon-bg="#E8F5F0"
+                    <analytics-card title="Daily Visits" data="<%=stats.newSignUps%>" icon="chart" icon-color="#00C07F" icon-bg="#E8F5F0"
                         trend-percentage="5.7" trend-direction="up" trend-period="last week">
                     </analytics-card>
                 </div>

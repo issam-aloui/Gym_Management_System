@@ -10,49 +10,53 @@ Analytics {
   newSignUps: Number,
   classesAttended: Number,
 }
-*/ 
+*/
 
 const mongoose = require("mongoose");
 
 const StatistiquesSchema = new mongoose.Schema(
   {
-    Gymid : {
-      required:true,
+    Gymid: {
+      required: true,
       type: mongoose.Schema.Types.ObjectId,
       ref: "Gym",
     },
-    totalMembers:{
+    totalMembers: {
       type: Number,
-      required:true,
-      default:0,
+      required: true,
+      default: 0,
     },
-    dailyCheckIns:{
+    newMembers: {
       type: Number,
-      required:true,
-      default:0,
+      default: 0,
     },
-    newSignUps:{
+    dailyCheckIns: {
       type: Number,
-      required:true,
-      default:0,
+      required: true,
+      default: 0,
     },
-    classes:{
-      allclasses:[ 
-              {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "classes",
-              },
-            ],
-      Totalclasses: {type: Number,required:true,default:0,},
-      classesattended: {type: Number,required:true,default:0,},
+    newSignUps: {
+      type: Number,
+      required: true,
+      default: 0,
     },
-    members: [ 
+    classes: {
+      allclasses: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "classes",
+        },
+      ],
+      Totalclasses: { type: Number, required: true, default: 0 },
+      classesattended: { type: Number, required: true, default: 0 },
+    },
+    members: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
     ],
-    trainers: [ 
+    trainers: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "trainers",

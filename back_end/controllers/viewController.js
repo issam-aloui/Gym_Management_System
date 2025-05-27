@@ -2,6 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const Gym = require("../models/Gyms");
 const User = require("../models/User");
+const statistiques = require("../models/statistiques");
 const mongoose = require("mongoose");
 const Membership = require("../models/membership");
 const jwt = require("jsonwebtoken");
@@ -65,13 +66,17 @@ exports.serveGymPage = async (req, res) => {
   if (id && !thing) {
     try {
       const gym = await Gym.findById(id);
-      if (!gym) {
+      const stats = await statistiques.findById(gym.statistiques);
+      if (!gym || !stats) {
         return res
           .status(500)
           .sendFile(
             path.resolve(__dirname, "../../front_end/pages/error.html")
           );
       }
+      stats.newSignUps = stats.newSignUps;
+      +1;
+      await stats.save();
       res.render("Gym", { gym });
     } catch (err) {
       console.error(err);
@@ -275,5 +280,39 @@ exports.serveSearch = async (req, res) => {
     username: decoded.username,
     gyms: Gyms,
     LA: announcements,
+  });
+};
+exports.serveDashboard = async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res
+      .status(401)
+      .sendFile(
+        path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html")
+      );
+  }
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch {
+    return res
+      .status(403)
+      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
+  }
+  let owner = await User.findById(decoded.Oid);
+  let gym = await Gym.findById(owner.Gymowned);
+  let stats = await statistiques.findById(gym.statistiques);
+  if (!gym || !owner) {
+    return res
+      .status(404)
+      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
+  }
+ 
+
+  res.render("dashboard", {
+    role: decoded.role,
+    username: decoded.username,
+    gym,
+    stats,
   });
 };

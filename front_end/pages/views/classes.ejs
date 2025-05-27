@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GymFit Pro - Multi-Gym Calendar</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/calendar.css" />
+</head>
+<body>
+  <app-layout role="<%= role %>" username="<%= username %>" announcements='<%- JSON.stringify(LA) %>'></app-layout>
+
+  <div class="container">
+    <div class="header">
+      <h1>🏋️ GymFit Pro Calendar</h1>
+      <p>Manage your fitness schedule across multiple gyms</p>
+    </div>
+
+    <div class="gym-stats">
+      <div class="stat-card">
+        <div class="stat-number" id="totalEvents">0</div>
+        <div class="stat-label">Total Events</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="thisWeekEvents">0</div>
+        <div class="stat-label">This Week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="totalGyms">0</div>
+        <div class="stat-label">Gyms scheduled</div>
+      </div>
+    </div>
+
+    <div class="gym-selector">
+      <div class="gym-controls">
+        <select id="gymSelect" class="gym-select">
+          <option value="">Select a gym...</option>
+          <% joinedGyms.forEach(gym => { %>
+            <option value="<%= gym._id %>"><%= gym.name %></option>
+          <% }) %>
+        </select>
+        <button class="btn btn-success" id="addEventBtn">+ Add Event</button>
+        <button class="btn btn-secondary" id="exportBtn">📤 Export</button>
+        <button class="btn btn-secondary" id="importBtn">📥 Import</button>
+        <button class="btn btn-danger" id="clearEventsBtn">🗑️ Clear All</button>
+      </div>
+    </div>
+
+    <div class="event-type-legend">
+      <div class="legend-item">
+        <div class="legend-color" style="background: #10b981;"></div>
+        <span>Classes</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #3b82f6;"></div>
+        <span>Personal Training</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #f59e0b;"></div>
+        <span>Group Workouts</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #ef4444;"></div>
+        <span>Competitions</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #8b5cf6;"></div>
+        <span>Special Events</span>
+      </div>
+    </div>
+
+    <div class="calendar-container">
+      <div id="calendar"></div>
+    </div>
+  </div>
+
+  <div id="eventModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" id="closeModalBtn">&times;</span>
+      <h2 id="modalTitle">Add New Event</h2>
+      <form id="eventForm">
+        <div class="form-group">
+          <label for="eventTitle">Event Title:</label>
+          <input type="text" id="eventTitle" required placeholder="e.g., Morning Yoga Session" />
+        </div>
+
+        <div class="form-group">
+          <label for="eventType">Event Type:</label>
+          <select id="eventType" required>
+            <option value="">Select type...</option>
+            <option value="class">Fitness Class</option>
+            <option value="personal">Personal Training</option>
+            <option value="group">Group Workout</option>
+            <option value="competition">Competition</option>
+            <option value="special">Special Event</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="eventStart">Start Date/Time:</label>
+            <input type="datetime-local" id="eventStart" required />
+          </div>
+          <div class="form-group">
+            <label for="eventEnd">End Date/Time:</label>
+            <input type="datetime-local" id="eventEnd" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="eventDescription">Description:</label>
+          <textarea id="eventDescription" rows="3" placeholder="Event details, requirements, etc."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="eventInstructor">Instructor/Trainer:</label>
+          <input type="text" id="eventInstructor" placeholder="e.g., Sarah Johnson" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="eventCapacity">Max Capacity:</label>
+            <input type="number" id="eventCapacity" min="1" placeholder="20" />
+          </div>
+           <div class="form-group">
+            <label for="eventPrice">Price (Optional):</label>
+            <input type="number" id="eventPrice" min="0" placeholder="e.g., 25" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Event Color:</label>
+          <div class="color-picker">
+            <div class="color-option" style="background: #10b981;" data-color="#10b981" title="Green - Classes"></div>
+            <div class="color-option selected" style="background: #3b82f6;" data-color="#3b82f6" title="Blue - Personal Training"></div>
+            <div class="color-option" style="background: #f59e0b;" data-color="#f59e0b" title="Orange - Group Workouts"></div>
+            <div class="color-option" style="background: #ef4444;" data-color="#ef4444" title="Red - Competitions"></div>
+            <div class="color-option" style="background: #8b5cf6;" data-color="#8b5cf6" title="Purple - Special Events"></div>
+            <div class="color-option" style="background: #6b7280;" data-color="#6b7280" title="Gray - Other"></div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-danger" id="deleteEventBtn" style="display: none;">🗑️ Delete</button>
+          <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">💾 Save Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <input type="file" id="importFile" accept=".json" style="display: none;" />
+
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+  <script type="module" src="../../scripts/calendar.js"></script>
+  <script defer src="../../scripts/components/app-layout.js"></script>
+</body>
+</html>

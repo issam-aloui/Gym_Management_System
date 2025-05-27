@@ -28,6 +28,29 @@ router.get("/results", getuserfromjwt, serveSearch);
 
 router.get("/:page", async (req, res) => {
   let { page } = req.params;
+  
+  if (page == "classes") {
+   const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.Oid;
+
+    const user = await User.findById(userId).populate("Gymsjoined");
+    if (!user) return res.status(401).json({ message: "User not found" });
+    const joinedGyms = user.Gymsjoined || [];
+    const announcements = await Announcement.find({ gym: { $in: joinedGyms } });
+
+    const gyms = user.Gymsjoined;
+
+    return res.render("classes", {
+      gyms,
+      role: decoded.role,
+      username: decoded.username,
+      LA: announcements,
+      joinedGyms:user.Gymsjoined,
+    });
+  }
 
   if (page == "memerships") {
     const token = req.cookies.token;

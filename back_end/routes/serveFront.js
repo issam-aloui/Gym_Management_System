@@ -7,7 +7,8 @@ const {
   serveHome,
   servePage,
   handleNotFound,
-  serveGymPage
+  serveGymPage,
+  serveSettings
 } = require("../controllers/viewController");
 const { verifyJWT,verifymember } = require("../middleware/Security");
 const {getuserfromjwt} = require("../middleware/auths");
@@ -21,6 +22,8 @@ router.get("/home-user",getuserfromjwt ,serveHome);
 router.get("/gym/:id?/:thing?",verifyJWT,verifymember ,serveGymPage);
 
 router.get("/owner/:thing",getuserfromjwt,serveowner);
+router.get("/settings",getuserfromjwt,serveSettings);
+
 
 router.get("/:page", async (req, res) => {
   let { page } = req.params;

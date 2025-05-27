@@ -16,8 +16,7 @@ const paypalRoutes = require("./routes/paypal");
 const path = require("path");
 const fuckurahim = require("./routes/Reviews");
 const checkin = require("./routes/CheckIn");
-const annoucementsi = require("./routes/Announcement")
-
+const annoucementsi = require("./routes/Announcement");
 
 dotenv.config();
 const app = express();
@@ -29,16 +28,15 @@ app.use(express.json()); // Parse JSON body requests
 app.use(express.urlencoded({ extended: true })); // Parse form data
 app.use(cookieParser());
 
-
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../front_end/pages/views"));
 app.use("/auth", authRoutes);
 app.use("/joingym", gymjoin);
-app.use("/reviews",fuckurahim);
+app.use("/reviews", fuckurahim);
 app.use("/user", user1);
 app.use("/gym", gym);
 app.use("/announcements", annoucementsi);
-app.use("/scan",checkin)
+app.use("/scan", checkin);
 app.use("/services", fuckuissam);
 app.use("/paypal", paypalRoutes);
 app.use("/", serveFront);
@@ -46,7 +44,6 @@ app.use((req, res, next) => {
   logger.info(`${req.method} ${req.url} - ${req.ip}`);
   next();
 });
-
 
 app.use(helmet());
 

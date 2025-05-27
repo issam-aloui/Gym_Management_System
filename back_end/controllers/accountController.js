@@ -18,7 +18,7 @@ exports.getUsername = (req, res) => {
 };
 
 exports.getinfo = async (req, res) => {
-   const token = req.cookies.token;
+  const token = req.cookies.token;
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized: No token provided" });
@@ -37,15 +37,13 @@ exports.getinfo = async (req, res) => {
       id: user.id,
       phone: user.phone,
       email: user.email,
-      qrcode: user.Qrcode || "" 
+      qrcode: user.Qrcode || "",
     });
   } catch (err) {
     logger.error(`Get user info failed: ${err.message}`);
     return res.status(403).json({ message: "Invalid Token" });
   }
 };
-
-
 
 exports.changeUsername = async (req, res) => {
   let token = req.cookies.token;
@@ -125,14 +123,9 @@ exports.changeEmail = async (req, res) => {
     }
     //change this part so it edit old token
     const newToken = jwt.sign(
-      {
-        id: decoded.id,
-        username: decoded.username,
-        email: email2,
-        role: decoded.role,
-      },
+      { Oid: user._id, role: user.role, username: user.username },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "2h" }
     );
 
     res.cookie("token", newToken, {
@@ -150,13 +143,13 @@ exports.changeEmail = async (req, res) => {
 
 exports.changePassword = async (req, res) => {
   let token = req.cookies.token;
-  let { pass1, pass2, pass3 } = req.body;
+  let { currentPassword, confirmPassword, newPassword } = req.body;
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized: No token provided" });
   }
 
-  if (pass2 !== pass3) {
+  if (confirmPassword !== newPassword) {
     return res
       .status(400)
       .json({ message: "Please provide matching new passwords" });
@@ -165,24 +158,24 @@ exports.changePassword = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await User.findOne({ id: decoded.id });
+    const user = await User.findOne({ _id: decoded.Oid });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const checkPassword = await bcrypt.compare(pass1, user.password);
+    const checkPassword = await bcrypt.compare(currentPassword, user.password);
     if (!checkPassword) {
       return res.status(400).json({ message: "Wrong old password" });
     }
 
-    const hashedPassword = await bcrypt.hash(pass2, 10);
+    const hashedPassword = await bcrypt.hash(confirmPassword, 10);
 
-    await User.updateOne({ id: decoded.id }, { password: hashedPassword });
+    await User.updateOne({ _id: decoded.Oid }, { password: hashedPassword });
 
     const newToken = jwt.sign(
-      { id: decoded.id, username: decoded.username, role: decoded.role },
+      { Oid: user._id, role: user.role, username: user.username },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "2h" }
     );
 
     res.cookie("token", newToken, {
@@ -211,7 +204,7 @@ exports.deleteAccount = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await User.findOne({ id: decoded.id });
+    const user = await User.findOne({ _id: decoded.Oid });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -221,7 +214,7 @@ exports.deleteAccount = async (req, res) => {
       return res.status(400).json({ message: "Wrong password" });
     }
 
-    await User.deleteOne({ id: decoded.id });
+    await User.deleteOne({ _id: decoded.Oid });
 
     res.clearCookie("token", {
       httpOnly: true,

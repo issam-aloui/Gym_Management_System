@@ -1,388 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GymFit -- Settings</title>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GymFit -- Settings</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-      body {
-        font-family: "Poppins", sans-serif;
-        background-color: #f9f9f9;
-        color: #333;
-        line-height: 1.6;
-      }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      .privacy-security {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-      }
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
 
-      article {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        border: #e85d04 1px solid;
-        border-radius: 16px;
-        padding: 20px;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 12px rgba(232, 93, 4, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        background-color: white;
-      }
+    .privacy-security {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
 
-      article:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(232, 93, 4, 0.2);
-      }
+    article {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      border: #e85d04 1px solid;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(232, 93, 4, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background-color: white;
+    }
 
-      .save-changes {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        align-items: center;
-        margin-bottom: 20px;
-        padding: 12px 8px;
-        border-bottom: #e85d04 1px solid;
-      }
+    article:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(232, 93, 4, 0.2);
+    }
 
-      .save-changes p {
-        font-size: 18px;
-        font-weight: 600;
-        color: #333;
-      }
+    .save-changes {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 12px 8px;
+      border-bottom: #e85d04 1px solid;
+    }
 
-      .profile-pic-container {
-        margin: 20px 0;
-      }
+    .save-changes p {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
 
-      .profile-pic {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        background-image: url("../../assets/default-pfp.png");
-        background-size: cover;
-        background-position: center;
-        width: 160px;
-        height: 160px;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 3px solid #e85d04;
-        box-shadow: 0 4px 15px rgba(232, 93, 4, 0.2);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
+    .profile-pic-container {
+      margin: 20px 0;
+    }
 
-      .profile-pic:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 20px rgba(232, 93, 4, 0.3);
-      }
+    .profile-pic {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      background-image: url("../../assets/default-pfp.png");
+      background-size: cover;
+      background-position: center;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #e85d04;
+      box-shadow: 0 4px 15px rgba(232, 93, 4, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-      .profile-pic-overlay {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 40%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(0, 0, 0, 0.5);
-        transition: height 0.3s ease, background-color 0.3s ease;
-        cursor: pointer;
-      }
+    .profile-pic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(232, 93, 4, 0.3);
+    }
 
-      .profile-pic:hover .profile-pic-overlay {
-        height: 100%;
-        background-color: rgba(232, 93, 4, 0.6);
-      }
+    .profile-pic-overlay {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 40%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      transition: height 0.3s ease, background-color 0.3s ease;
+      cursor: pointer;
+    }
 
-      .profile-pic-overlay img {
-        width: 24px;
-        height: 24px;
-        filter: brightness(0) invert(1);
-        transition: transform 0.3s ease;
-      }
+    .profile-pic:hover .profile-pic-overlay {
+      height: 100%;
+      background-color: rgba(232, 93, 4, 0.6);
+    }
 
-      .profile-pic:hover .profile-pic-overlay img {
-        transform: scale(1.2);
-      }
+    .profile-pic-overlay img {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) invert(1);
+      transition: transform 0.3s ease;
+    }
 
-      .infos {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        width: 100%;
-        padding: 10px 0;
-      }
+    .profile-pic:hover .profile-pic-overlay img {
+      transform: scale(1.2);
+    }
 
-      .input-field {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-width: 500px;
-        margin: 0 auto;
-      }
+    .infos {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      padding: 10px 0;
+    }
 
-      .input-field label {
-        font-size: 15px;
-        font-weight: 500;
-        margin-bottom: 8px;
-        color: #555;
-        transition: color 0.3s ease;
-      }
+    .input-field {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
 
-      .input-field:focus-within label {
-        color: #e85d04;
-      }
+    .input-field label {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #555;
+      transition: color 0.3s ease;
+    }
 
-      .input-field input,
-      .input-field textarea {
-        padding: 12px 16px;
-        font-size: 14px;
-        font-family: "Poppins", sans-serif;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-      }
+    .input-field:focus-within label {
+      color: #e85d04;
+    }
 
-      .input-field input:focus,
-      .input-field textarea:focus {
-        border-color: #e85d04;
-        box-shadow: 0 0 8px rgba(232, 93, 4, 0.4);
-        outline: none;
-        transform: translateY(-2px);
-      }
+    .input-field input,
+    .input-field textarea {
+      padding: 12px 16px;
+      font-size: 14px;
+      font-family: "Poppins", sans-serif;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
 
-      .input-field input:hover,
-      .input-field textarea:hover {
-        border-color: #e85d04;
-      }
+    .input-field input:focus,
+    .input-field textarea:focus {
+      border-color: #e85d04;
+      box-shadow: 0 0 8px rgba(232, 93, 4, 0.4);
+      outline: none;
+      transform: translateY(-2px);
+    }
 
-      .data-privacy {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        padding: 12px;
-      }
+    .input-field input:hover,
+    .input-field textarea:hover {
+      border-color: #e85d04;
+    }
 
-      .data-privacy div {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        padding: 16px 12px;
-        border-bottom: 1px solid #eee;
-        transition: background-color 0.3s ease;
-      }
+    .data-privacy {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: 12px;
+    }
 
-      .data-privacy div:hover {
-        background-color: rgba(232, 93, 4, 0.05);
-      }
+    .data-privacy div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 16px 12px;
+      border-bottom: 1px solid #eee;
+      transition: background-color 0.3s ease;
+    }
 
-      .data-privacy div:last-child {
-        border-bottom: none;
-      }
+    .data-privacy div:hover {
+      background-color: rgba(232, 93, 4, 0.05);
+    }
 
-      .data-privacy p {
-        font-size: 15px;
-      }
+    .data-privacy div:last-child {
+      border-bottom: none;
+    }
 
-      .data-privacy p:first-child {
-        font-weight: 500;
-        color: #555;
-      }
+    .data-privacy p {
+      font-size: 15px;
+    }
 
-      .data-privacy p:last-child {
-        color: #777;
-      }
+    .data-privacy p:first-child {
+      font-weight: 500;
+      color: #555;
+    }
 
-      .heading-container {
-        position: relative;
-        margin-bottom: 30px;
-        text-align: center;
-      }
+    .data-privacy p:last-child {
+      color: #777;
+    }
 
-      .heading {
-        font-family: "Poppins", sans-serif;
-        font-weight: 700;
-        font-size: 38px;
-        background: linear-gradient(
-          to left,
+    .heading-container {
+      position: relative;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .heading {
+      font-family: "Poppins", sans-serif;
+      font-weight: 700;
+      font-size: 38px;
+      background: linear-gradient(to left,
           rgb(235, 144, 80) 10%,
-          #e85d04 50%
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        position: relative;
-        display: inline-block;
-        transition: all 0.5s ease;
-      }
+          #e85d04 50%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      position: relative;
+      display: inline-block;
+      transition: all 0.5s ease;
+    }
 
-      .heading:hover {
-        transform: scale(1.1);
-        text-shadow: 0 0 10px rgba(238, 143, 84, 0.45),
-          0 0 15px rgba(221, 133, 78, 0.3);
-      }
+    .heading:hover {
+      transform: scale(1.1);
+      text-shadow: 0 0 10px rgba(238, 143, 84, 0.45),
+        0 0 15px rgba(221, 133, 78, 0.3);
+    }
 
-      .heading::after {
-        content: "";
-        position: absolute;
-        width: 0%;
-        height: 3px;
-        bottom: -8px;
-        left: 50%;
-        background-color: #e85d04;
-        transition: width 0.4s ease, left 0.4s ease;
-      }
+    .heading::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 3px;
+      bottom: -8px;
+      left: 50%;
+      background-color: #e85d04;
+      transition: width 0.4s ease, left 0.4s ease;
+    }
 
-      .heading:hover::after {
-        width: 100%;
-        left: 0;
-      }
+    .heading:hover::after {
+      width: 100%;
+      left: 0;
+    }
 
-      /* Custom styles for the CTA button component */
+    /* Custom styles for the CTA button component */
 
-      /* Switch styling for two-factor auth */
-      .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 30px;
-      }
+    /* Switch styling for two-factor auth */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
 
-      .switch input {
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked+.slider {
+      background-color: #e85d04;
+    }
+
+    input:focus+.slider {
+      box-shadow: 0 0 1px #e85d04;
+    }
+
+    input:checked+.slider:before {
+      transform: translateX(30px);
+    }
+
+    /* Fixed two-factor auth section */
+    .two-factor-auth {
+      display: flex;
+      flex-direction: column !important;
+      gap: 15px;
+      align-items: flex-start !important;
+    }
+
+    .two-factor-header {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+    }
+
+    .phone-number {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .phone-number:hover {
+      background-color: #f0f0f0;
+      transform: translateX(5px);
+    }
+
+    /* Adding page entry animation */
+    @keyframes fadeIn {
+      from {
         opacity: 0;
-        width: 0;
-        height: 0;
+        transform: translateY(20px);
       }
 
-      .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: 0.4s;
-        border-radius: 34px;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
+    }
 
-      .slider:before {
-        position: absolute;
-        content: "";
-        height: 22px;
-        width: 22px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: 0.4s;
-        border-radius: 50%;
-      }
+    main {
+      animation: fadeIn 0.8s ease-out;
+    }
 
-      input:checked + .slider {
-        background-color: #e85d04;
-      }
+    article {
+      animation: fadeIn 0.8s ease-out forwards;
+      opacity: 0;
+    }
 
-      input:focus + .slider {
-        box-shadow: 0 0 1px #e85d04;
-      }
+    article:nth-child(2) {
+      animation-delay: 0.2s;
+    }
 
-      input:checked + .slider:before {
-        transform: translateX(30px);
-      }
+    article:nth-child(3) {
+      animation-delay: 0.4s;
+    }
 
-      /* Fixed two-factor auth section */
-      .two-factor-auth {
-        display: flex;
-        flex-direction: column !important;
-        gap: 15px;
-        align-items: flex-start !important;
-      }
+    /* Added hover effects for interactive elements */
+    .input-field input::placeholder,
+    .input-field textarea::placeholder {
+      transition: color 0.3s ease;
+    }
 
-      .two-factor-header {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        align-items: center;
-      }
+    .input-field input:focus::placeholder,
+    .input-field textarea:focus::placeholder {
+      color: #e85d04;
+      opacity: 0.6;
+    }
 
-      .phone-number {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        padding: 10px 15px;
-        border-radius: 8px;
-        margin-top: 10px;
-        transition: all 0.3s ease;
-      }
+    /* Modal overlay styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      animation: fadeIn 0.3s ease;
+    }
 
-      .phone-number:hover {
-        background-color: #f0f0f0;
-        transform: translateX(5px);
-      }
+    .modal-overlay.active {
+      display: flex;
+    }
 
-      /* Adding page entry animation */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
 
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
 
-      main {
-        animation: fadeIn 0.8s ease-out;
-      }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
+    }
 
-      article {
-        animation: fadeIn 0.8s ease-out forwards;
-        opacity: 0;
-      }
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+    }
 
-      article:nth-child(2) {
-        animation-delay: 0.2s;
-      }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #666;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
 
-      article:nth-child(3) {
-        animation-delay: 0.4s;
-      }
+    .modal-close:hover {
+      background-color: #f0f0f0;
+      color: #e85d04;
+    }
 
-      /* Added hover effects for interactive elements */
-      .input-field input::placeholder,
-      .input-field textarea::placeholder {
-        transition: color 0.3s ease;
-      }
+    .modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-      .input-field input:focus::placeholder,
-      .input-field textarea:focus::placeholder {
-        color: #e85d04;
-        opacity: 0.6;
-      }
-    </style>
-  </head>
+    .modal-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: flex-end;
+      margin-top: 25px;
+    }
 
-  <body>
-    <div
-      id="loader-placeholder"
-      style="
+    .modal-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-family: "Poppins", sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .modal-btn-primary {
+      background-color: #e85d04;
+      color: white;
+    }
+
+    .modal-btn-primary:hover {
+      background-color: #cf4b03;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3);
+    }
+
+    .modal-btn-secondary {
+      background-color: #f0f0f0;
+      color: #666;
+    }
+
+    .modal-btn-secondary:hover {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loader-placeholder" style="
         position: fixed;
         top: 0;
         left: 0;
@@ -395,10 +501,8 @@
         justify-content: center;
         z-index: 9999;
         transition: opacity 0.4s;
-      "
-    >
-      <div
-        style="
+      ">
+    <div style="
           border: 6px solid #e0e0e0;
           border-top: 6px solid #e85d04;
           border-radius: 50%;
@@ -406,175 +510,439 @@
           height: 48px;
           animation: spin 0.8s linear infinite;
           margin-bottom: 1.2rem;
-        "
-      ></div>
-      <div
-        style="
+        "></div>
+    <div style="
           font-family: 'Poppins', sans-serif;
           color: #222;
           font-size: 1.1rem;
-        "
-      >
-        Loading, please wait...
-      </div>
+        ">
+      Loading, please wait...
     </div>
-    <style>
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
+  </div>
+  <style>
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
+  <app-layout role="<%= role %>" username="<%= username %>"></app-layout>
+  <main id="mainContent">
+    <section class="privacy-security">
+      <div class="heading-container">
+        <h2 class="heading">Privacy & Security</h2>
+      </div>
+      <article class="Personal-profile">
+        <div class="save-changes">
+          <p>Personal Profile</p>
+          <cta-button>Save Changes</cta-button>
+        </div>
+        <div class="profile-pic-container">
+          <div class="profile-pic">
+            <div class="profile-pic-overlay">
+              <img src="../../assets/camera.svg" alt="camera icon" />
+            </div>
+          </div>
+        </div>
+        <div class="infos">
+          <div class="input-field">
+            <label for="first-name">First Name</label>
+            <input type="text" id="first-name" placeholder="Enter your first name" required />
+          </div>
+          <div class="input-field">
+            <label for="last-name">Last Name</label>
+            <input type="text" id="last-name" placeholder="Enter your last name" required />
+          </div>
+          <div class="input-field">
+            <label for="Localisation">Location</label>
+            <input type="text" id="Localisation" placeholder="Where are you located? :D" required />
+          </div>
+          <div class="input-field">
+            <label for="bio">Your Bio</label>
+            <textarea id="bio" name="bio" rows="5" cols="40" placeholder="Tell us about yourself..."></textarea>
+          </div>
+        </div>
+      </article>
+      <article class="access-security">
+        <div class="save-changes">
+          <p>Access & Security</p>
+        </div>
+        <div class="data-privacy">
+          <div class="sign-in-email">
+            <p>Sign-in Email</p>
+            <p>
+              <%= email %>
+            </p>
+            <cta-button onclick="openEmailModal()">Change Your Email</cta-button>
+
+          </div>
+          <div class="password-part">
+            <p>Password</p>
+            <cta-button onclick="openPasswordModal()">Change Password</cta-button>
+          </div>
+          <div class="two-factor-auth">
+            <div class="two-factor-header">
+              <p>Two-Factor Authentication</p>
+              <label class="switch">
+                <input type="checkbox" id="switch" />
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="phone-number">
+            <p>Phone Number</p>
+            <p>+123 456 789</p>
+          </div>
+        </div>
+      </article>
+    </section>
+    <div style="text-align: center; margin: 30px 0; display:flex; justify-content: space-between;">
+      <cta-button id="logout">Logout</cta-button>
+      <cta-button id="card">View your card</cta-button>
+      <cta-button id="delete-account" onclick="openDeleteModal()">Delete Account</cta-button>
+    </div>
+  </main>
+
+  <!-- Email Change Modal -->
+  <div id="emailModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Change Email Address</h3>
+        <button class="modal-close" onclick="closeEmailModal()">&times;</button>
+      </div>
+      <form class="modal-form" onsubmit="handleEmailChange(event)">
+        <div class="input-field">
+          <label for="current-email">Current Email</label>
+          <input type="email" id="current-email" value="<%= email %>" readonly style="background-color: #f9f9f9;" />
+        </div>
+        <div class="input-field">
+          <label for="new-email">New Email Address</label>
+          <input type="email" id="new-email" placeholder="Enter your new email address" required />
+        </div>
+        <div class="modal-buttons">
+          <button type="button" class="modal-btn modal-btn-secondary" onclick="closeEmailModal()">Cancel</button>
+          <button type="submit" class="modal-btn modal-btn-primary">Change Email</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Password Change Modal -->
+  <div id="passwordModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Change Password</h3>
+        <button class="modal-close" onclick="closePasswordModal()">&times;</button>
+      </div>
+      <form class="modal-form" onsubmit="handlePasswordChange(event)">
+        <div class="input-field">
+          <label for="current-password">Current Password</label>
+          <input type="password" id="current-password" placeholder="Enter your current password" required />
+        </div>
+        <div class="input-field">
+          <label for="new-password">New Password</label>
+          <input type="password" id="new-password" placeholder="Enter your new password" required />
+        </div>
+        <div class="input-field">
+          <label for="confirm-password">Confirm New Password</label>
+          <input type="password" id="confirm-password" placeholder="Confirm your new password" required />
+        </div>
+        <div class="modal-buttons">
+          <button type="button" class="modal-btn modal-btn-secondary" onclick="closePasswordModal()">Cancel</button>
+          <button type="submit" class="modal-btn modal-btn-primary">Change Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Account Modal -->
+  <div id="deleteModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color: #dc2626;">⚠️ Delete Account</h3>
+        <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+      </div>
+      <div
+        style="margin-bottom: 20px; padding: 15px; background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 8px;">
+        <p style="color: #991b1b; font-weight: 500; margin-bottom: 10px;">⚠️ Warning: This action cannot be undone</p>
+        <p style="color: #7f1d1d; font-size: 14px;">Deleting your account will permanently remove all your data,
+          including:</p>
+        <ul style="color: #7f1d1d; font-size: 14px; margin-top: 8px; padding-left: 20px;">
+          <li>Profile information</li>
+          <li>Gym memberships</li>
+          <li>Reviews and ratings</li>
+          <li>Check-in history</li>
+        </ul>
+      </div>
+      <form class="modal-form" onsubmit="handleAccountDeletion(event)">
+        <div class="input-field">
+          <label for="delete-password">Confirm Password</label>
+          <input type="password" id="delete-password" placeholder="Enter your password to confirm deletion" required />
+        </div>
+        <div class="modal-buttons">
+          <button type="button" class="modal-btn modal-btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+          <button type="submit" class="modal-btn" style="background-color: #dc2626; color: white;"
+            onmouseover="this.style.backgroundColor='#b91c1c'" onmouseout="this.style.backgroundColor='#dc2626'">Delete
+            Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../../scripts/components/app-layout.js"></script>
+  <script src="../../scripts/components/button.js"></script>
+  <script>
+    // Add animation to elements when they enter viewport
+    document.addEventListener("DOMContentLoaded", function () {
+      // Animate form fields on focus
+      const inputFields = document.querySelectorAll(
+        ".input-field input, .input-field textarea"
+      );
+
+      inputFields.forEach((field) => {
+        field.addEventListener("focus", () => {
+          field.style.transform = "translateY(-2px)";
+        });
+
+        field.addEventListener("blur", () => {
+          if (!field.value) {
+            field.style.transform = "translateY(0)";
+          }
+        });
+      });
+    });
+
+    // Add smooth scrolling to sections
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute("href")).scrollIntoView({
+          behavior: "smooth",
+        });
+      });
+    });
+
+    // Modal functions
+    function openEmailModal() {
+      document.getElementById('emailModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeEmailModal() {
+      document.getElementById('emailModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+      // Reset form
+      document.getElementById('new-email').value = '';
+    }
+
+    function openPasswordModal() {
+      document.getElementById('passwordModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePasswordModal() {
+      document.getElementById('passwordModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+      // Reset form
+      document.getElementById('current-password').value = '';
+      document.getElementById('new-password').value = '';
+      document.getElementById('confirm-password').value = '';
+    }
+
+    async function handleEmailChange(event) {
+      try {
+
+        event.preventDefault();
+        const newEmail = document.getElementById('new-email').value;
+        const currentEmail = document.getElementById('current-email').value;
+
+
+        if (!newEmail) {
+          alert('Please enter a new email address');
+          return;
+        }
+        try {
+          const res = await fetch("/user/changeemail", {
+            method: 'PUT',
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email1: currentEmail, email2: newEmail })
+          });
+
+          if (res.ok) {
+            alert('Email changed successfully!');
+            console.log(res);
+          } else {
+            console.error("Email changing failed");
+            alert("Failed to change email. Please try again later.");
+          }
+        } catch (err) {
+          console.error("Error changing email:", err);
+          alert("Failed to change email. Please try again later.");
+        }
+
+
+        closeEmailModal();
+      }
+      catch (err) {
+        console.error("Error changing email:", err);
+        alert("Failed to change email. Please try again later.");
+      }
+    };
+
+    async function handlePasswordChange(event) {
+      event.preventDefault();
+      const currentPassword = document.getElementById('current-password').value;
+      const newPassword = document.getElementById('new-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        alert('Please fill in all password fields');
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        alert('New passwords do not match');
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        alert('New password must be at least 6 characters long');
+        return;
+      }
+
+      // Here you would typically send the request to your backend
+      try {
+        const res = await fetch("/user/changepassword", {
+          method: 'PUT',
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ currentPassword, confirmPassword, newPassword })
+        });
+        if (res.ok) {
+          alert('Password changed successfully!');
+        }
+        else {
+          console.error("Password changing failed");
+          alert("Failed to change password. Please try again later.");
         }
       }
-    </style>
-    <app-layout role="<%= role %>" username="<%= username %>"></app-layout>
-    <main id="mainContent">
-      <section class="privacy-security">
-        <div class="heading-container">
-          <h2 class="heading">Privacy & Security</h2>
-        </div>
-        <article class="Personal-profile">
-          <div class="save-changes">
-            <p>Personal Profile</p>
-            <cta-button>Save Changes</cta-button>
-          </div>
-          <div class="profile-pic-container">
-            <div class="profile-pic">
-              <div class="profile-pic-overlay">
-                <img src="../../assets/camera.svg" alt="camera icon" />
-              </div>
-            </div>
-          </div>
-          <div class="infos">
-            <div class="input-field">
-              <label for="first-name">First Name</label>
-              <input
-                type="text"
-                id="first-name"
-                placeholder="Enter your first name"
-                required
-              />
-            </div>
-            <div class="input-field">
-              <label for="last-name">Last Name</label>
-              <input
-                type="text"
-                id="last-name"
-                placeholder="Enter your last name"
-                required
-              />
-            </div>
-            <div class="input-field">
-              <label for="Localisation">Location</label>
-              <input
-                type="text"
-                id="Localisation"
-                placeholder="Where are you located? :D"
-                required
-              />
-            </div>
-            <div class="input-field">
-              <label for="bio">Your Bio</label>
-              <textarea
-                id="bio"
-                name="bio"
-                rows="5"
-                cols="40"
-                placeholder="Tell us about yourself..."
-              ></textarea>
-            </div>
-          </div>
-        </article>
-        <article class="access-security">
-          <div class="save-changes">
-            <p>Access & Security</p>
-          </div>
-          <div class="data-privacy">
-            <div class="sign-in-email">
-              <p>Sign-in Email</p>
-              <p>email@example.com</p>
-              <cta-button>Change Your Email</cta-button>
-            </div>
-            <div class="password-part">
-              <p>Password</p>
-              <cta-button>Change Password</cta-button>
-            </div>
-            <div class="two-factor-auth">
-              <div class="two-factor-header">
-                <p>Two-Factor Authentication</p>
-                <label class="switch">
-                  <input type="checkbox" id="switch" />
-                  <span class="slider"></span>
-                </label>
-              </div>
-            </div>
-            <div class="phone-number">
-              <p>Phone Number</p>
-              <p>+123 456 789</p>
-            </div>
-          </div>
-        </article>
-      </section>
-      <div style="text-align: center; margin: 30px 0">
-        <a
-          href="/card"
-          style="
-            display: inline-block;
-            background-color: #e85d04;
-            color: white;
-            font-weight: 600;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-family: 'Poppins', sans-serif;
-            box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-          "
-          onmouseover="this.style.backgroundColor='#cf4b03'; this.style.boxShadow='0 6px 20px rgba(207, 75, 3, 0.5)';"
-          onmouseout="this.style.backgroundColor='#e85d04'; this.style.boxShadow='0 4px 12px rgba(232, 93, 4, 0.3)';"
-        >
-          View Your Card
-        </a>
-      </div>
-    </main>
+      catch (err) {
+        console.error("Error changing password:", err);
+        alert("Failed to change password. Please try again later.");
+      }
+      closePasswordModal();
+    }    // Close modal when clicking outside
+    document.getElementById('emailModal').addEventListener('click', function (e) {
+      if (e.target === this) {
+        closeEmailModal();
+      }
+    });
 
-    <script src="../../scripts/components/app-layout.js"></script>
-    <script src="../../scripts/components/button.js"></script>
-    <script>
-      // Add animation to elements when they enter viewport
-      document.addEventListener("DOMContentLoaded", function () {
-        // Animate form fields on focus
-        const inputFields = document.querySelectorAll(
-          ".input-field input, .input-field textarea"
-        );
+    document.getElementById('passwordModal').addEventListener('click', function (e) {
+      if (e.target === this) {
+        closePasswordModal();
+      }
+    });
 
-        inputFields.forEach((field) => {
-          field.addEventListener("focus", () => {
-            field.style.transform = "translateY(-2px)";
-          });
+    document.getElementById('deleteModal').addEventListener('click', function (e) {
+      if (e.target === this) {
+        closeDeleteModal();
+      }
+    });// Close modal with Escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeEmailModal();
+        closePasswordModal();
+        closeDeleteModal();
+      }
+    });
 
-          field.addEventListener("blur", () => {
-            if (!field.value) {
-              field.style.transform = "translateY(0)";
-            }
-          });
+    // Delete Account Modal functions
+    function openDeleteModal() {
+      document.getElementById('deleteModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.remove('active');
+      document.body.style.overflow = 'auto';
+      // Reset form
+      document.getElementById('delete-password').value = '';
+    }
+
+    async function handleAccountDeletion(event) {
+      event.preventDefault();
+      const password = document.getElementById('delete-password').value;
+
+      if (!password) {
+        alert('Please enter your password to confirm account deletion');
+        return;
+      }
+
+      // Double confirmation
+      const confirmDelete = confirm('Are you absolutely sure you want to delete your account? This action cannot be undone.');
+      if (!confirmDelete) {
+        return;
+      }
+
+      try {
+        const res = await fetch("/user/accountdeletion", {
+          method: 'DELETE',
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password })
         });
-      });
 
-      // Add smooth scrolling to sections
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          document.querySelector(this.getAttribute("href")).scrollIntoView({
-            behavior: "smooth",
-          });
+        if (res.ok) {
+          alert('Account deleted successfully. You will be redirected to the homepage.');
+          window.location.href = "/ad";
+        } else {
+          const errorData = await res.json();
+          console.error("Account deletion failed");
+          alert(errorData.message || "Failed to delete account. Please check your password and try again.");
+        }
+      } catch (err) {
+        console.error("Error deleting account:", err);
+        alert("Failed to delete account. Please try again later.");
+      }
+    }
+
+    const buttonl = document.getElementById("logout");
+
+    buttonl.addEventListener("click", async function (event) {
+      event.preventDefault();
+      try {
+        const res = await fetch("/auth/logout", {
+          method: "POST",
+          credentials: "include"
         });
-      });
-    </script>
-    <script>
-      window.addEventListener("load", function () {
-        const loader = document.getElementById("loader-placeholder");
-        loader.style.opacity = 0;
-        setTimeout(() => (loader.style.display = "none"), 400);
-      });
-    </script>
-  </body>
+
+        if (res.ok) {
+          window.location.href = "/";
+        } else {
+          console.error("Logout failed");
+          alert("Failed to log out");
+        }
+      } catch (err) {
+        console.error("Error during logout:", err);
+        alert("Error occurred while logging out");
+      }
+    });
+
+
+  </script>
+  <script>
+    window.addEventListener("load", function () {
+      const loader = document.getElementById("loader-placeholder");
+      loader.style.opacity = 0;
+      setTimeout(() => (loader.style.display = "none"), 400);
+    });
+    const cardButton = document.getElementById("card");
+    cardButton.addEventListener("click", function () {
+      window.location.href = "/card";
+    });
+  </script>
+</body>
+
 </html>

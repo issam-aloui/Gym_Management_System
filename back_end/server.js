@@ -10,11 +10,11 @@ const gym = require("./routes/gym");
 const serveFront = require("./routes/serveFront");
 const logger = require("./utils/logger");
 const helmet = require("helmet");
-const fuckuissam = require("./routes/services");
+const servicesm = require("./routes/services");
 const gymjoin = require("./routes/gymjoin");
 const paypalRoutes = require("./routes/paypal");
 const path = require("path");
-const fuckurahim = require("./routes/Reviews");
+const servicesr = require("./routes/Reviews");
 const checkin = require("./routes/CheckIn");
 const annoucementsi = require("./routes/Announcement");
 
@@ -32,12 +32,12 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../front_end/pages/views"));
 app.use("/auth", authRoutes);
 app.use("/joingym", gymjoin);
-app.use("/reviews", fuckurahim);
+app.use("/reviews", servicesr);
 app.use("/user", user1);
 app.use("/gym", gym);
 app.use("/announcements", annoucementsi);
-app.use("/scan", checkin);
-app.use("/services", fuckuissam);
+app.use("/scan",checkin)
+app.use("/services", servicesm);
 app.use("/paypal", paypalRoutes);
 app.use("/", serveFront);
 app.use((req, res, next) => {

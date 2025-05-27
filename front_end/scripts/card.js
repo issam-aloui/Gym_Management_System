@@ -22,6 +22,8 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     // Set QR code from user.qrcode directly
     document.getElementById("qrImage").src = user.qrcode || "";
+    document.getElementById("downloadLink").href = user.qrcode || "";
+    document.getElementById("downloadLink").download = "downloaded-image.png";
 
   } catch (error) {
     console.error("Error loading user info:", error);

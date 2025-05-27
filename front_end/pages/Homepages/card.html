@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Gym Membership Card</title>
   <link rel="stylesheet" href="../../css/card.css">
 </head>
+
 <body>
-   <a href="/settings" class="back-link">← Back to Settings</a>
+  <a href="/settings" class="back-link">← Back to Settings</a>
   <div class="card">
     <div class="left-section">
       <div class="frame11">
@@ -33,23 +35,26 @@
       </div>
     </div>
 
-    <div class="green-bg"></div>
+    <div class="orange-bg"></div>
     <div class="white-bg"></div>
 
     <div class="frame13">
       <div class="frame12">
         <div class="logo">
-          <div class="s-part"></div>
-          <div class="b-part"></div>
+          <!-- Muscle emoji logo - no additional elements needed -->
         </div>
         <div class="company-name">GymCard</div>
       </div>
       <div class="qr-wrapper">
-        <img id="qrImage" class="qr-inner" alt="QR Code" />
+        <a  id="downloadLink" >
+
+          <img id="qrImage" class="qr-inner" alt="QR Code" />
+        </a>
       </div>
     </div>
   </div>
 
   <script src="../../scripts/card.js"></script>
 </body>
+
 </html>

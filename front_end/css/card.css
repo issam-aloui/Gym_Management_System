@@ -1,17 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Source+Serif+Pro:wght@400;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  background: #eee;
-  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 .card {
   position: relative;
   width: 1050px;
   height: 600px;
-  background: #000000; /* changed from #233251 */
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   margin: 40px auto;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 15px 25px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 0 1px rgba(232, 93, 4, 0.1);
+  transition: all 0.3s ease;
+  animation: cardEntry 0.8s ease-out;
+  backdrop-filter: blur(10px);
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.4), 0 25px 45px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 0 1px rgba(232, 93, 4, 0.2),
+    0 0 50px rgba(232, 93, 4, 0.1);
+}
+
+@keyframes cardEntry {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .orange-bg {
@@ -19,8 +56,42 @@ body {
   left: 563px;
   width: 487px;
   height: 600px;
-  background: #FF6600; /* changed from #00AFA3 */
+  background: linear-gradient(
+    135deg,
+    #e85d04 0%,
+    #f97316 30%,
+    #ea580c 70%,
+    #dc2626 100%
+  );
   top: 0;
+  opacity: 0.95;
+  overflow: hidden;
+}
+
+.orange-bg::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  50% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
 }
 
 .white-bg {
@@ -28,8 +99,10 @@ body {
   left: 605px;
   width: 445px;
   height: 600px;
-  background: #FFFFFF;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
   top: 0;
+  box-shadow: inset 0 0 30px rgba(232, 93, 4, 0.1),
+    inset -5px 0 15px rgba(232, 93, 4, 0.05);
 }
 
 .frame13 {
@@ -43,6 +116,7 @@ body {
   gap: 80px;
   width: 286px;
   height: 388px;
+  animation: slideInRight 0.8s ease-out 0.3s both;
 }
 
 .frame12 {
@@ -55,46 +129,197 @@ body {
 }
 
 .logo {
-  width: 113px;
-  height: 111px;
+  width: 120px;
+  height: 120px;
   position: relative;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-radius: 50%;
+  border: 4px solid #e85d04;
+  box-shadow: 0 8px 16px rgba(232, 93, 4, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
 }
 
-.s-part {
+.logo:hover {
+  transform: scale(1.15) rotate(10deg);
+  box-shadow: 0 15px 30px rgba(232, 93, 4, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Modern Fitness Logo Design - Muscle/Strength Symbol */
+.logo::before {
+  content: "";
   position: absolute;
-  width: 70.88px;
-  height: 111px;
-  background: #000000; /* changed from #233251 */
-  left: 0;
-  top: 0;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #e85d04 0%, #f97316 50%, #ea580c 100%);
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 4px 8px rgba(232, 93, 4, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
 }
 
+.logo::after {
+  content: "💪";
+  position: absolute;
+  font-size: 32px;
+  z-index: 3;
+  transition: all 0.3s ease;
+  filter: sepia(1) hue-rotate(15deg) saturate(2) brightness(1.2);
+}
+
+.logo:hover::before {
+  width: 65px;
+  height: 65px;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%);
+  box-shadow: 0 6px 12px rgba(232, 93, 4, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.logo:hover::after {
+  font-size: 36px;
+  transform: scale(1.1);
+}
+
+/* Alternative kettlebell design elements */
+.logo .kettlebell-base {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg, #e85d04 0%, #f97316 100%);
+  border-radius: 50%;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  box-shadow: 0 3px 6px rgba(232, 93, 4, 0.3),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  display: none;
+}
+
+.logo .kettlebell-handle {
+  position: absolute;
+  width: 30px;
+  height: 15px;
+  border: 4px solid #e85d04;
+  border-bottom: none;
+  border-radius: 15px 15px 0 0;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  transition: all 0.3s ease;
+  display: none;
+}
+
+.logo.kettlebell-style::before,
+.logo.kettlebell-style::after {
+  display: none;
+}
+
+.logo.kettlebell-style .kettlebell-base,
+.logo.kettlebell-style .kettlebell-handle {
+  display: block;
+}
+
+.logo.kettlebell-style:hover .kettlebell-base {
+  width: 50px;
+  height: 50px;
+  bottom: 22px;
+}
+
+.logo.kettlebell-style:hover .kettlebell-handle {
+  border-color: #f97316;
+  transform: translateX(-50%) scale(1.1);
+}
+
+/* Remove old dumbbell parts */
+.logo .left-weight,
+.logo .right-weight,
+.logo .grip {
+  display: none;
+}
+
+/* Alternative muscle/fitness icon using CSS */
+.logo.muscle-icon::before {
+  content: "💪";
+  font-size: 48px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  filter: grayscale(1) sepia(1) hue-rotate(15deg) saturate(3);
+}
+
+.logo.muscle-icon::after {
+  display: none;
+}
+
+/* Remove old parts */
+.s-part,
 .b-part {
-  position: absolute;
-  width: 81.99px;
-  height: 105.9px;
-  background: #FF6600; /* changed from #00AFA3 */
-  left: 31.01px;
-  top: 2.56px;
+  display: none;
 }
 
 .company-name {
-  font-family: 'Source Serif Pro', serif;
-  font-weight: 600;
+  font-family: "Source Serif Pro", serif;
+  font-weight: 700;
   font-size: 40px;
   line-height: 50px;
   text-align: center;
   text-transform: uppercase;
-  color: #000000; /* changed from #233251 */
+  background: linear-gradient(135deg, #1a1a2e 0%, #e85d04 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.company-name:hover {
+  transform: scale(1.05);
 }
 
 .qr-wrapper {
   width: 145px;
   height: 145px;
-  border: 4.8px solid #FF6600; /* changed from #00AFA3 */
+  border: 4px solid #e85d04;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(232, 93, 4, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.qr-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, #e85d04, #f97316, #ea580c);
+  border-radius: 18px;
+  z-index: -1;
+}
+
+.qr-wrapper:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(232, 93, 4, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .qr-inner {
@@ -110,6 +335,29 @@ body {
   transform: translateY(-50%);
   width: 489px;
   height: 411px;
+  animation: slideInLeft 0.8s ease-out 0.2s both;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
 }
 
 .frame11 {
@@ -131,24 +379,72 @@ body {
   font-weight: 700;
   text-transform: uppercase;
   margin: 0;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.name::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #e85d04, #f97316);
+  transition: width 0.5s ease;
+  border-radius: 2px;
+}
+
+.name:hover::after {
+  width: 100%;
 }
 
 .job-title-container {
   width: 298px;
-  border-bottom: 4px solid #FF6600; /* changed from #00AFA3 */
+  border-bottom: 4px solid transparent;
+  background: linear-gradient(90deg, #e85d04 0%, #f97316 50%, #ea580c 100%);
+  background-size: 100% 4px;
+  background-repeat: no-repeat;
+  background-position: bottom;
   padding-bottom: 25px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.job-title-container::before {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #fff, #f8fafc);
+  transition: width 0.5s ease;
+  border-radius: 2px;
+}
+
+.job-title-container:hover::before {
+  width: 100%;
 }
 
 .job-title {
   font-size: 32px;
   font-weight: 500;
   color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: color 0.3s ease;
+}
+
+.job-title:hover {
+  color: #f97316;
 }
 
 .frame9 {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
 }
 
 .contact-row {
@@ -156,46 +452,326 @@ body {
   align-items: center;
   gap: 20px;
   height: 50px;
+  padding: 8px 0;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(232, 93, 4, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.contact-row:hover::before {
+  left: 100%;
+}
+
+.contact-row:hover {
+  transform: translateX(10px);
+  background: rgba(232, 93, 4, 0.05);
 }
 
 .icon-circle {
   width: 50px;
   height: 50px;
-  background: #FF6600; /* changed from #00AFA3 */
+  background: linear-gradient(135deg, #e85d04 0%, #f97316 100%);
   border-radius: 50%;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(232, 93, 4, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.icon-circle:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 6px 12px rgba(232, 93, 4, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .contact-text {
   font-size: 24px;
   font-weight: 500;
   color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  flex: 1;
+  word-break: break-word;
 }
 
-.phone-icon::after,
-.email-icon::after,
-.website-icon::after,
-.location-icon::after {
-  content: '';
+.contact-row:hover .contact-text {
+  color: #f97316;
+}
+
+/* Enhanced Icons using CSS */
+.phone-icon::after {
+  content: "📞";
+  font-size: 20px;
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 26px;
-  height: 26px;
-  background: white;
   transform: translate(-50%, -50%);
-  border-radius: 5px;
+}
+
+.email-icon::after {
+  content: "✉️";
+  font-size: 18px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.location-icon::after {
+  content: "📍";
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Alternative icon style using shapes */
+.phone-icon.shape-icon::after,
+.email-icon.shape-icon::after,
+.location-icon.shape-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: white;
+  border-radius: 3px;
+}
+
+.phone-icon.shape-icon::after {
+  width: 20px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+  border-radius: 4px;
+}
+
+.email-icon.shape-icon::after {
+  width: 24px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+  border-radius: 2px;
+}
+
+.location-icon.shape-icon::after {
+  width: 16px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  border-radius: 8px 8px 0 8px;
 }
 .back-link {
-  display: inline-block;
-  margin: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px;
+  padding: 12px 24px;
   font-size: 16px;
   text-decoration: none;
-  color: #333;
-  font-weight: bold;
+  color: white;
+  font-weight: 600;
+  background: linear-gradient(135deg, #e85d04 0%, #f97316 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.back-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.back-link:hover::before {
+  left: 100%;
 }
 
 .back-link:hover {
-  text-decoration: underline;
-  cursor: pointer;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(232, 93, 4, 0.4);
+  text-decoration: none;
+  color: white;
+}
+
+.back-link:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(232, 93, 4, 0.3);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+  .card {
+    width: 90vw;
+    max-width: 950px;
+    height: auto;
+    min-height: 500px;
+    padding: 40px 20px;
+  }
+
+  .orange-bg {
+    left: 60%;
+    width: 40%;
+  }
+
+  .white-bg {
+    left: 65%;
+    width: 35%;
+  }
+
+  .frame13 {
+    left: 70%;
+    transform: translateX(-50%) translateY(-50%);
+    gap: 60px;
+  }
+
+  .left-section {
+    width: 55%;
+    left: 30px;
+  }
+
+  .name {
+    font-size: 48px;
+  }
+
+  .job-title {
+    font-size: 28px;
+  }
+
+  .contact-text {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .card {
+    width: 95vw;
+    height: auto;
+    min-height: 600px;
+    flex-direction: column;
+    padding: 30px 20px;
+    position: relative;
+  }
+
+  .orange-bg,
+  .white-bg {
+    display: none;
+  }
+
+  .left-section {
+    position: relative;
+    left: 0;
+    top: 0;
+    transform: none;
+    width: 100%;
+    margin-bottom: 40px;
+    animation: slideInLeft 0.8s ease-out;
+  }
+
+  .frame13 {
+    position: relative;
+    left: 0;
+    top: 0;
+    transform: none;
+    width: 100%;
+    align-items: center;
+    gap: 40px;
+    animation: slideInRight 0.8s ease-out 0.3s both;
+  }
+
+  .name {
+    font-size: 36px;
+    text-align: center;
+  }
+
+  .job-title {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .job-title-container {
+    width: 100%;
+    text-align: center;
+  }
+
+  .contact-text {
+    font-size: 18px;
+  }
+
+  .company-name {
+    font-size: 32px;
+  }
+
+  .qr-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+
+  .qr-inner {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .card {
+    width: 100vw;
+    border-radius: 0;
+    min-height: 100vh;
+  }
+
+  .name {
+    font-size: 28px;
+  }
+
+  .job-title {
+    font-size: 20px;
+  }
+
+  .contact-text {
+    font-size: 16px;
+  }
+
+  .company-name {
+    font-size: 28px;
+  }
+
+  .back-link {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
 }

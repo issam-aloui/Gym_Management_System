@@ -28,7 +28,6 @@ exports.createGym = async (req, res) => {
     if (user.Gymowned) {
       logger.warn(`User ${userId} attempted to create another gym`);
       return res.status(400).json({ error: "You have already created a gym." });
-
     }
 
     const { gymname, town, pricebymounth, phonenumber, email } = req.body;
@@ -137,5 +136,43 @@ exports.getgym = async (req, res) => {
     return res.status(200).json({ gymId: gym._id });
   } catch (err) {
     return res.status(400).json({ message: "servererror" });
+  }
+};
+exports.leaveGym = async (req, res) => {
+  try {
+    const { gymId } = req.params;
+    const token = req.cookies.token;
+    if (!token) {
+      logger.warn("Unauthorized attempt to leave a gym");
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    let check = await Gym.findById(gymId);
+    if (!check) {
+      return res.status(404).json({ message: "Gym not found" });
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.Oid;
+    const result = await User.findByIdAndUpdate(
+      userId,
+      { $pull: { Gymsjoined: gymId } },
+      { new: true }
+    );
+
+    if (!result) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const statistics = await Statistiques.findById(check.statistiques);
+    if (!statistics) {
+      return res.status(404).json({ message: "Statistics not found" });
+    }
+    statistics.members = statistics.members.filter(
+      (member) => member.toString() !== userId
+    );
+    statistics.totalMembers -= 1;
+    await statistics.save();
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error" });
   }
 };

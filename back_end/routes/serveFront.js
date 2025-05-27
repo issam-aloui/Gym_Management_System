@@ -10,6 +10,7 @@ const {
   serveGymPage,
   serveSettings,
   serveSearch,
+  serveDashboard,
 } = require("../controllers/viewController");
 const { verifyJWT, verifymember } = require("../middleware/Security");
 const { getuserfromjwt } = require("../middleware/auths");
@@ -22,9 +23,10 @@ router.get("/home-user", getuserfromjwt, serveHome);
 
 router.get("/gym/:id?/:thing?", verifyJWT, verifymember, serveGymPage);
 
-router.get("/owner/:thing", getuserfromjwt, serveowner);
-router.get("/settings", getuserfromjwt, serveSettings);
-router.get("/results", getuserfromjwt, serveSearch);
+router.get("/settings", getuserfromjwt, verifyJWT, serveSettings);
+router.get("/results", getuserfromjwt, verifyJWT, serveSearch);
+router.get("/owner/dashboard", getuserfromjwt, verifyJWT, serveDashboard);
+router.get("/owner/:thing", getuserfromjwt, verifyJWT, serveowner);
 
 router.get("/:page", async (req, res) => {
   let { page } = req.params;
@@ -52,6 +54,7 @@ router.get("/:page", async (req, res) => {
     });
   }
 
+  
   if (page == "memerships") {
     const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: "Unauthorized" });

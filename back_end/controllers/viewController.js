@@ -185,11 +185,15 @@ exports.serveowner = async (req, res) => {
   }
 
   // other owner pages:
-  return res.render(thing, { role: decoded.role, gym ,username: decoded.username,});
+  return res.render(thing, {
+    role: decoded.role,
+    gym,
+    username: decoded.username,
+  });
 };
 exports.serveSettings = async (req, res) => {
-const token = req.cookies.token;
-if (!token) {
+  const token = req.cookies.token;
+  if (!token) {
     return res
       .status(401)
       .sendFile(
@@ -210,4 +214,39 @@ if (!token) {
     username: decoded.username,
     email: user.email,
   });
-}
+};
+exports.serveSearch = async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res
+      .status(401)
+      .sendFile(
+        path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html")
+      );
+  }
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch {
+    return res
+      .status(403)
+      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
+  }
+  let search_query = req.query.search_query;
+  let Gyms;
+  if (!search_query) {
+    Gyms = [];
+  }else
+  {
+
+    Gyms = await Gym.find({
+      name: { $regex: search_query, $options: "i" }, // 'i' for case-insensitive
+    });
+  }
+
+  res.render("search", {
+    role: decoded.role,
+    username: decoded.username,
+    gyms: Gyms,
+  });
+};

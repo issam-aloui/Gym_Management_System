@@ -8,7 +8,8 @@ const {
   servePage,
   handleNotFound,
   serveGymPage,
-  serveSettings
+  serveSettings,
+  serveSearch,  
 } = require("../controllers/viewController");
 const { verifyJWT,verifymember } = require("../middleware/Security");
 const {getuserfromjwt} = require("../middleware/auths");
@@ -23,6 +24,7 @@ router.get("/gym/:id?/:thing?",verifyJWT,verifymember ,serveGymPage);
 
 router.get("/owner/:thing",getuserfromjwt,serveowner);
 router.get("/settings",getuserfromjwt,serveSettings);
+router.get("/results",getuserfromjwt,serveSearch);
 
 
 router.get("/:page", async (req, res) => {

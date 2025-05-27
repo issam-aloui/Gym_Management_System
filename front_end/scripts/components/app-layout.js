@@ -11,7 +11,7 @@ customElements.define(
           </div>
           <div class="search-container">
             <img src="../../assets/icons/search.png" alt="search" class="search-icon">
-            <input type="search" placeholder="Search" class="search-bar">
+            <input type="search" placeholder="Search" class="search-bar" id="searchInput">
           </div>
           <div class="user-info">
             <div class="notification-icon">
@@ -146,3 +146,18 @@ const link = document.createElement("link");
 link.rel = "stylesheet";
 link.href = "../../css/app-layout.css";
 document.head.appendChild(link);
+
+
+const input = document.getElementById("searchInput");
+
+input.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    const query = input.value.trim();
+    if (query) {
+      // Redirect to your search route with query as URL parameter
+      window.location.href = `/results?search_query=${encodeURIComponent(
+        query
+      )}`;
+    }
+  }
+});

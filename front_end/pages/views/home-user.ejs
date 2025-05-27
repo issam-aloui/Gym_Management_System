@@ -191,7 +191,7 @@
 
             <% }); %>
         </div>
-        <cta-button>Explore more</cta-button>
+        <cta-button id="explore">Explore more</cta-button>
       </article>
     </section>
   </main>
@@ -206,6 +206,17 @@
       const loader = document.getElementById('loader-placeholder');
       loader.style.opacity = 0;
       setTimeout(() => loader.style.display = 'none', 400);
+    });
+    window.addEventListener('DOMContentLoaded', function () {
+      const exploreButton = document.getElementById('explore');
+      exploreButton.addEventListener('click', function () {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+        const input = document.getElementById("searchInput");
+        input.focus();
+      });
     });
   </script>
 </body>

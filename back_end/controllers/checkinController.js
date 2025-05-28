@@ -39,15 +39,14 @@ exports.handleCheckin = async (req, res) => {
     gym.statistiques.dailyCheckIns += 1;
     await gym.save();
 
-    // Optional: log check-in (if you want to store each scan)
-    /*
+   
     const newCheckin = new Checkin({
       user: userId,
       gym: gymId,
       time: new Date()
     });
     await newCheckin.save();
-    */
+    
 
     res.status(200).json({ message: "Check-in successful" });
   } catch (error) {

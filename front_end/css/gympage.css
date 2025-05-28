@@ -85,7 +85,7 @@ body {
 /* Details Grid */
 .details-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -160,6 +160,51 @@ body {
   color: #0e1428;
   font-family: "Poppins", sans-serif;
   word-break: break-word;
+}
+
+/* Specific Card Styling */
+.membership-card {
+  background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+  border: 1px solid rgba(40, 167, 69, 0.2);
+}
+
+.membership-card::before {
+  background: linear-gradient(90deg, #28a745, #34ce57);
+}
+
+.membership-card .card-icon {
+  background: rgba(40, 167, 69, 0.1);
+}
+
+.membership-card .card-icon i {
+  color: #28a745;
+}
+
+.membership-card:hover {
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.15);
+  background: linear-gradient(135deg, #e8f5e8 0%, #ffffff 100%);
+}
+
+.membership-end-card {
+  background: linear-gradient(135deg, #ffeaea 0%, #fff0f0 100%);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.membership-end-card::before {
+  background: linear-gradient(90deg, #dc3545, #e74c3c);
+}
+
+.membership-end-card .card-icon {
+  background: rgba(220, 53, 69, 0.1);
+}
+
+.membership-end-card .card-icon i {
+  color: #dc3545;
+}
+
+.membership-end-card:hover {
+  box-shadow: 0 8px 25px rgba(220, 53, 69, 0.15);
+  background: linear-gradient(135deg, #ffeaea 0%, #ffffff 100%);
 }
 
 /* Rating Section */

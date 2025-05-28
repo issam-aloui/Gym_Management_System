@@ -99,7 +99,6 @@
               </p>
             </div>
           </div>
-
           <div class="detail-card email-card">
             <div class="card-icon">
               <i class="fas fa-envelope"></i>
@@ -108,6 +107,40 @@
               <h3 class="card-title">Email</h3>
               <p class="card-value">
                 <%= gym.contact.email %>
+              </p>
+            </div>
+          </div>
+          <div class="detail-card membership-card">
+            <div class="card-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Membership Start Date</h3>
+              <p class="card-value">
+                <% if (typeof memberships !=='undefined' && memberships.requestedAt) { %>
+                  <%= new Date(memberships.requestedAt).toLocaleDateString('en-US', { year: 'numeric' , month: 'long' ,
+                    day: 'numeric' }) %>
+                    <% } else { %>
+                      Not available
+                      <% } %>
+              </p>
+            </div>
+          </div>
+
+          <div class="detail-card membership-end-card">
+            <div class="card-icon">
+              <i class="fas fa-calendar-times"></i>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Membership End Date</h3>
+              <p class="card-value">
+                <% if (typeof memberships !=='undefined' && memberships.requestedAt) { %>
+                  <% const startDate=new Date(memberships.requestedAt); const endDate=new Date(startDate);
+                    endDate.setMonth(endDate.getMonth() + 1); %>
+                    <%= endDate.toLocaleDateString('en-US', { year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                      <% } else { %>
+                        Not available
+                        <% } %>
               </p>
             </div>
           </div>

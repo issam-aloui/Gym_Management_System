@@ -60,7 +60,18 @@ exports.serveHome = async (req, res) => {
 exports.serveGymPage = async (req, res) => {
   const { id, thing } = req.params;
   let file = "";
-
+  let token = req.cookies.token;
+  if (!token) {
+    return res
+      .status(401)
+      .sendFile(path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html"));
+  }
+  let decoded = jwt.verify(token, process.env.JWT_SECRET);
+  if (!decoded) {
+    return res
+      .status(403)
+      .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
+  }
   console.log("Requested gym page:", { id, thing });
 
   if (id && !thing) {
@@ -74,10 +85,18 @@ exports.serveGymPage = async (req, res) => {
             path.resolve(__dirname, "../../front_end/pages/error.html")
           );
       }
-      stats.newSignUps = stats.newSignUps;
-      +1;
+      stats.newSignUps = stats.newSignUps + 1;
       await stats.save();
-      res.render("Gym", { gym });
+      let memberships = await Membership.find({ userId: decoded.Oid }).sort({
+        requestedAt: -1,
+      });
+      if (memberships.length > 0 && memberships[0].status === "approved") {
+        memberships = memberships[0];
+      }
+      const date = new Date(memberships.requestedAt);
+      const formatted = date.toLocaleString(); // e.g., "5/28/2025, 11:11:57 PM"
+      memberships.requestedAt = formatted;
+      res.render("Gym", { gym, memberships });
     } catch (err) {
       console.error(err);
       res.status(500).send("Server error");

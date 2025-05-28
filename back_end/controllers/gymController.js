@@ -182,17 +182,36 @@ exports.changegymname = async (req, res) => {
     const { gymid } = req.params;
     const { newname } = req.body;
     const token = req.cookies.token;
+
     if (!token) {
       logger.warn("Unauthorized attempt to changename for gym");
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const mygym = Gym.findById(gymid);
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.Oid;
+
+    const mygym = await Gym.findById(gymid);
 
     if (!mygym) {
       return res.status(404).json({ message: "gym not found" });
     }
 
-    mygym.name = newname;
+    // Check if the user is the owner of this gym
+    if (mygym.owner.toString() !== userId) {
+      logger.warn(
+        `User ${userId} attempted to edit gym ${gymid} without permission`
+      );
+      return res
+        .status(403)
+        .json({ message: "You don't have permission to edit this gym" });
+    }
+
+    if (!newname || newname.trim().length === 0) {
+      return res.status(400).json({ message: "Gym name cannot be empty" });
+    }
+
+    mygym.name = newname.trim();
     await mygym.save();
     res.status(200).json({ message: "gym name changed!" });
     return;
@@ -207,17 +226,38 @@ exports.changegymemail = async (req, res) => {
     const { gymid } = req.params;
     const { newemail } = req.body;
     const token = req.cookies.token;
+
     if (!token) {
-      logger.warn("Unauthorized attempt to changename for gym");
+      logger.warn("Unauthorized attempt to change email for gym");
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const mygym = Gym.findById(gymid);
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.Oid;
+
+    const mygym = await Gym.findById(gymid);
 
     if (!mygym) {
       return res.status(404).json({ message: "gym not found" });
     }
 
-    mygym.contact.email = newemail;
+    // Check if the user is the owner of this gym
+    if (mygym.owner.toString() !== userId) {
+      logger.warn(
+        `User ${userId} attempted to edit gym ${gymid} without permission`
+      );
+      return res
+        .status(403)
+        .json({ message: "You don't have permission to edit this gym" });
+    }
+
+    if (!newemail || !newemail.includes("@")) {
+      return res
+        .status(400)
+        .json({ message: "Please provide a valid email address" });
+    }
+
+    mygym.contact.email = newemail.trim();
     await mygym.save();
     res.status(200).json({ message: "gym email changed!" });
     return;
@@ -232,17 +272,36 @@ exports.changegymphone = async (req, res) => {
     const { gymid } = req.params;
     const { newphone } = req.body;
     const token = req.cookies.token;
+
     if (!token) {
-      logger.warn("Unauthorized attempt to changename for gym");
+      logger.warn("Unauthorized attempt to change phone for gym");
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const mygym = Gym.findById(gymid);
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.Oid;
+
+    const mygym = await Gym.findById(gymid);
 
     if (!mygym) {
       return res.status(404).json({ message: "gym not found" });
     }
 
-    mygym.contact.phonenumber = newphone;
+    // Check if the user is the owner of this gym
+    if (mygym.owner.toString() !== userId) {
+      logger.warn(
+        `User ${userId} attempted to edit gym ${gymid} without permission`
+      );
+      return res
+        .status(403)
+        .json({ message: "You don't have permission to edit this gym" });
+    }
+
+    if (!newphone || newphone.trim().length === 0) {
+      return res.status(400).json({ message: "Phone number cannot be empty" });
+    }
+
+    mygym.contact.phonenumber = newphone.trim();
     await mygym.save();
     res.status(200).json({ message: "gym phone changed!" });
     return;
@@ -257,14 +316,33 @@ exports.changegympriceBymounth = async (req, res) => {
     const { gymid } = req.params;
     const { newprice } = req.body;
     const token = req.cookies.token;
+
     if (!token) {
-      logger.warn("Unauthorized attempt to changename for gym");
+      logger.warn("Unauthorized attempt to change price for gym");
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const mygym = Gym.findById(gymid);
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.Oid;
+
+    const mygym = await Gym.findById(gymid);
 
     if (!mygym) {
       return res.status(404).json({ message: "gym not found" });
+    }
+
+    // Check if the user is the owner of this gym
+    if (mygym.owner.toString() !== userId) {
+      logger.warn(
+        `User ${userId} attempted to edit gym ${gymid} without permission`
+      );
+      return res
+        .status(403)
+        .json({ message: "You don't have permission to edit this gym" });
+    }
+
+    if (!newprice || newprice < 0) {
+      return res.status(400).json({ message: "Please provide a valid price" });
     }
 
     mygym.pricePerMonth = newprice;
@@ -282,20 +360,38 @@ exports.changegympass = async (req, res) => {
   try {
     const { gymid } = req.params;
     const token = req.cookies.token;
+
     if (!token) {
-      logger.warn("Unauthorized attempt to changename for gym");
+      logger.warn("Unauthorized attempt to change password for gym");
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const mygym = Gym.findById(gymid);
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.Oid;
+
+    const mygym = await Gym.findById(gymid);
 
     if (!mygym) {
       return res.status(404).json({ message: "gym not found" });
     }
+
+    // Check if the user is the owner of this gym
+    if (mygym.owner.toString() !== userId) {
+      logger.warn(
+        `User ${userId} attempted to edit gym ${gymid} without permission`
+      );
+      return res
+        .status(403)
+        .json({ message: "You don't have permission to edit this gym" });
+    }
+
     const newpass = generatePassword(13);
     mygym.Secretpass = newpass;
 
     await mygym.save();
-    res.status(200).json({ message: "gym price changed!" });
+    res
+      .status(200)
+      .json({ message: "gym password changed!", newPassword: newpass });
     return;
   } catch (err) {
     console.error(err);

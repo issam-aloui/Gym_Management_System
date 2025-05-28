@@ -35,7 +35,19 @@ exports.sendrequest = async (req, res) => {
       return res.status(400).json({ error: "You already own this gym." });
     }
 
-    const newReq = new Membership({ userId, gymId, fullName, description });
+    const existingPendingRequest = await Membership.findOne({
+      userId: userId,
+      gymId: gymId,
+      status: "pending",
+    });
+
+    if (existingPendingRequest) {
+      return res
+        .status(400)
+        .json({ error: "You already have a pending membership request for this gym." });
+    }
+
+    const newReq = new Membership({ userId, gymId, fullName, description, status: "pending" });
     await newReq.save();
 
     res.status(200).json({ message: "Request sent successfully!" });
@@ -44,6 +56,7 @@ exports.sendrequest = async (req, res) => {
     res.status(500).json({ error: "Server error." });
   }
 };
+
 
 exports.acceptRequest = async (req, res) => {
   const { fullName, gymId, password, userId } = req.body;

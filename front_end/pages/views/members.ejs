@@ -317,7 +317,7 @@
       </div>
 
       <div class="members-container">
-        <% if (memberships.length> 0) { %>
+        <% if (memberships.length> 0 || members.length > 0) { %>
           <div class="stats-bar">
             <div class="stat-item">
               <span class="stat-number">
@@ -339,15 +339,15 @@
             </div>
             <div class="stat-item">
               <span class="stat-number">
-                <%= memberships.filter(m=> m.status === 'rejected').length %>
+                <%= members.length %>
               </span>
-              <div class="stat-label">Rejected</div>
+              <div class="stat-label">All Members</div>
             </div>
           </div>
 
           <div class="filter-tabs">
             <button class="filter-tab active" onclick="filterMembers('all')">
-              <i class="fas fa-list"></i> All Members
+              <i class="fas fa-list"></i> All requests
             </button>
             <button class="filter-tab" onclick="filterMembers('pending')">
               <i class="fas fa-clock"></i> Pending
@@ -355,8 +355,8 @@
             <button class="filter-tab" onclick="filterMembers('approved')">
               <i class="fas fa-check-circle"></i> Approved
             </button>
-            <button class="filter-tab" onclick="filterMembers('rejected')">
-              <i class="fas fa-times-circle"></i> Rejected
+            <button class="filter-tab" onclick="filterMembers('members')">
+              <i class="fas fa-users"></i> All members
             </button>
           </div>
 
@@ -366,8 +366,15 @@
                 src="<%= m.profileImage||'/assets/user.png' %>" data-user-id="<%= m.userId %>"
                 data-gym-id="<%= m.gymId %>" data-full-name="<%= m.fullName %>"
                 data-description="<%= m.description || '' %>" data-password="<%= gym.Secretpass %>"
-                data-status="<%= m.status %>"></member-card>
-              <% }) %>
+                data-status="<%= m.status %>" data-type="request"></member-card>
+            <% }) %>
+            
+            <% members.forEach(member=> { %>
+              <member-card name="<%= member.username %>" status="member"
+                src="<%= member.profileImage||'/assets/user.png' %>" data-user-id="<%= member._id %>"
+                data-gym-id="<%= gym._id %>" data-full-name="<%= member.username %>"
+                data-status="member" data-type="member" ></member-card>
+            <% }) %>
           </div>
           <% } else { %>
             <div class="empty-state">
@@ -396,10 +403,29 @@
         const memberCards = document.querySelectorAll('member-card');
         memberCards.forEach(card => {
           const cardStatus = card.getAttribute('data-status');
-          if (status === 'all' || cardStatus === status) {
-            card.style.display = 'block';
+          const cardType = card.getAttribute('data-type');
+          
+          if (status === 'all') {
+            // Show only requests (pending and approved)
+            if (cardType === 'request') {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          } else if (status === 'members') {
+            // Show only actual members
+            if (cardType === 'member') {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
           } else {
-            card.style.display = 'none';
+            // Show specific request status (pending or approved)
+            if (cardType === 'request' && cardStatus === status) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
           }
         });
       }

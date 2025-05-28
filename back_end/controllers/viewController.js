@@ -307,12 +307,16 @@ exports.serveDashboard = async (req, res) => {
       .status(404)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
- 
+  const joinedGyms = owner.Gymsjoined || [];
+  const announcements = await Announcement.find({ gym: { $in: joinedGyms } })
+    .sort({ createdAt: -1 })
+    .limit(5);
 
   res.render("dashboard", {
     role: decoded.role,
     username: decoded.username,
     gym,
     stats,
+    LA: announcements,
   });
 };

@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <app-layout role="<%= role %>" username="<%= username %>"></app-layout>
+    <app-layout role="<%= role %>" username="<%= username %>" announcements='<%- JSON.stringify(LA) %>'></app-layout>
     <main id="mainContent">
         <section class="analytics-summery">
             <div class="analytics-summary__header">

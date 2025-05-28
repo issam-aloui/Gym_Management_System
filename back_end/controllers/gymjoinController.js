@@ -75,17 +75,27 @@ exports.acceptRequest = async (req, res) => {
     // add gym to user
     user.Gymsjoined.push(gym._id);
     await user.save();
+    try
+    {
 
-    // update statistics
-    if (gym.statistiques) {
-      const stats = await Statistiques.findById(gym.statistiques);
-      if (stats && !stats.members.includes(user._id)) {
-        stats.members.push(user._id);
-        stats.totalMembers++;
-        stats.newSignUps++;
-        stats.newMembers++;
-        await stats.save();
+      // update statistics
+      if (gym.statistiques) {
+        const stats = await Statistiques.findById(gym.statistiques);
+        if (stats && !stats.members.includes(user._id)) {
+          stats.members.push(user._id);
+          stats.totalMembers++;
+          stats.newSignUps++;
+          stats.newMembers++;
+          stats.monthlyRevenue += gym.pricePerMonth; // Assuming pricePerMonth is defined in Gym model
+          stats.TotalRevenue += gym.pricePerMonth; // Assuming TotalRevenue is defined in Statistiques model
+          await stats.save();
+        }
       }
+    }
+    catch (err)
+    {
+      console.error("❌ Error updating statistics:", err);
+      return res.status(500).json({ error: "Error updating statistics." });
     }
 
     // update membership request

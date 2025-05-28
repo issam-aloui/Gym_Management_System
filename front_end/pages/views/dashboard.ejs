@@ -31,17 +31,16 @@
                 <analytics-card title="Total Members" data="<%= stats.totalMembers%>" icon="users" icon-color="#FF9A62" icon-bg="#fff3e0"
                     trend-percentage="8.5" trend-direction="up" trend-period="last month">
                 </analytics-card>
+                <analytics-card title="Total revenue" data="<%= stats.TotalRevenue %> DZD" icon="revenue" icon-color="#5470FF"
+                    icon-bg="#EFF1FF" trend-percentage="12.3" trend-direction="up" trend-period="last month">
+                </analytics-card>
 
-                <analytics-card title="Monthly Revenue" data="<%= stats.totalMembers * gym.pricePerMonth%> DZD" icon="revenue" icon-color="#5470FF"
+                <analytics-card title="Monthly Revenue" data="<%= stats.monthlyRevenue %> DZD" icon="revenue" icon-color="#5470FF"
                     icon-bg="#EFF1FF" trend-percentage="12.3" trend-direction="up" trend-period="last month">
                 </analytics-card>
 
                 <analytics-card title="Daily Visits" data="<%= stats.newSignUps%>" icon="visits" icon-color="#00C07F" icon-bg="#E8F5F0"
                     trend-percentage="4.2" trend-direction="up" trend-period="yesterday">
-                </analytics-card>
-
-                <analytics-card title="Active Sessions" data="<%=stats.classes.Totalclasses%>" icon="activity" icon-color="#F59E0B" icon-bg="#FEF3C7"
-                    trend-percentage="2.1" trend-direction="down" trend-period="last hour">
                 </analytics-card>
             </div>
         </section>

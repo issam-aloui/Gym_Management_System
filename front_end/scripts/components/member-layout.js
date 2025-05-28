@@ -253,7 +253,7 @@ class MemberCard extends HTMLElement {
       <div class="card fade-in">
         <div class="header">
           <div class="avatar-container">
-            <img class="avatar" src="${src}" alt="${name}" loading="lazy">
+            <img class="avatar" src="../../assets/icons/pfp.png" alt="${name}" loading="lazy">
             <div class="status-indicator ${status}"></div>
           </div>
           <div class="member-info">

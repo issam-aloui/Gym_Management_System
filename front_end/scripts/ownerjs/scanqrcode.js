@@ -42,7 +42,7 @@ async function onScanSuccess(decodedText, decodedResult) {
     console.log("No gym ID found");
     return;
   }
-/*
+
   try {
     const response = await fetch("http://localhost:5000/scan/checkin", {
       method: "POST",
@@ -53,18 +53,19 @@ async function onScanSuccess(decodedText, decodedResult) {
         memberId: decodedText,
         gymId: gymId,
       }),
-    });*/
+    });
 
-    /*if (!response.ok) {
+    if (!response.ok) {
       throw new Error(`Server responded with status: ${response.status}`);
     }
 
     const result = await response.json();
     console.log("Check-in successful:", result);
+     resultElement.innerHTML = `<strong>Done:</strong> member checked.`;
   } catch (error) {
     resultElement.innerHTML = `<strong>Error:</strong> Could not check in member.`;
     resultElement.classList.add("error");
-  }*/
+  }
 }
 
 function onScanError(errorMessage) {

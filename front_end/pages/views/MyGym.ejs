@@ -92,6 +92,36 @@
       overflow: hidden;
     }
 
+    .detail-card.editable {
+      cursor: pointer;
+    }
+
+    .edit-button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(232, 93, 4, 0.1);
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+
+    .detail-card:hover .edit-button {
+      opacity: 1;
+    }
+
+    .edit-button:hover {
+      background: rgba(232, 93, 4, 0.2);
+    }
+
+    .edit-button i {
+      color: #e85d04;
+      font-size: 0.875rem;
+    }
+
     .detail-card::before {
       content: "";
       position: absolute;
@@ -298,6 +328,153 @@
         font-size: 1.125rem;
       }
     }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+      background: white;
+      margin: 10% auto;
+      padding: 2rem;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      position: relative;
+      animation: modalSlideIn 0.3s ease-out;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .modal-title {
+      font-family: "Poppins", sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #0e1428;
+      margin: 0;
+    }
+
+    .close-button {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #6c757d;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .close-button:hover {
+      background: #f8f9fa;
+      color: #0e1428;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #0e1428;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: "Poppins", sans-serif;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #e85d04;
+      box-shadow: 0 0 0 3px rgba(232, 93, 4, 0.1);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-cancel {
+      background: #f8f9fa;
+      color: #6c757d;
+    }
+
+    .btn-cancel:hover {
+      background: #e9ecef;
+      color: #495057;
+    }
+
+    .btn-save {
+      background: #e85d04;
+      color: white;
+    }
+
+    .btn-save:hover {
+      background: #d64b04;
+    }
+
+    .btn-save:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 
@@ -311,6 +488,10 @@
         <div class="header-text">
           <h1 class="page-title">
             <%= gym.name %>
+              <button class="edit-button" onclick="openEditModal('name')"
+                style="position: relative; opacity: 1; margin-left: 1rem;">
+                <i class="fas fa-edit"></i>
+              </button>
           </h1>
           <p class="page-subtitle">Complete gym information and details</p>
         </div>
@@ -330,8 +511,10 @@
               </p>
             </div>
           </div>
-
-          <div class="detail-card price-card">
+          <div class="detail-card price-card editable" onclick="openEditModal('price')">
+            <button class="edit-button" onclick="event.stopPropagation(); openEditModal('price')">
+              <i class="fas fa-edit"></i>
+            </button>
             <div class="card-icon">
               <i class="fas fa-dollar-sign"></i>
             </div>
@@ -341,8 +524,10 @@
               </p>
             </div>
           </div>
-
-          <div class="detail-card contact-card">
+          <div class="detail-card contact-card editable" onclick="openEditModal('phone')">
+            <button class="edit-button" onclick="event.stopPropagation(); openEditModal('phone')">
+              <i class="fas fa-edit"></i>
+            </button>
             <div class="card-icon">
               <i class="fas fa-phone"></i>
             </div>
@@ -353,7 +538,10 @@
               </p>
             </div>
           </div>
-          <div class="detail-card email-card">
+          <div class="detail-card email-card editable" onclick="openEditModal('email')">
+            <button class="edit-button" onclick="event.stopPropagation(); openEditModal('email')">
+              <i class="fas fa-edit"></i>
+            </button>
             <div class="card-icon">
               <i class="fas fa-envelope"></i>
             </div>
@@ -364,8 +552,10 @@
               </p>
             </div>
           </div>
-
-          <div class="detail-card password-card">
+          <div class="detail-card password-card editable" onclick="openEditModal('password')">
+            <button class="edit-button" onclick="event.stopPropagation(); openEditModal('password')">
+              <i class="fas fa-edit"></i>
+            </button>
             <div class="card-icon">
               <i class="fas fa-key"></i>
             </div>
@@ -419,8 +609,316 @@
       </div>
     </div>
   </main>
+
+  <!-- Edit Modals -->
+  <!-- Name Modal -->
+  <div id="nameModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Gym Name</h3>
+        <button class="close-button" onclick="closeModal('nameModal')">&times;</button>
+      </div>
+      <form id="nameForm">
+        <div class="form-group">
+          <label class="form-label" for="gymName">Gym Name</label>
+          <input type="text" id="gymName" class="form-input" value="<%= gym.name %>" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-cancel" onclick="closeModal('nameModal')">Cancel</button>
+          <button type="submit" class="btn btn-save">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Price Modal -->
+  <div id="priceModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Monthly Price</h3>
+        <button class="close-button" onclick="closeModal('priceModal')">&times;</button>
+      </div>
+      <form id="priceForm">
+        <div class="form-group">
+          <label class="form-label" for="gymPrice">Monthly Price ($)</label>
+          <input type="number" id="gymPrice" class="form-input" value="<%= gym.pricePerMonth %>" min="0" step="0.01"
+            required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-cancel" onclick="closeModal('priceModal')">Cancel</button>
+          <button type="submit" class="btn btn-save">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Phone Modal -->
+  <div id="phoneModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Phone Number</h3>
+        <button class="close-button" onclick="closeModal('phoneModal')">&times;</button>
+      </div>
+      <form id="phoneForm">
+        <div class="form-group">
+          <label class="form-label" for="gymPhone">Phone Number</label>
+          <input type="tel" id="gymPhone" class="form-input" value="<%= gym.contact.phonenumber %>" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-cancel" onclick="closeModal('phoneModal')">Cancel</button>
+          <button type="submit" class="btn btn-save">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Email Modal -->
+  <div id="emailModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Email Address</h3>
+        <button class="close-button" onclick="closeModal('emailModal')">&times;</button>
+      </div>
+      <form id="emailForm">
+        <div class="form-group">
+          <label class="form-label" for="gymEmail">Email Address</label>
+          <input type="email" id="gymEmail" class="form-input" value="<%= gym.contact.email %>" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-cancel" onclick="closeModal('emailModal')">Cancel</button>
+          <button type="submit" class="btn btn-save">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Password Modal -->
+  <div id="passwordModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Generate New Password</h3>
+        <button class="close-button" onclick="closeModal('passwordModal')">&times;</button>
+      </div>
+      <div class="form-group">
+        <p>This will generate a new random password for your gym. Are you sure you want to continue?</p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-cancel" onclick="closeModal('passwordModal')">Cancel</button>
+        <button type="button" class="btn btn-save" onclick="generateNewPassword()">Generate New Password</button>
+      </div>
+    </div>
+  </div>
 </body>
 <script src="../../scripts/components/app-layout.js"></script>
 <script src="../../scripts/components/map.js"></script>
+
+<script>
+  // Global variable to store gym ID
+  let gymId = '<%= gym._id %>';
+
+  // Modal functions
+  function openEditModal(type) {
+    const modal = document.getElementById(type + 'Modal');
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  }
+
+  function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+  }
+
+  // Close modal when clicking outside
+  window.onclick = function (event) {
+    if (event.target.classList.contains('modal')) {
+      event.target.style.display = 'none';
+    }
+  }
+
+  // Form submission handlers
+  document.getElementById('nameForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const newName = document.getElementById('gymName').value.trim();
+
+    if (!newName) {
+      alert('Please enter a valid gym name');
+      return;
+    }
+
+    try {
+      const response = await fetch(`/gym/${gymId}/name`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newname: newName })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Update the page title
+        document.querySelector('.page-title').firstChild.textContent = newName;
+        closeModal('nameModal');
+        showSuccessMessage('Gym name updated successfully!');
+      } else {
+        alert(data.message || 'Failed to update gym name');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while updating the gym name');
+    }
+  });
+
+  document.getElementById('priceForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const newPrice = document.getElementById('gymPrice').value;
+
+    if (!newPrice || newPrice < 0) {
+      alert('Please enter a valid price');
+      return;
+    }
+
+    try {
+      const response = await fetch(`/gym/${gymId}/price`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newprice: parseFloat(newPrice) })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Update the price display
+        document.querySelector('.price-card .card-value').textContent = `$${newPrice}`;
+        closeModal('priceModal');
+        showSuccessMessage('Price updated successfully!');
+      } else {
+        alert(data.message || 'Failed to update price');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while updating the price');
+    }
+  });
+
+  document.getElementById('phoneForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const newPhone = document.getElementById('gymPhone').value.trim();
+
+    if (!newPhone) {
+      alert('Please enter a valid phone number');
+      return;
+    }
+
+    try {
+      const response = await fetch(`/gym/${gymId}/phone`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newphone: newPhone })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Update the phone display
+        document.querySelector('.contact-card .card-value').textContent = newPhone;
+        closeModal('phoneModal');
+        showSuccessMessage('Phone number updated successfully!');
+      } else {
+        alert(data.message || 'Failed to update phone number');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while updating the phone number');
+    }
+  });
+
+  document.getElementById('emailForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const newEmail = document.getElementById('gymEmail').value.trim();
+
+    if (!newEmail || !newEmail.includes('@')) {
+      alert('Please enter a valid email address');
+      return;
+    }
+
+    try {
+      const response = await fetch(`/gym/${gymId}/email`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newemail: newEmail })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Update the email display
+        document.querySelector('.email-card .card-value').textContent = newEmail;
+        closeModal('emailModal');
+        showSuccessMessage('Email updated successfully!');
+      } else {
+        alert(data.message || 'Failed to update email');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while updating the email');
+    }
+  });
+
+  async function generateNewPassword() {
+    try {
+      const response = await fetch(`/gym/${gymId}/password`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Refresh the page to show the new password
+        location.reload();
+      } else {
+        alert(data.message || 'Failed to generate new password');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while generating new password');
+    }
+  }
+
+  function showSuccessMessage(message) {
+    // Create a simple success notification
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #28a745;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1001;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+  `;
+    notification.textContent = message;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.remove();
+    }, 3000);
+  }
+</script>
 
 </html>

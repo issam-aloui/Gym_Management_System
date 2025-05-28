@@ -295,6 +295,7 @@ class MemberCard extends HTMLElement {
           </div>`
             : ``
         }
+        
       </div>
     `;
     if (status === "pending") {

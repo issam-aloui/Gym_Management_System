@@ -194,12 +194,23 @@ exports.serveowner = async (req, res) => {
 
   if (thing === "members") {
     const memberships = await Membership.find({ gymId: gym._id });
+     const gymWithStats = await Gym.findById(gym._id).populate({
+      path: 'statistiques',
+      populate: {
+        path: 'members',
+        model: 'User',
+        select: 'username email role' // Select only needed fields
+      }
+    });
+    
+    const members = gymWithStats.statistiques.members || [];
     return res.render("members", {
       role: decoded.role,
       gym,
       memberships,
       username: decoded.username,
       LA: announcements,
+      members: members || [],
     });
   }
 

@@ -40,13 +40,7 @@ exports.handleCheckin = async (req, res) => {
     await gym.save();
 
    
-    const newCheckin = new Checkin({
-      user: userId,
-      gym: gymId,
-      time: new Date()
-    });
-    await newCheckin.save();
-    
+
 
     res.status(200).json({ message: "Check-in successful" });
   } catch (error) {

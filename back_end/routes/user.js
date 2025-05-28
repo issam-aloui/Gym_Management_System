@@ -7,6 +7,7 @@ const express = require("express");
    changePassword,
    deleteAccount,
    getinfo,
+   getUsernameFromId,
  } = require("../controllers/accountController");
  
  const router = express.Router();
@@ -22,5 +23,5 @@ router.post("/getinfo",verifyJWT ,getinfo);
  router.put("/changeemail",verifyJWT , changeEmail);
  router.put("/changepassword",verifyJWT , changePassword);
  router.delete("/accountdeletion",verifyJWT , deleteAccount);
- 
+ router.get("/:id", verifyJWT, getUsernameFromId);
  module.exports = router;

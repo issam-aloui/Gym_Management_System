@@ -30,15 +30,14 @@ const StatistiquesSchema = new mongoose.Schema(
           ref: "User",
           required: true,
         },
-
-        date: {
-          type: Date,
-          required: true,
-        },
         checkInTime: {
           type: Date,
           required: true,
         },
+        status: {
+          type: Boolean,
+          required: true,
+        }
       },
     ],
     newSignUps: {

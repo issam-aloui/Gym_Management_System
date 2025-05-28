@@ -240,12 +240,30 @@ exports.getLastnotifications = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
- 
     const announcements = await Announcement.find({ owner: decoded.Oid })
       .sort({ createdAt: -1 })
       .limit(5);
 
     return res.status(200).json(announcements);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+exports.getUsernameFromId = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ username: user.username });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal server error" });

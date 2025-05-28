@@ -28,19 +28,21 @@
                 </div>
             </div>
             <div class="analytics-summary__cards">
-                <analytics-card title="Total Members" data="<%= stats.totalMembers%>" icon="users" icon-color="#FF9A62" icon-bg="#fff3e0"
-                    trend-percentage="8.5" trend-direction="up" trend-period="last month">
+                <analytics-card title="Total Members" data="<%= stats.totalMembers%>" icon="users" icon-color="#FF9A62"
+                    icon-bg="#fff3e0" trend-percentage="8.5" trend-direction="up" trend-period="last month">
                 </analytics-card>
-                <analytics-card title="Total revenue" data="<%= stats.TotalRevenue %> DZD" icon="revenue" icon-color="#5470FF"
-                    icon-bg="#EFF1FF" trend-percentage="12.3" trend-direction="up" trend-period="last month">
-                </analytics-card>
-
-                <analytics-card title="Monthly Revenue" data="<%= stats.monthlyRevenue %> DZD" icon="revenue" icon-color="#5470FF"
-                    icon-bg="#EFF1FF" trend-percentage="12.3" trend-direction="up" trend-period="last month">
+                <analytics-card title="Total revenue" data="<%= stats.TotalRevenue %> DZD" icon="revenue"
+                    icon-color="#5470FF" icon-bg="#EFF1FF" trend-percentage="12.3" trend-direction="up"
+                    trend-period="last month">
                 </analytics-card>
 
-                <analytics-card title="Daily Visits" data="<%= stats.newSignUps%>" icon="visits" icon-color="#00C07F" icon-bg="#E8F5F0"
-                    trend-percentage="4.2" trend-direction="up" trend-period="yesterday">
+                <analytics-card title="Monthly Revenue" data="<%= stats.monthlyRevenue %> DZD" icon="revenue"
+                    icon-color="#5470FF" icon-bg="#EFF1FF" trend-percentage="12.3" trend-direction="up"
+                    trend-period="last month">
+                </analytics-card>
+
+                <analytics-card title="Daily Visits" data="<%= stats.newSignUps%>" icon="visits" icon-color="#00C07F"
+                    icon-bg="#E8F5F0" trend-percentage="4.2" trend-direction="up" trend-period="yesterday">
                 </analytics-card>
             </div>
         </section>
@@ -66,97 +68,593 @@
                 <!-- Left side analytics cards - 1/3 width -->
                 <div class="left-analytics-cards">
                     <!-- Using the custom analytics-card component -->
-                    <analytics-card title="New Members" data="<%=stats.newMembers%>" icon="users" icon-color="#FF9A62" icon-bg="#fff3e0"
-                        trend-percentage="12.5" trend-direction="up" trend-period="last month">
+                    <analytics-card title="New Members" data="<%=stats.newMembers%>" icon="users" icon-color="#FF9A62"
+                        icon-bg="#fff3e0" trend-percentage="12.5" trend-direction="up" trend-period="last month">
                     </analytics-card>
 
-                    <analytics-card title="Active Members" data="<%=stats.dailyCheckIns%>" icon="activity" icon-color="#5470FF"
-                        icon-bg="#EFF1FF" trend-percentage="3.2" trend-direction="down" trend-period="previous month">
+                    <analytics-card title="Active Members" data="<%=stats.
+                    dailyCheckIns%>" icon="activity" icon-color="#5470FF" icon-bg="#EFF1FF" trend-percentage="3.2"
+                        trend-direction="down" trend-period="previous month">
                     </analytics-card>
 
-                    <analytics-card title="Daily Visits" data="<%=stats.newSignUps%>" icon="chart" icon-color="#00C07F" icon-bg="#E8F5F0"
-                        trend-percentage="5.7" trend-direction="up" trend-period="last week">
+                    <analytics-card title="Daily Visits" data="<%=stats.newSignUps%>" icon="chart" icon-color="#00C07F"
+                        icon-bg="#E8F5F0" trend-percentage="5.7" trend-direction="up" trend-period="last week">
                     </analytics-card>
-                </div>
-
-                <!-- Right side table - 2/3 width -->
+                </div> <!-- Right side table - 2/3 width -->
                 <div class="registrations-container">
                     <div class="section-header">
-                        <h2 class="section-title">Recent Registrations</h2>
+                        <h2 class="section-title">Check-in History</h2>
                         <div class="section-actions">
-                            <button class="view-all-btn">View All</button>
+                            <button class="view-all-btn" id="viewAllBtn">View All</button>
                         </div>
                     </div>
                     <div class="table-container">
                         <table class="registrations-table">
                             <thead>
                                 <tr>
-                                    <th class="sortable">Name</th>
-                                    <th class="sortable">Date · Time</th>
-                                    <th class="sortable">Status</th>
+                                    <th class="sortable" data-column="name">
+                                        <i class="fas fa-user"></i> Member Name
+                                    </th>
+                                    <th class="sortable" data-column="date">
+                                        <i class="fas fa-calendar-alt"></i> Check-in Date · Time
+                                    </th>
+                                    <th class="sortable" data-column="status">
+                                        <i class="fas fa-check-circle"></i> Status
+                                    </th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="member-name">Ahmed Benmoussa</td>
-                                    <td class="registration-time">01.05.2025 · 09:24 AM</td>
-                                    <td><span class="status-badge pending">Pending</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="member-name">Mohammed Khaled</td>
-                                    <td class="registration-time">30.04.2025 · 16:42 PM</td>
-                                    <td><span class="status-badge registered">Registered</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="member-name">Amina Benali</td>
-                                    <td class="registration-time">30.04.2025 · 14:15 PM</td>
-                                    <td><span class="status-badge registered">Registered</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="member-name">Karim Mehdaoui</td>
-                                    <td class="registration-time">30.04.2025 · 10:37 AM</td>
-                                    <td><span class="status-badge not-approved">Not Approved</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="member-name">Yasmine Boudiaf</td>
-                                    <td class="registration-time">29.04.2025 · 17:53 PM</td>
-                                    <td><span class="status-badge registered">Registered</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="member-name">Ahmed Benmoussa</td>
-                                    <td class="registration-time">01.05.2025 · 09:24 AM</td>
-                                    <td><span class="status-badge pending">Pending</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="member-name">Mohammed Khaled</td>
-                                    <td class="registration-time">30.04.2025 · 16:42 PM</td>
-                                    <td><span class="status-badge registered">Registered</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="member-name">Amina Benali</td>
-                                    <td class="registration-time">30.04.2025 · 14:15 PM</td>
-                                    <td><span class="status-badge registered">Registered</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="member-name">Karim Mehdaoui</td>
-                                    <td class="registration-time">30.04.2025 · 10:37 AM</td>
-                                    <td><span class="status-badge not-approved">Not Approved</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="member-name">Yasmine Boudiaf</td>
-                                    <td class="registration-time">29.04.2025 · 17:53 PM</td>
-                                    <td><span class="status-badge registered">Registered</span></td>
-                                </tr>
+                            <tbody id="checkin-history-tbody">
+                                <% if (stats.checkInsHistory && stats.checkInsHistory.length> 0) { %>
+                                    <% stats.checkInsHistory.slice(-10).reverse().forEach(checkin=> { %>
+                                        <tr data-user-id="<%= checkin.userId %>"
+                                            data-checkin-time="<%= checkin.checkInTime %>"
+                                            data-status="<%= checkin.status %>">
+                                            <td class="member-name">
+                                                <i class="fas fa-spinner fa-spin"></i> Loading...
+                                            </td>
+                                            <td class="registration-time">
+                                                <%= new Date(checkin.checkInTime).toLocaleDateString('en-GB', {
+                                                    day: '2-digit' , month: '2-digit' , year: 'numeric' }) %> ·
+                                                    <%= new Date(checkin.checkInTime).toLocaleTimeString('en-US', {
+                                                        hour: '2-digit' , minute: '2-digit' , hour12: true }) %>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="status-badge <%= checkin.status ? 'registered' : 'not-approved' %>">
+                                                    <i class="fas <%= checkin.status ? 'fa-check' : 'fa-times' %>"></i>
+                                                    <%= checkin.status ? 'Successful' : 'Failed' %>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="3"
+                                                        style="text-align: center; padding: 40px; color: #666;">
+                                                        <i class="fas fa-history"
+                                                            style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
+                                                        No check-in history available
+                                                    </td>
+                                                </tr>
+                                                <% } %>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Check-in History Overlay Modal -->
+        <div id="checkinHistoryModal" class="modal-overlay" style="display: none;">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h2>
+                        <i class="fas fa-history"></i>
+                        Complete Check-in History
+                    </h2>
+                    <button class="modal-close" id="closeModalBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="modal-controls">
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="Search by member name..." />
+                            <button id="clearSearchBtn" class="clear-search-btn" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filter-controls">
+                        <select id="statusFilter" class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="true">Successful</option>
+                            <option value="false">Failed</option>
+                        </select>
+
+                        <select id="dateFilter" class="filter-select">
+                            <option value="">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-table-container">
+                    <table class="modal-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-column="name">
+                                    <i class="fas fa-user"></i> Member Name
+                                </th>
+                                <th class="sortable" data-column="date">
+                                    <i class="fas fa-calendar-alt"></i> Check-in Date · Time
+                                </th>
+                                <th class="sortable" data-column="status">
+                                    <i class="fas fa-check-circle"></i> Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="modalTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        <span id="paginationInfo">Showing 0 - 0 of 0 entries</span>
+                    </div>
+                    <div class="pagination-controls">
+                        <button id="prevPageBtn" class="pagination-btn" disabled>
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <div id="pageNumbers" class="page-numbers">
+                            <!-- Page numbers populated by JavaScript -->
+                        </div>
+                        <button id="nextPageBtn" class="pagination-btn" disabled>
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
+
+    <!-- Check-in data for JavaScript -->
+    <script type="application/json" id="checkin-data-script"><%- JSON.stringify(stats.checkInsHistory || []) %></script>
+
     <script src="../../scripts/components/app-layout.js"></script>
     <script src="../../scripts/components/analytic-card.js"></script>
     <script src="../../scripts/ownerjs/analytics.js"></script>
+    <script>
+        // Global variables for modal functionality
+        let allCheckInData = [];
+        let filteredData = [];
+        let currentPage = 1;
+        const pageSize = 10;
+        let currentSortColumn = null;
+        let currentSortDirection = null; // null, 'asc', 'desc'
+
+        // Function to fetch username from user ID
+        async function fetchUsername(userId) {
+            try {
+                const response = await fetch(`/user/${userId}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.username || 'Unknown User';
+                } else if (response.status === 404) {
+                    console.warn(`User not found for ID: ${userId}`);
+                    return 'User Not Found';
+                } else {
+                    console.error(`Failed to fetch username for user ${userId}:`, response.status);
+                    return 'Unknown User';
+                }
+            } catch (error) {
+                console.error(`Error fetching username for user ${userId}:`, error);
+                return 'Error Loading';
+            }
+        }
+
+        // Function to load usernames for all check-in history entries
+        async function loadCheckInUsernames() {
+            const tbody = document.getElementById('checkin-history-tbody');
+            if (!tbody) return;
+
+            const rows = tbody.querySelectorAll('tr[data-user-id]');
+
+            // If no rows with user IDs, exit early
+            if (rows.length === 0) return;
+
+            // Show loading indicator
+            const loadingRows = tbody.querySelectorAll('.member-name');
+            loadingRows.forEach(cell => {
+                if (cell.textContent.includes('Loading...')) {
+                    cell.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                }
+            });
+
+            for (const row of rows) {
+                const userId = row.getAttribute('data-user-id');
+                const memberNameCell = row.querySelector('.member-name');
+
+                if (userId && memberNameCell) {
+                    try {
+                        const username = await fetchUsername(userId);
+                        memberNameCell.innerHTML = `<i class="fas fa-user"></i> ${username}`;
+                    } catch (error) {
+                        memberNameCell.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Unknown User';
+                        console.error(`Failed to load username for ${userId}:`, error);
+                    }
+                }
+            }
+        }
+
+        // Function to load all check-in data for the modal
+        async function loadAllCheckInData() {
+            try {
+                // Get all check-in data from the current page data
+                const checkInHistoryScript = document.getElementById('checkin-data-script');
+                const checkInHistory = checkInHistoryScript ? JSON.parse(checkInHistoryScript.textContent) : [];
+
+                // Create promises to fetch usernames for all entries
+                const dataWithUsernames = await Promise.all(
+                    checkInHistory.map(async (checkin) => {
+                        const username = await fetchUsername(checkin.userId);
+                        return {
+                            ...checkin,
+                            username: username
+                        };
+                    })
+                );
+
+                allCheckInData = dataWithUsernames;
+                filteredData = [...allCheckInData];
+
+                return dataWithUsernames;
+            } catch (error) {
+                console.error('Error loading check-in data:', error);
+                return [];
+            }
+        }
+
+        // Function to apply filters
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+
+            filteredData = allCheckInData.filter(checkin => {
+                // Search filter
+                const matchesSearch = !searchTerm ||
+                    checkin.username.toLowerCase().includes(searchTerm);
+
+                // Status filter
+                const matchesStatus = !statusFilter ||
+                    checkin.status.toString() === statusFilter;
+
+                // Date filter
+                let matchesDate = true;
+                if (dateFilter) {
+                    const checkinDate = new Date(checkin.checkInTime);
+                    const now = new Date();
+
+                    switch (dateFilter) {
+                        case 'today':
+                            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                            const tomorrow = new Date(today);
+                            tomorrow.setDate(tomorrow.getDate() + 1);
+                            matchesDate = checkinDate >= today && checkinDate < tomorrow;
+                            break;
+                        case 'week':
+                            const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+                            const weekEnd = new Date(weekStart);
+                            weekEnd.setDate(weekEnd.getDate() + 7);
+                            matchesDate = checkinDate >= weekStart && checkinDate < weekEnd;
+                            break;
+                        case 'month':
+                            const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+                            const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+                            matchesDate = checkinDate >= monthStart && checkinDate < monthEnd;
+                            break;
+                    }
+                }
+
+                return matchesSearch && matchesStatus && matchesDate;
+            });
+
+            // Apply sorting if active
+            if (currentSortColumn && currentSortDirection) {
+                applySorting(currentSortColumn, currentSortDirection);
+            }
+
+            currentPage = 1;
+            renderModalTable();
+            setupPagination();
+        }
+
+        // Function to apply sorting
+        function applySorting(column, direction) {
+            filteredData.sort((a, b) => {
+                let valueA, valueB;
+
+                switch (column) {
+                    case 'name':
+                        valueA = a.username.toLowerCase();
+                        valueB = b.username.toLowerCase();
+                        break;
+                    case 'date':
+                        valueA = new Date(a.checkInTime);
+                        valueB = new Date(b.checkInTime);
+                        break;
+                    case 'status':
+                        valueA = a.status ? 1 : 0;
+                        valueB = b.status ? 1 : 0;
+                        break;
+                    default:
+                        return 0;
+                }
+
+                if (direction === 'asc') {
+                    return valueA > valueB ? 1 : valueA < valueB ? -1 : 0;
+                } else {
+                    return valueA < valueB ? 1 : valueA > valueB ? -1 : 0;
+                }
+            });
+        }
+
+        // Function to render the modal table with current page data
+        function renderModalTable() {
+            const tbody = document.getElementById('modalTableBody');
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = startIndex + pageSize;
+            const pageData = filteredData.slice(startIndex, endIndex);
+
+            tbody.innerHTML = '';
+
+            if (pageData.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="3" style="text-align: center; padding: 40px; color: #666;">
+                            <i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
+                            No entries found matching your criteria
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            pageData.forEach(checkin => {
+                const row = document.createElement('tr');
+                row.setAttribute('data-user-id', checkin.userId);
+                row.setAttribute('data-checkin-time', checkin.checkInTime);
+                row.setAttribute('data-status', checkin.status);
+
+                const date = new Date(checkin.checkInTime);
+                const formattedDate = date.toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+                const formattedTime = date.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+
+                row.innerHTML = `
+                    <td class="member-name">
+                        <i class="fas fa-user"></i> ${checkin.username}
+                    </td>
+                    <td class="registration-time">
+                        ${formattedDate} · ${formattedTime}
+                    </td>
+                    <td>
+                        <span class="status-badge ${checkin.status ? 'registered' : 'not-approved'}">
+                            <i class="fas ${checkin.status ? 'fa-check' : 'fa-times'}"></i>
+                            ${checkin.status ? 'Successful' : 'Failed'}
+                        </span>
+                    </td>
+                `;
+
+                tbody.appendChild(row);
+            });
+        }
+
+        // Function to setup pagination controls
+        function setupPagination() {
+            const paginationInfo = document.getElementById('paginationInfo');
+            const prevPageBtn = document.getElementById('prevPageBtn');
+            const nextPageBtn = document.getElementById('nextPageBtn');
+            const pageNumbers = document.getElementById('pageNumbers');
+
+            const totalCount = filteredData.length;
+            const totalPages = Math.ceil(totalCount / pageSize);
+
+            // Update pagination info text
+            if (totalCount === 0) {
+                paginationInfo.textContent = 'Showing 0 entries';
+            } else {
+                const start = (currentPage - 1) * pageSize + 1;
+                const end = Math.min(currentPage * pageSize, totalCount);
+                paginationInfo.textContent = `Showing ${start} - ${end} of ${totalCount} entries`;
+            }
+
+            // Clear existing page numbers
+            pageNumbers.innerHTML = '';
+
+            // Create page number buttons (show max 5 pages around current page)
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.className = `page-number-btn ${i === currentPage ? 'active' : ''}`;
+                pageButton.textContent = i;
+
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    renderModalTable();
+                    setupPagination();
+                });
+
+                pageNumbers.appendChild(pageButton);
+            }
+
+            // Enable or disable prev/next buttons
+            prevPageBtn.disabled = (currentPage === 1);
+            nextPageBtn.disabled = (currentPage === totalPages || totalPages === 0);
+
+            // Add event listeners for prev/next buttons
+            prevPageBtn.onclick = () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderModalTable();
+                    setupPagination();
+                }
+            };
+
+            nextPageBtn.onclick = () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderModalTable();
+                    setupPagination();
+                }
+            };
+        }
+
+        // Function to update sort indicators
+        function updateSortIndicators() {
+            const sortableHeaders = document.querySelectorAll('.modal-table .sortable');
+
+            sortableHeaders.forEach(header => {
+                const column = header.getAttribute('data-column');
+                header.classList.remove('sort-asc', 'sort-desc');
+
+                if (column === currentSortColumn && currentSortDirection) {
+                    header.classList.add(`sort-${currentSortDirection}`);
+                }
+            });
+        }
+
+        // Load usernames when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('DOM Content Loaded');
+
+            // Add a small delay to ensure the page is fully rendered
+            setTimeout(loadCheckInUsernames, 100);
+
+            // Setup event listeners
+            const viewAllBtn = document.getElementById('viewAllBtn');
+            console.log('View All Button:', viewAllBtn);
+
+            if (viewAllBtn) {                // View All button click event
+                viewAllBtn.addEventListener('click', async function () {
+                    console.log('View All button clicked');
+
+                    // Show the modal with proper class
+                    const modal = document.getElementById('checkinHistoryModal');
+                    modal.style.display = 'flex';
+                    modal.classList.add('show');
+
+                    // Show loading state
+                    const tbody = document.getElementById('modalTableBody');
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="3" style="text-align: center; padding: 40px;">
+                                <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
+                                Loading check-in history...
+                            </td>
+                        </tr>
+                    `;
+
+                    // Load all data and render
+                    await loadAllCheckInData();
+                    renderModalTable();
+                    setupPagination();
+                });
+            }
+
+            // Close modal events
+            document.getElementById('closeModalBtn').addEventListener('click', function () {
+                const modal = document.getElementById('checkinHistoryModal');
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            });
+
+            // Close modal when clicking outside
+            document.getElementById('checkinHistoryModal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    this.classList.remove('show');
+                    setTimeout(() => {
+                        this.style.display = 'none';
+                    }, 300);
+                }
+            });
+
+            // Search input events
+            const searchInput = document.getElementById('searchInput');
+            const clearSearchBtn = document.getElementById('clearSearchBtn');
+
+            searchInput.addEventListener('input', function () {
+                clearSearchBtn.style.display = this.value ? 'block' : 'none';
+                applyFilters();
+            });
+
+            clearSearchBtn.addEventListener('click', function () {
+                searchInput.value = '';
+                this.style.display = 'none';
+                applyFilters();
+            });
+
+            // Filter events
+            document.getElementById('statusFilter').addEventListener('change', applyFilters);
+            document.getElementById('dateFilter').addEventListener('change', applyFilters);
+
+            // Sorting events
+            document.querySelectorAll('.modal-table .sortable').forEach(header => {
+                header.addEventListener('click', function () {
+                    const column = this.getAttribute('data-column');
+
+                    // Three-state sorting: none -> asc -> desc -> none
+                    if (currentSortColumn === column) {
+                        if (currentSortDirection === 'asc') {
+                            currentSortDirection = 'desc';
+                        } else if (currentSortDirection === 'desc') {
+                            currentSortColumn = null;
+                            currentSortDirection = null;
+                        } else {
+                            currentSortDirection = 'asc';
+                        }
+                    } else {
+                        currentSortColumn = column;
+                        currentSortDirection = 'asc';
+                    }
+
+                    applyFilters();
+                    updateSortIndicators();
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

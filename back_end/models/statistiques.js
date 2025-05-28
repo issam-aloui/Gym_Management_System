@@ -1,16 +1,4 @@
-//possible add trainers
 
-/*
-Analytics {
-  id: ObjectId,
-  gymId: ObjectId,
-  date: Date,
-  totalMembers: Number,
-  dailyCheckIns: Number,
-  newSignUps: Number,
-  classesAttended: Number,
-}
-*/
 
 const mongoose = require("mongoose");
 
@@ -35,11 +23,46 @@ const StatistiquesSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    checkInsHistory: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+
+        date: {
+          type: Date,
+          required: true,
+        },
+        checkInTime: {
+          type: Date,
+          required: true,
+        },
+      },
+    ],
     newSignUps: {
       type: Number,
       required: true,
       default: 0,
     },
+    monthlyRevenue: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    TotalRevenue: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    revenueHistory: [
+      {
+        month: { type: String, required: true },
+        year: { type: Number, required: true },
+        revenue: { type: Number, required: true, default: 0 },
+      },
+    ],
     classes: {
       allclasses: [
         {

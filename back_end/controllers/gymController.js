@@ -439,3 +439,37 @@ exports.changegympass = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+exports.getGymDetails = async (req, res) => {
+  try {
+    const { gymId } = req.params;
+
+    const gym = await Gym.findById(gymId).populate("statistiques");
+    if (!gym) {
+      return res.status(404).json({ message: "Gym not found" });
+    }
+
+    // Get member count from statistics if available
+    let memberCount = 0;
+    if (gym.statistiques) {
+      memberCount = gym.statistiques.totalMembers || 0;
+    }
+
+    // Format response with additional calculated fields
+    const gymResponse = {
+      _id: gym._id,
+      name: gym.name,
+      town: gym.town,
+      coordinates: gym.coordinates,
+      pricePerMonth: gym.pricePerMonth,
+      contact: gym.contact,
+      memberCount: memberCount,
+      createdAt: gym.createdAt,
+      updatedAt: gym.updatedAt,
+    };
+
+    res.status(200).json(gymResponse);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};

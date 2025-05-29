@@ -10,6 +10,7 @@ const {
   changegymphone,
   changegympriceBymounth,
   changegympass,
+  getGymDetails,
 } = require("../controllers/gymController");
 const { validateGym } = require("../middleware/authchecker");
 const { verifyJWT } = require("../middleware/Security");
@@ -23,6 +24,7 @@ router.post("/creategym", verifyJWT, validateGym, createGym);
 router.get("/:gymId/leave", verifyJWT, leaveGym);
 router.post("/:gymId/kick/:userId", verifyJWT, leaveGym); // New route for kicking members
 router.get("/getgyms", verifyJWT, getGyms);
+router.get("/:gymId/details", verifyJWT, getGymDetails)
 router.get("/getgym", verifyJWT, getgym);
 
 // Update gym data routes

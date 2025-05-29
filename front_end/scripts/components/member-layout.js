@@ -3,11 +3,11 @@ class MemberCard extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
   }
-
   connectedCallback() {
     const name = this.getAttribute("name");
     const status = this.getAttribute("status");
     const src = this.getAttribute("src");
+    const hideStatus = this.getAttribute("hide-status") === "true";
     const { userId, gymId, fullName, description, password } = this.dataset; //learned dataset way
 
     this.shadowRoot.innerHTML = `
@@ -124,11 +124,17 @@ class MemberCard extends HTMLElement {
           background: linear-gradient(135deg, #e85d04, #ff7b00);
           box-shadow: 0 2px 8px rgba(232, 93, 4, 0.3);
         }
-        
-        .rejected { 
+          .rejected { 
           background: linear-gradient(135deg, #dc3545, #c82333);
           box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
         }
+        
+        .member { 
+          background: linear-gradient(135deg, #6c757d, #5a6268);
+          box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+        }
+        
+        .status-indicator.member { background: #6c757d; }
           .description {
           margin-top: 1rem;
           padding: 1rem;
@@ -249,26 +255,35 @@ class MemberCard extends HTMLElement {
           border-left: 3px solid #dc3545;
           font-family: "Nunito Sans", sans-serif;
         }
-      </style>
-      <div class="card fade-in">
+      </style>      <div class="card fade-in">
         <div class="header">
           <div class="avatar-container">
             <img class="avatar" src="../../assets/icons/pfp.png" alt="${name}" loading="lazy">
-            <div class="status-indicator ${status}"></div>
+            ${
+              !hideStatus
+                ? `<div class="status-indicator ${status}"></div>`
+                : ""
+            }
           </div>
           <div class="member-info">
             <h3 class="member-name">${name}</h3>
             <div class="member-id">ID: ${userId.slice(-6).toUpperCase()}</div>
-            <div class="status-badge ${status}">
+            ${
+              !hideStatus
+                ? `<div class="status-badge ${status}">
               ${
                 status === "approved"
                   ? '<i class="fas fa-check"></i>'
                   : status === "pending"
                   ? '<i class="fas fa-clock"></i>'
+                  : status === "member"
+                  ? '<i class="fas fa-user"></i>'
                   : '<i class="fas fa-times"></i>'
               }
               ${status}
-            </div>
+            </div>`
+                : ""
+            }
           </div>
         </div>
         

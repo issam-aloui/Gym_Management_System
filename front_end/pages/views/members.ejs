@@ -1,281 +1,282 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Members - <%= gym.name %>
-    </title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-      rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
 
-      body {
-        font-family: "Nunito Sans", sans-serif;
-        background-color: #f5f5f5;
-        color: #0e1428;
-        min-height: 100vh;
-      }
+<head>
+  <meta charset="utf-8" />
+  <title>Members - <%= gym.name %>
+  </title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      
+    body {
+      font-family: "Nunito Sans", sans-serif;
+      background-color: #f5f5f5;
+      color: #0e1428;
+      min-height: 100vh;
+    }
 
-      .page-header {
-        background: linear-gradient(135deg, #0e1428 0%, #1a2332 100%);
-        color: #fefdf8;
-        border-radius: 16px;
-        padding: 2rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 8px 32px rgba(14, 20, 40, 0.15);
-        border: 1px solid rgba(232, 93, 4, 0.1);
+
+
+    .page-header {
+      background: linear-gradient(135deg, #0e1428 0%, #1a2332 100%);
+      color: #fefdf8;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 32px rgba(14, 20, 40, 0.15);
+      border: 1px solid rgba(232, 93, 4, 0.1);
+    }
+
+    .page-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      font-family: "Poppins", sans-serif;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .page-title i {
+      color: #e85d04;
+      font-size: 2rem;
+    }
+
+    .page-subtitle {
+      font-size: 1rem;
+      color: #fefdf8;
+      opacity: 0.8;
+      font-weight: 400;
+    }
+
+    .gym-name {
+      color: #e85d04;
+      font-weight: 600;
+    }
+
+    .members-container {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(14, 20, 40, 0.08);
+    }
+
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-item {
+      background: linear-gradient(135deg, #0e1428, #1a2332);
+      color: #fefdf8;
+      text-align: center;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(14, 20, 40, 0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid rgba(232, 93, 4, 0.2);
+    }
+
+    .stat-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(14, 20, 40, 0.2);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #e85d04;
+      display: block;
+      font-family: "Poppins", sans-serif;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #fefdf8;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 0.75rem;
+      border-radius: 14px;
+      border: 1px solid rgba(14, 20, 40, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .filter-tab {
+      flex: 1;
+      padding: 0.875rem 1.25rem;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      color: #0e1428;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .filter-tab.active {
+      background: linear-gradient(135deg, #e85d04 0%, #ff7b00 100%);
+      color: #fefdf8;
+      box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .filter-tab:hover:not(.active) {
+      background: rgba(232, 93, 4, 0.1);
+      color: #e85d04;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #0e1428;
+      background: #f8f9fa;
+      border-radius: 15px;
+      border: 2px dashed #e0e0e0;
+    }
+
+    .empty-icon {
+      font-size: 4rem;
+      color: #e85d04;
+      margin-bottom: 1.5rem;
+      opacity: 0.7;
+    }
+
+    .empty-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: #0e1428;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .empty-description {
+      font-size: 1rem;
+      color: #666;
+      max-width: 400px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Enhanced member card styles */
+    member-card {
+      display: block;
+      transition: all 0.3s ease;
+    }
+
+    member-card:hover {
+      transform: translateY(-3px);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      #mainContent {
+        padding: 1rem;
       }
 
       .page-title {
-        font-size: 2.2rem;
-        font-weight: 700;
-        font-family: "Poppins", sans-serif;
-        margin-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
+        font-size: 1.8rem;
       }
 
-      .page-title i {
-        color: #e85d04;
-        font-size: 2rem;
-      }
-
-      .page-subtitle {
-        font-size: 1rem;
-        color: #fefdf8;
-        opacity: 0.8;
-        font-weight: 400;
-      }
-
-      .gym-name {
-        color: #e85d04;
-        font-weight: 600;
-      }
-
-      .members-container {
-        background: #ffffff;
-        border-radius: 16px;
-        padding: 2rem;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-        border: 1px solid rgba(14, 20, 40, 0.08);
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
       }
 
       .stats-bar {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-      }
-
-      .stat-item {
-        background: linear-gradient(135deg, #0e1428, #1a2332);
-        color: #fefdf8;
-        text-align: center;
-        padding: 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(14, 20, 40, 0.15);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        border: 1px solid rgba(232, 93, 4, 0.2);
-      }
-
-      .stat-item:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 25px rgba(14, 20, 40, 0.2);
-      }
-
-      .stat-number {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #e85d04;
-        display: block;
-        font-family: "Poppins", sans-serif;
-        margin-bottom: 0.25rem;
-      }
-
-      .stat-label {
-        font-size: 0.9rem;
-        color: #fefdf8;
-        opacity: 0.9;
-        font-weight: 500;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
       }
 
       .filter-tabs {
-        display: flex;
-        gap: 0.5rem;
-        margin-bottom: 2rem;
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        padding: 0.75rem;
-        border-radius: 14px;
-        border: 1px solid rgba(14, 20, 40, 0.08);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        flex-wrap: wrap;
       }
 
       .filter-tab {
         flex: 1;
-        padding: 0.875rem 1.25rem;
-        border: none;
-        background: transparent;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        font-family: "Poppins", sans-serif;
-        font-size: 0.9rem;
-        transition: all 0.2s ease;
-        color: #0e1428;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
+        min-width: 120px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-bar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Loading animation */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #e85d04;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
       }
 
-      .filter-tab.active {
-        background: linear-gradient(135deg, #e85d04 0%, #ff7b00 100%);
-        color: #fefdf8;
-        box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3);
-        transform: translateY(-1px);
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Fade in animation for cards */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
       }
 
-      .filter-tab:hover:not(.active) {
-        background: rgba(232, 93, 4, 0.1);
-        color: #e85d04;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
+    }
 
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-        gap: 1.5rem;
-        margin-top: 1.5rem;
-      }
+    .fade-in-up {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+  </style>
+</head>
 
-      .empty-state {
-        text-align: center;
-        padding: 4rem 2rem;
-        color: #0e1428;
-        background: #f8f9fa;
-        border-radius: 15px;
-        border: 2px dashed #e0e0e0;
-      }
-
-      .empty-icon {
-        font-size: 4rem;
-        color: #e85d04;
-        margin-bottom: 1.5rem;
-        opacity: 0.7;
-      }
-
-      .empty-title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-bottom: 0.75rem;
-        color: #0e1428;
-        font-family: "Poppins", sans-serif;
-      }
-
-      .empty-description {
-        font-size: 1rem;
-        color: #666;
-        max-width: 400px;
-        margin: 0 auto;
-        line-height: 1.6;
-      }
-
-      /* Enhanced member card styles */
-      member-card {
-        display: block;
-        transition: all 0.3s ease;
-      }
-
-      member-card:hover {
-        transform: translateY(-3px);
-      }
-
-      /* Responsive design */
-      @media (max-width: 768px) {
-        #mainContent {
-          padding: 1rem;
-        }
-
-        .page-title {
-          font-size: 1.8rem;
-        }
-
-        .grid {
-          grid-template-columns: 1fr;
-          gap: 1rem;
-        }
-
-        .stats-bar {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1rem;
-        }
-
-        .filter-tabs {
-          flex-wrap: wrap;
-        }
-
-        .filter-tab {
-          flex: 1;
-          min-width: 120px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .stats-bar {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      /* Loading animation */
-      .loading {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border: 3px solid #f3f3f3;
-        border-top: 3px solid #e85d04;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-
-      /* Fade in animation for cards */
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .fade-in-up {
-        animation: fadeInUp 0.6s ease-out forwards;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div id="loader-placeholder" style="
+<body>
+  <div id="loader-placeholder" style="
       position:fixed;
       top:0; left:0; width:100vw; height:100vh;
       background:rgba(255,255,255,0.95);
@@ -286,7 +287,7 @@
       z-index:9999;
       transition:opacity 0.4s;
     ">
-      <div style="
+    <div style="
         border: 6px solid #e0e0e0;
         border-top: 6px solid #e85d04;
         border-radius: 50%;
@@ -295,166 +296,168 @@
         animation: spin 0.8s linear infinite;
         margin-bottom: 1.2rem;
       "></div>
-      <div style="font-family: 'Poppins', sans-serif; color: #222; font-size: 1.1rem;">
-        Loading, please wait...
-      </div>
+    <div style="font-family: 'Poppins', sans-serif; color: #222; font-size: 1.1rem;">
+      Loading, please wait...
     </div>
-    <style>
-      @keyframes spin { to { transform: rotate(360deg); } }
-    </style>
-    <app-layout role="<%= role %>" username="<%= username %>" announcements='<%- JSON.stringify(LA) %>'></app-layout>
-    <main id="mainContent">
-      <div class="page-header">
-        <h1 class="page-title">
-          <i class="fas fa-users"></i>
-          Member Management
-        </h1>
-        <p class="page-subtitle">
-          Manage membership requests for <span class="gym-name">
-            <%= gym.name %>
-          </span>
-        </p>
-      </div>
+  </div>
+  <style>
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+  <app-layout role="<%= role %>" username="<%= username %>" announcements='<%- JSON.stringify(LA) %>'></app-layout>
+  <main id="mainContent">
+    <div class="page-header">
+      <h1 class="page-title">
+        <i class="fas fa-users"></i>
+        Member Management
+      </h1>
+      <p class="page-subtitle">
+        Manage membership requests for <span class="gym-name">
+          <%= gym.name %>
+        </span>
+      </p>
+    </div>
 
-      <div class="members-container">
-        <% if (memberships.length> 0 || members.length > 0) { %>
-          <div class="stats-bar">
-            <div class="stat-item">
-              <span class="stat-number">
-                <%= memberships.length %>
-              </span>
-              <div class="stat-label">Total Requests</div>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">
-                <%= memberships.filter(m=> m.status === 'pending').length %>
-              </span>
-              <div class="stat-label">Pending</div>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">
-                <%= memberships.filter(m=> m.status === 'approved').length %>
-              </span>
-              <div class="stat-label">Approved</div>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">
-                <%= members.length %>
-              </span>
-              <div class="stat-label">All Members</div>
-            </div>
+    <div class="members-container">
+      <% if (memberships.length> 0 || members.length > 0) { %>
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-number">
+              <%= memberships.length %>
+            </span>
+            <div class="stat-label">Total Requests</div>
           </div>
-
-          <div class="filter-tabs">
-            <button class="filter-tab active" onclick="filterMembers('all')">
-              <i class="fas fa-list"></i> All requests
-            </button>
-            <button class="filter-tab" onclick="filterMembers('pending')">
-              <i class="fas fa-clock"></i> Pending
-            </button>
-            <button class="filter-tab" onclick="filterMembers('approved')">
-              <i class="fas fa-check-circle"></i> Approved
-            </button>
-            <button class="filter-tab" onclick="filterMembers('members')">
-              <i class="fas fa-users"></i> All members
-            </button>
+          <div class="stat-item">
+            <span class="stat-number">
+              <%= memberships.filter(m=> m.status === 'pending').length %>
+            </span>
+            <div class="stat-label">Pending</div>
           </div>
+          <div class="stat-item">
+            <span class="stat-number">
+              <%= memberships.filter(m=> m.status === 'approved').length %>
+            </span>
+            <div class="stat-label">Approved</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">
+              <%= members.length %>
+            </span>
+            <div class="stat-label">All Members</div>
+          </div>
+        </div>
 
-          <div class="grid" id="membersGrid">
-            <% memberships.forEach(m=> { %>
-              <member-card name="<%= m.fullName %>" status="<%= m.status %>"
-                src="<%= m.profileImage||'/assets/user.png' %>" data-user-id="<%= m.userId %>"
-                data-gym-id="<%= m.gymId %>" data-full-name="<%= m.fullName %>"
-                data-description="<%= m.description || '' %>" data-password="<%= gym.Secretpass %>"
-                data-status="<%= m.status %>" data-type="request"></member-card>
-            <% }) %>
-            
-            <% members.forEach(member=> { %>
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterMembers('all')">
+            <i class="fas fa-list"></i> All requests
+          </button>
+          <button class="filter-tab" onclick="filterMembers('pending')">
+            <i class="fas fa-clock"></i> Pending
+          </button>
+          <button class="filter-tab" onclick="filterMembers('approved')">
+            <i class="fas fa-check-circle"></i> Approved
+          </button>
+          <button class="filter-tab" onclick="filterMembers('members')">
+            <i class="fas fa-users"></i> All members
+          </button>
+        </div>
+
+        <div class="grid" id="membersGrid">
+          <% memberships.forEach(m=> { %>
+            <member-card name="<%= m.fullName %>" status="<%= m.status %>"
+              src="<%= m.profileImage||'/assets/user.png' %>" data-user-id="<%= m.userId %>"
+              data-gym-id="<%= m.gymId %>" data-full-name="<%= m.fullName %>"
+              data-description="<%= m.description || '' %>" data-password="<%= gym.Secretpass %>"
+              data-status="<%= m.status %>" data-type="request"></member-card>
+            <% }) %>            <% members.forEach(member=> { %>
               <member-card name="<%= member.username %>" status="member"
                 src="<%= member.profileImage||'/assets/user.png' %>" data-user-id="<%= member._id %>"
-                data-gym-id="<%= gym._id %>" data-full-name="<%= member.username %>"
-                data-status="member" data-type="member" ></member-card>
-            <% }) %>
-          </div>
-          <% } else { %>
-            <div class="empty-state">
-              <div class="empty-icon">
-                <i class="fas fa-user-plus"></i>
-              </div>
-              <h3 class="empty-title">No membership requests yet</h3>
-              <p class="empty-description">
-                When members request to join your gym, their requests will appear here for your review and approval.
-              </p>
+                data-gym-id="<%= gym._id %>" data-full-name="<%= member.username %>" data-status="member"
+                data-type="member" hide-status="true" style="display: none;"></member-card>
+              <% }) %>
+        </div>
+        <% } else { %>
+          <div class="empty-state">
+            <div class="empty-icon">
+              <i class="fas fa-user-plus"></i>
             </div>
-            <% } %>
-      </div>
-    </main>
+            <h3 class="empty-title">No membership requests yet</h3>
+            <p class="empty-description">
+              When members request to join your gym, their requests will appear here for your review and approval.
+            </p>
+          </div>
+          <% } %>
+    </div>
+  </main>
 
-    <script>
-      // Filter functionality
-      function filterMembers(status) {
-        // Update active tab
-        document.querySelectorAll('.filter-tab').forEach(tab => {
-          tab.classList.remove('active');
-        });
-        event.target.classList.add('active');
-
-        // Filter member cards
-        const memberCards = document.querySelectorAll('member-card');
-        memberCards.forEach(card => {
-          const cardStatus = card.getAttribute('data-status');
-          const cardType = card.getAttribute('data-type');
-          
-          if (status === 'all') {
-            // Show only requests (pending and approved)
-            if (cardType === 'request') {
-              card.style.display = 'block';
-            } else {
-              card.style.display = 'none';
-            }
-          } else if (status === 'members') {
-            // Show only actual members
-            if (cardType === 'member') {
-              card.style.display = 'block';
-            } else {
-              card.style.display = 'none';
-            }
-          } else {
-            // Show specific request status (pending or approved)
-            if (cardType === 'request' && cardStatus === status) {
-              card.style.display = 'block';
-            } else {
-              card.style.display = 'none';
-            }
-          }
-        });
-      }
-
-      // Add smooth animations when cards are loaded
-      document.addEventListener('DOMContentLoaded', function () {
-        const cards = document.querySelectorAll('member-card');
-        cards.forEach((card, index) => {
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(20px)';
-
-          setTimeout(() => {
-            card.style.transition = 'all 0.5s ease';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          }, index * 100);
-        });
+  <script>
+    // Filter functionality
+    function filterMembers(status) {
+      // Update active tab
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.remove('active');
       });
-    </script>
+      event.target.classList.add('active');
 
-    <script src="/scripts/components/app-layout.js"></script>
-    <script src="/scripts/components/member-layout.js"></script>
-    <script>
-  window.addEventListener('load', function() {
-    const loader = document.getElementById('loader-placeholder');
-    loader.style.opacity = 0;
-    setTimeout(() => loader.style.display = 'none', 400);
-  });
-</script>
-  </body>
+      // Filter member cards
+      const memberCards = document.querySelectorAll('member-card');
+      memberCards.forEach(card => {
+        const cardStatus = card.getAttribute('data-status');
+        const cardType = card.getAttribute('data-type');
+
+        if (status === 'all') {
+          // Show only requests (pending and approved)
+          if (cardType === 'request') {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        } else if (status === 'members') {
+          // Show only actual members
+          if (cardType === 'member') {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        } else {
+          // Show specific request status (pending or approved)
+          if (cardType === 'request' && cardStatus === status) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    // Add smooth animations when cards are loaded
+    document.addEventListener('DOMContentLoaded', function () {
+      const cards = document.querySelectorAll('member-card');
+      cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+          card.style.transition = 'all 0.5s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+    });
+  </script>
+
+  <script src="/scripts/components/app-layout.js"></script>
+  <script src="/scripts/components/member-layout.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      const loader = document.getElementById('loader-placeholder');
+      loader.style.opacity = 0;
+      setTimeout(() => loader.style.display = 'none', 400);
+    });
+  </script>
+</body>
 
 </html>

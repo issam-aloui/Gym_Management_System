@@ -372,12 +372,14 @@
               data-gym-id="<%= m.gymId %>" data-full-name="<%= m.fullName %>"
               data-description="<%= m.description || '' %>" data-password="<%= gym.Secretpass %>"
               data-status="<%= m.status %>" data-type="request"></member-card>
-            <% }) %>            <% members.forEach(member=> { %>
-              <member-card name="<%= member.username %>" status="member"
-                src="<%= member.profileImage||'/assets/user.png' %>" data-user-id="<%= member._id %>"
-                data-gym-id="<%= gym._id %>" data-full-name="<%= member.username %>" data-status="member"
-                data-type="member" hide-status="true" style="display: none;"></member-card>
-              <% }) %>
+            <% }) %>
+              <% members.forEach(member=> { %>
+                <member-card name="<%= member.username %>" status="member"
+                  src="<%= member.profileImage||'/assets/user.png' %>" data-user-id="<%= member._id %>"
+                  data-gym-id="<%= gym._id %>" data-full-name="<%= member.username %>" data-status="member"
+                  data-type="member" hide-status="true" <% if (role==='owner' ) { %>show-kick="true"<% } %>
+                    style="display: none;"></member-card>
+                <% }) %>
         </div>
         <% } else { %>
           <div class="empty-state">

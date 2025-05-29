@@ -140,20 +140,48 @@ exports.getgym = async (req, res) => {
 };
 exports.leaveGym = async (req, res) => {
   try {
-    const { gymId } = req.params;
+    const { gymId, userId: targetUserId } = req.params;
+    const { userId: bodyUserId } = req.body; // Alternative way to pass userId
     const token = req.cookies.token;
+
     if (!token) {
       logger.warn("Unauthorized attempt to leave a gym");
       return res.status(401).json({ message: "Unauthorized" });
     }
+
     let check = await Gym.findById(gymId);
     if (!check) {
       return res.status(404).json({ message: "Gym not found" });
     }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.Oid;
+    const requesterId = decoded.Oid;
+
+    // Determine the user to remove from gym
+    const userToRemove = targetUserId || bodyUserId || requesterId;
+
+    // Check if this is a kick operation (removing someone else)
+    const isKickOperation = userToRemove !== requesterId;
+
+    if (isKickOperation) {
+      // Only gym owner can kick members
+      if (check.owner.toString() !== requesterId) {
+        logger.warn(
+          `User ${requesterId} attempted to kick user ${userToRemove} from gym ${gymId} without permission`
+        );
+        return res
+          .status(403)
+          .json({ message: "Only gym owners can kick members" });
+      }
+      logger.info(
+        `Gym owner ${requesterId} is kicking user ${userToRemove} from gym ${gymId}`
+      );
+    } else {
+      logger.info(`User ${userToRemove} is leaving gym ${gymId}`);
+    }
+
     const result = await User.findByIdAndUpdate(
-      userId,
+      userToRemove,
       { $pull: { Gymsjoined: gymId } },
       { new: true }
     );
@@ -161,16 +189,29 @@ exports.leaveGym = async (req, res) => {
     if (!result) {
       return res.status(404).json({ message: "User not found" });
     }
+
     const statistics = await Statistiques.findById(check.statistiques);
     if (!statistics) {
       return res.status(404).json({ message: "Statistics not found" });
     }
+
     statistics.members = statistics.members.filter(
-      (member) => member.toString() !== userId
+      (member) => member.toString() !== userToRemove
     );
     statistics.totalMembers -= 1;
     await statistics.save();
-    res.redirect("/");
+
+    if (isKickOperation) {
+      logger.info(
+        `User ${userToRemove} has been kicked from gym ${gymId} by owner ${requesterId}`
+      );
+      res.status(200).json({
+        message: "Member kicked successfully",
+        kickedUserId: userToRemove,
+      });
+    } else {
+      res.redirect("/");
+    }
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Server error" });

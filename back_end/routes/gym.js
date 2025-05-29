@@ -21,6 +21,7 @@ router.use(express.json());
 
 router.post("/creategym", verifyJWT, validateGym, createGym);
 router.get("/:gymId/leave", verifyJWT, leaveGym);
+router.post("/:gymId/kick/:userId", verifyJWT, leaveGym); // New route for kicking members
 router.get("/getgyms", verifyJWT, getGyms);
 router.get("/getgym", verifyJWT, getgym);
 

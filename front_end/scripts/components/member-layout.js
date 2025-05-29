@@ -8,6 +8,7 @@ class MemberCard extends HTMLElement {
     const status = this.getAttribute("status");
     const src = this.getAttribute("src");
     const hideStatus = this.getAttribute("hide-status") === "true";
+    const showKick = this.getAttribute("show-kick") === "true";
     const { userId, gymId, fullName, description, password } = this.dataset; //learned dataset way
 
     this.shadowRoot.innerHTML = `
@@ -196,10 +197,20 @@ class MemberCard extends HTMLElement {
           background: linear-gradient(135deg, #dc3545, #c82333);
           color: #fff;
           box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
-        }
-          .decline:hover:not(:disabled) {
+        }        .decline:hover:not(:disabled) {
           transform: translateY(-2px);
           box-shadow: 0 8px 25px rgba(220, 53, 69, 0.35);
+        }
+        
+        .kick { 
+          background: linear-gradient(135deg, #fd7e14, #e8590c);
+          color: #fff;
+          box-shadow: 0 4px 15px rgba(253, 126, 20, 0.2);
+        }
+        
+        .kick:hover:not(:disabled) {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(253, 126, 20, 0.35);
         }
         
         .loading {
@@ -294,10 +305,9 @@ class MemberCard extends HTMLElement {
         </div>`
             : ""
         }
-        
-        ${
-          status === "pending"
-            ? `
+          ${
+            status === "pending"
+              ? `
           <div class="actions">
             <button class="action-btn accept" id="acceptBtn">
               <i class="fas fa-check"></i>
@@ -308,8 +318,16 @@ class MemberCard extends HTMLElement {
               Decline
             </button>
           </div>`
-            : ``
-        }
+              : showKick && status === "member"
+              ? `
+          <div class="actions">
+            <button class="action-btn kick" id="kickBtn">
+              <i class="fas fa-user-times"></i>
+              Kick Member
+            </button>
+          </div>`
+              : ``
+          }
         
       </div>
     `;
@@ -326,6 +344,13 @@ class MemberCard extends HTMLElement {
       );
       declineBtn.addEventListener("click", () =>
         this._submit("D", { userId, gymId, fullName, description }, declineBtn)
+      );
+    }
+
+    if (showKick && status === "member") {
+      const kickBtn = this.shadowRoot.querySelector("#kickBtn");
+      kickBtn.addEventListener("click", () =>
+        this._kickMember({ userId, gymId, fullName }, kickBtn)
       );
     }
   }
@@ -447,6 +472,97 @@ class MemberCard extends HTMLElement {
         errorMessage.style.opacity = "0";
         setTimeout(() => errorMessage.remove(), 300);
       }, 3000);
+    }
+  }
+
+  async _kickMember(memberData, buttonElement) {
+    const { userId, gymId, fullName } = memberData;
+
+    // Show confirmation dialog
+    if (!confirm(`Are you sure you want to kick ${fullName} from the gym?`)) {
+      return;
+    }
+
+    const originalText = buttonElement.innerHTML;
+
+    console.log("Kicking member", memberData);
+
+    // Show loading state
+    buttonElement.disabled = true;
+    buttonElement.innerHTML = '<div class="loading"></div>';
+
+    try {
+      const res = await fetch(`/gym/${gymId}/kick/${userId}`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!res.ok) throw await res.json();
+
+      // Remove the member card with fade out animation
+      const card = this.shadowRoot.querySelector(".card");
+      card.style.transition = "all 0.5s ease";
+      card.style.opacity = "0";
+      card.style.transform = "translateY(-20px)";
+
+      setTimeout(() => {
+        this.remove();
+      }, 500);
+
+      // Show success message briefly
+      const successMessage = document.createElement("div");
+      successMessage.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fd7e14;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        z-index: 10;
+        animation: fadeIn 0.3s ease;
+        font-weight: 600;
+      `;
+      successMessage.textContent = `${fullName} has been kicked from the gym`;
+
+      card.style.position = "relative";
+      card.appendChild(successMessage);
+
+      setTimeout(() => {
+        successMessage.style.animation = "fadeOut 0.3s ease";
+      }, 1500);
+    } catch (err) {
+      console.error(err);
+
+      // Reset button state on error
+      buttonElement.disabled = false;
+      buttonElement.innerHTML = originalText;
+
+      // Show error message
+      const errorMessage = document.createElement("div");
+      errorMessage.style.cssText = `
+        margin-top: 0.75rem;
+        padding: 0.75rem;
+        background: #fed7d7;
+        color: #c53030;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        border-left: 3px solid #f56565;
+      `;
+      errorMessage.textContent =
+        err.message || "Failed to kick member. Please try again.";
+
+      const card = this.shadowRoot.querySelector(".card");
+      card.appendChild(errorMessage);
+
+      setTimeout(() => {
+        errorMessage.style.transition = "all 0.3s ease";
+        errorMessage.style.opacity = "0";
+        setTimeout(() => errorMessage.remove(), 300);
+      }, 4000);
     }
   }
 }

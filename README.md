@@ -330,6 +330,22 @@ The system provides comprehensive analytics including:
 - Popular gym tracking
 - User engagement metrics
 
+## 👥 **Project Team**
+
+### **Project Leader**
+- **[@issam-aloui](https://github.com/issam-aloui)** - Project Leader & Lead Developer
+
+### **Collaborators**
+- **[@Anes-M0](https://github.com/Anes-M0)** - Collaborator
+- **[@axx14](https://github.com/axx14)** - Collaborator
+- **[@HaiderAmine](https://github.com/HaiderAmine)** - Collaborator
+- **[@imeneben-dev](https://github.com/imeneben-dev)** - Collaborator
+- **[@manelhouari2005](https://github.com/manelhouari2005)** - Collaborator
+- **[@mouna-hm-bit](https://github.com/mouna-hm-bit)** - Collaborator
+- **[@nihadbn2727](https://github.com/nihadbn2727)** - Collaborator
+- **[@raximm](https://github.com/raximm)** (Dadi Abderrrahim) - Collaborator
+- **[@sysy-med](https://github.com/sysy-med)** - Collaborator
+- **[imad-randja]** - Collaorator
 ## 🤝 **Contributing**
 
 1. Fork the repository

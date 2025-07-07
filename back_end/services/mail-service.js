@@ -1,11 +1,11 @@
 const nodemailer = require("nodemailer");
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 const dotenv = require("dotenv");
 const logger = require("../utils/logger");
 
-dotenv.config({ path: path.join(__dirname, '..', '.env') });
+dotenv.config({ path: path.join(__dirname, "..", ".env") });
 
 // Function to send email
 async function sendEmail(to, subject, text, emailTemplate) {
@@ -37,14 +37,14 @@ async function sendEmail(to, subject, text, emailTemplate) {
 
 // Function to send email verification with a random code
 async function sendEmailVerification(username, to) {
-  const code = [...Array(6)]
+  const code = Array.from({length: 6})
     .map(() => Math.random().toString(36).charAt(2).toUpperCase())
     .join(""); // Generate a random 6-character code
 
   // Read and replace placeholders in the email template
   let template = fs.readFileSync(
     path.join(__dirname, "../templates/verification.html"),
-    "utf-8"
+    "utf8"
   );
   template = template.replace("user", username); // Replace placeholder with actual username
   template = template.replace("123456", code); // Replace placeholder with actual code

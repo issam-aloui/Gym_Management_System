@@ -3,20 +3,20 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
-const User = require("./models/User");
+const User = require("./models/user");
 const cookieParser = require("cookie-parser");
 const user1 = require("./routes/user");
 const gym = require("./routes/gym");
-const serveFront = require("./routes/serveFront");
+const serveFront = require("./routes/serve-front");
 const logger = require("./utils/logger");
 const helmet = require("helmet");
 const servicesm = require("./routes/services");
 const gymjoin = require("./routes/gymjoin");
 const paypalRoutes = require("./routes/paypal");
-const path = require("path");
-const servicesr = require("./routes/Reviews");
-const checkin = require("./routes/CheckIn");
-const annoucementsi = require("./routes/Announcement");
+const path = require("node:path");
+const servicesr = require("./routes/reviews");
+const checkin = require("./routes/check-in");
+const annoucementsi = require("./routes/announcement");
 const cron = require("node-cron");
 const Statistiques = require("./models/statistiques");
 dotenv.config();
@@ -41,8 +41,8 @@ app.use("/scan", checkin);
 app.use("/services", servicesm);
 app.use("/paypal", paypalRoutes);
 app.use("/", serveFront);
-app.use((req, res, next) => {
-  logger.info(`${req.method} ${req.url} - ${req.ip}`);
+app.use((request, response, next) => {
+  logger.info(`${request.method} ${request.url} - ${request.ip}`);
   next();
 });
 
@@ -58,8 +58,8 @@ mongoose
       logger.info(`✅ Server is listening on port ${Port}...`);
     });
   })
-  .catch((err) => {
-    logger.error("❌ Database connection error:", err);
+  .catch((error) => {
+    logger.error("❌ Database connection error:", error);
   });
 cron.schedule("0 0 * * *", async () => {
   try {
@@ -73,8 +73,8 @@ cron.schedule("0 0 * * *", async () => {
       }
     );
     console.log("✅ Daily stats reset");
-  } catch (err) {
-    console.error("❌ Error resetting daily stats:", err.message);
+  } catch (error) {
+    console.error("❌ Error resetting daily stats:", error.message);
   }
 });
 
@@ -89,12 +89,12 @@ cron.schedule("0 0 1 * *", async () => {
       }
     );
     console.log("✅ Monthly revenue reset");
-  } catch (err) {
-    console.error("❌ Error resetting monthly revenue:", err.message);
+  } catch (error) {
+    console.error("❌ Error resetting monthly revenue:", error.message);
   }
 });
-process.on("uncaughtException", (err) => {
-  logger.error("Uncaught Exception:", err);
+process.on("uncaughtException", (error) => {
+  logger.error("Uncaught Exception:", error);
 });
 
 process.on("unhandledRejection", (reason, promise) => {

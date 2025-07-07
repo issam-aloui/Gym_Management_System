@@ -1,7 +1,7 @@
 const express = require("express");
-const path = require("path");
+const path = require("node:path");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const User = require("../models/user");
 const {
   serveowner,
   serveHome,
@@ -11,10 +11,10 @@ const {
   serveSettings,
   serveSearch,
   serveDashboard,
-} = require("../controllers/viewController");
-const { verifyJWT, verifymember } = require("../middleware/Security");
+} = require("../controllers/view-controller");
+const { verifyJWT, verifymember } = require("../middleware/security");
 const { getuserfromjwt } = require("../middleware/auths");
-const Announcement = require("../models/Announcement");
+const Announcement = require("../models/announcement");
 const router = express.Router();
 
 router.get("/", getuserfromjwt, serveHome);
@@ -28,54 +28,53 @@ router.get("/results", getuserfromjwt, verifyJWT, serveSearch);
 router.get("/owner/dashboard", getuserfromjwt, verifyJWT, serveDashboard);
 router.get("/owner/:thing", getuserfromjwt, verifyJWT, serveowner);
 
-router.get("/:page", async (req, res) => {
-  let { page } = req.params;
-  
+router.get("/:page", async (request, response) => {
+  let { page } = request.params;
+
   if (page == "classes") {
-   const token = req.cookies.token;
-    if (!token) return res.status(401).json({ message: "Unauthorized" });
+    const token = request.cookies.token;
+    if (!token) return response.status(401).json({ message: "Unauthorized" });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.Oid;
 
     const user = await User.findById(userId).populate("Gymsjoined");
-    if (!user) return res.status(401).json({ message: "User not found" });
+    if (!user) return response.status(401).json({ message: "User not found" });
     const joinedGyms = user.Gymsjoined || [];
     const announcements = await Announcement.find({ gym: { $in: joinedGyms } });
 
     const gyms = user.Gymsjoined;
 
-    return res.render("classes", {
+    return response.render("classes", {
       gyms,
       role: decoded.role,
       username: decoded.username,
       LA: announcements,
-      joinedGyms:user.Gymsjoined,
+      joinedGyms: user.Gymsjoined,
     });
   }
 
-  
   if (page == "memerships") {
-    const token = req.cookies.token;
-    if (!token) return res.status(401).json({ message: "Unauthorized" });
+    const token = request.cookies.token;
+    if (!token) return response.status(401).json({ message: "Unauthorized" });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.Oid;
 
     const user = await User.findById(userId).populate("Gymsjoined");
-    if (!user) return res.status(401).json({ message: "User not found" });
+    if (!user) return response.status(401).json({ message: "User not found" });
     const joinedGyms = user.Gymsjoined || [];
     const announcements = await Announcement.find({ gym: { $in: joinedGyms } });
 
     const gyms = user.Gymsjoined;
 
-    gyms.forEach((gym) => {
+    for (const gym of gyms) {
       if (!gym.reviews) {
         gym.reviews = { totalreviews: 0, totalstars: 0 };
       }
-    });
+    }
 
-    return res.render("memerships", {
+    return response.render("memerships", {
       gyms,
       role: decoded.role,
       username: decoded.username,
@@ -83,12 +82,12 @@ router.get("/:page", async (req, res) => {
     });
   }
   if (page == "settings") {
-    const token = req.cookies.token;
-    if (!token) return res.status(401).json({ message: "Unauthorized" });
+    const token = request.cookies.token;
+    if (!token) return response.status(401).json({ message: "Unauthorized" });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.Oid;
-    return res.render("settings", {
+    return response.render("settings", {
       role: decoded.role,
       username: decoded.username,
     });
@@ -98,7 +97,7 @@ router.get("/:page", async (req, res) => {
     page += ".html";
   }
 
-  servePage(page)(req, res);
+  servePage(page)(request, response);
 });
 
 router.use(express.static(path.resolve(__dirname, "../../front_end")));

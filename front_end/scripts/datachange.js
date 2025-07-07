@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("NameForm").addEventListener("submit", async function (event) {
+  document.querySelector("#NameForm").addEventListener("submit", async function (event) {
     event.preventDefault(); // ✅ Prevent form from submitting normally
 
-    const newusername1 = document.getElementById("username1").value;
-    const newusername2 = document.getElementById("username2").value;
-    const messageBox = document.getElementById("message1");
+    const newusername1 = document.querySelector("#username1").value;
+    const newusername2 = document.querySelector("#username2").value;
+    const messageBox = document.querySelector("#message1");
 
     try {
       const response = await fetch("http://localhost:5000/user/changename", {
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         messageBox.style.color = "green";
         messageBox.textContent = data.message;
         setTimeout(() => {
-          window.location.href = "/"; // ✅ Redirect after success
+          globalThis.location.href = "/"; // ✅ Redirect after success
         }, 1000);
       } else {
         messageBox.style.color = "red";
@@ -35,12 +35,12 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("EmailForm").addEventListener("submit", async function (event) {
+  document.querySelector("#EmailForm").addEventListener("submit", async function (event) {
     event.preventDefault(); // ✅ Prevent form from submitting normally
 
-    const oldemail = document.getElementById("email1").value;
-    const newemail = document.getElementById("email2").value;
-    const messageBox = document.getElementById("message2");
+    const oldemail = document.querySelector("#email1").value;
+    const newemail = document.querySelector("#email2").value;
+    const messageBox = document.querySelector("#message2");
 
     try {
       const response = await fetch("http://localhost:5000/user/changeemail", {
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
         messageBox.style.color = "green";
         messageBox.textContent = data.message;
         setTimeout(() => {
-          window.location.href = "/"; // ✅ Redirect after success
+          globalThis.location.href = "/"; // ✅ Redirect after success
         }, 1000);
       } else {
         messageBox.style.color = "red";
@@ -73,13 +73,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("PasswordForm").addEventListener("submit", async function (event) {
+  document.querySelector("#PasswordForm").addEventListener("submit", async function (event) {
     event.preventDefault(); // ✅ Prevent form from submitting normally
 
-    const oldePass = document.getElementById("password1").value;
-    const newPass1 = document.getElementById("password2").value;
-    const newPass2 = document.getElementById("password3").value;
-    const messageBox = document.getElementById("message3");
+    const oldePass = document.querySelector("#password1").value;
+    const newPass1 = document.querySelector("#password2").value;
+    const newPass2 = document.querySelector("#password3").value;
+    const messageBox = document.querySelector("#message3");
 
     try {
       const response = await fetch("http://localhost:5000/user/changePassword", {
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
         messageBox.style.color = "green";
         messageBox.textContent = data.message;
         setTimeout(() => {
-          window.location.href = "/"; // ✅ Redirect after success
+          globalThis.location.href = "/"; // ✅ Redirect after success
         }, 1000);
       } else {
         messageBox.style.color = "red";

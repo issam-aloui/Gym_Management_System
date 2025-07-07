@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("deleteForm").addEventListener("submit", async function (event) {
+  document.querySelector("#deleteForm").addEventListener("submit", async function (event) {
     event.preventDefault();
-    const password = document.getElementById("password").value;
+    const password = document.querySelector("#password").value;
 
     // ✅ Use an existing message box instead of creating a new one every time
-    let messageBox = document.getElementById("messageBox");
+    let messageBox = document.querySelector("#messageBox");
     if (!messageBox) {
       messageBox = document.createElement("p");
       messageBox.id = "messageBox";
-      document.querySelector(".container").appendChild(messageBox);
+      document.querySelector(".container").append(messageBox);
     }
 
     try {
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (response.ok) {
         setTimeout(() => {
-          window.location.href = "/"; 
+          globalThis.location.href = "/"; 
         }, 1000);
       }
     } 

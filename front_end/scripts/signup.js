@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const signupButton = document.getElementById("signup-button");
-  const verifyButton = document.getElementById("verify-code-btn");
-  const resendbtn = document.getElementById("resend-code-btn");
+  const signupButton = document.querySelector("#signup-button");
+  const verifyButton = document.querySelector("#verify-code-btn");
+  const resendbtn = document.querySelector("#resend-code-btn");
 
-  const signupForm = document.getElementById("signupForm");
-  const codeBox = document.getElementById("code-verification-box");
-  const messageBox = document.getElementById("message");
+  const signupForm = document.querySelector("#signupForm");
+  const codeBox = document.querySelector("#code-verification-box");
+  const messageBox = document.querySelector("#message");
 
   let signupData = {};
 
@@ -19,11 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const showVerification = sessionStorage.getItem("show-verification-box");
   const buttonState = sessionStorage.getItem("signup-button-state");
 
-  if (savedUsername) document.getElementById("username").value = savedUsername;
-  if (savedEmail) document.getElementById("email").value = savedEmail;
-  if (savedPassword) document.getElementById("password").value = savedPassword;
+  if (savedUsername) document.querySelector("#username").value = savedUsername;
+  if (savedEmail) document.querySelector("#email").value = savedEmail;
+  if (savedPassword) document.querySelector("#password").value = savedPassword;
   if (savedConfirmPassword)
-    document.getElementById("confirm-password").value = savedConfirmPassword;
+    document.querySelector("#confirm-password").value = savedConfirmPassword;
 
   if (showVerification === "true") {
     codeBox.style.display = "block";
@@ -46,16 +46,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Save inputs in sessionStorage live
-  document.getElementById("username").addEventListener("input", (e) => {
+  document.querySelector("#username").addEventListener("input", (e) => {
     sessionStorage.setItem("signup-username", e.target.value);
   });
-  document.getElementById("email").addEventListener("input", (e) => {
+  document.querySelector("#email").addEventListener("input", (e) => {
     sessionStorage.setItem("signup-email", e.target.value);
   });
-  document.getElementById("password").addEventListener("input", (e) => {
+  document.querySelector("#password").addEventListener("input", (e) => {
     sessionStorage.setItem("signup-password", e.target.value);
   });
-  document.getElementById("confirm-password").addEventListener("input", (e) => {
+  document.querySelector("#confirm-password").addEventListener("input", (e) => {
     sessionStorage.setItem("signup-confirm-password", e.target.value);
   });
 
@@ -73,10 +73,10 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
     sessionStorage.setItem("signup-button-state", "verifying");
 
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
+    const username = document.querySelector("#username").value.trim();
+    const email = document.querySelector("#email").value.trim();
+    const password = document.querySelector("#password").value;
+    const confirmPassword = document.querySelector("#confirm-password").value;
 
     if (username.length < 3 || username.length > 20) {
       return showMessage(
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     }
 
-    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return showMessage("Invalid email format.", "red");
     }
 
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
         resetSignupButtonText();
         sessionStorage.setItem("signup-button-state", "default");
       }
-    } catch (err) {
+    } catch {
       showMessage("Error connecting to server.", "red");
       signupButton.disabled = false;
       resetSignupButtonText();
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
     verifyButton.disabled = true;
     verifyButton.innerHTML = "Verifying...";
 
-    const code = document.getElementById("verification-code").value.trim();
+    const code = document.querySelector("#verification-code").value.trim();
 
     if (!code || code.length !== 6) {
       verifyButton.disabled = false;
@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
           sessionStorage.clear();
 
           setTimeout(() => {
-            window.location.href = "/";
+            globalThis.location.href = "/";
           }, 1500);
         } else {
           showMessage(
@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "red"
         );
       }
-    } catch (err) {
+    } catch {
       showMessage("Error verifying code.", "red");
     }
 
@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "red"
         );
       }
-    } catch (err) {
+    } catch {
       showMessage("Error connecting to server.", "red");
     }
   });

@@ -1,13 +1,13 @@
 async function onScanSuccess(decodedText, decodedResult) {
-  const resultElement = document.getElementById("result");
-  const readerElement = document.getElementById("reader");
+  const resultElement = document.querySelector("#result");
+  const readerElement = document.querySelector("#reader");
 
   // Display scanned result
   resultElement.innerHTML = `<strong>Member checked in:</strong> ${decodedText}`;
   resultElement.classList.add("success");
 
   // Show restart button
-  document.getElementById("restart-button").style.display = "inline-block";
+  document.querySelector("#restart-button").style.display = "inline-block";
 
   // Visual feedback
   readerElement.style.boxShadow =
@@ -16,8 +16,8 @@ async function onScanSuccess(decodedText, decodedResult) {
   // Stop the scanner and clear the UI
   try {
     await html5QrcodeScanner.clear();
-  } catch (err) {
-    console.error("Failed to clear scanner:", err);
+  } catch (error) {
+    console.error("Failed to clear scanner:", error);
   }
 
   try {
@@ -61,9 +61,9 @@ async function onScanSuccess(decodedText, decodedResult) {
 
     const result = await response.json();
     console.log("Check-in successful:", result);
-     resultElement.innerHTML = `<strong>Done:</strong> member checked.`;
-  } catch (error) {
-    resultElement.innerHTML = `<strong>Error:</strong> Could not check in member.`;
+     resultElement.innerHTML = "<strong>Done:</strong> member checked.";
+  } catch {
+    resultElement.innerHTML = "<strong>Error:</strong> Could not check in member.";
     resultElement.classList.add("error");
   }
 }
@@ -86,11 +86,11 @@ const html5QrcodeScanner = new Html5QrcodeScanner(
 html5QrcodeScanner.render(onScanSuccess, onScanError);
 
 // Add animation to reader container
-document.getElementById("reader-container").classList.add("active");
+document.querySelector("#reader-container").classList.add("active");
 
 // Restart button reloads the page
 document
-  .getElementById("restart-button")
+  .querySelector("#restart-button")
   .addEventListener("click", function () {
     location.reload();
   });

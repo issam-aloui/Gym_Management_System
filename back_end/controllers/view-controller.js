@@ -1,18 +1,18 @@
-const path = require("path");
-const fs = require("fs");
-const Gym = require("../models/Gyms");
-const User = require("../models/User");
+const path = require("node:path");
+const fs = require("node:fs");
+const Gym = require("../models/gyms");
+const User = require("../models/user");
 const statistiques = require("../models/statistiques");
 const mongoose = require("mongoose");
 const Membership = require("../models/membership");
 const jwt = require("jsonwebtoken");
-const Announcement = require("../models/Announcement");
+const Announcement = require("../models/announcement");
 
-exports.serveHome = async (req, res) => {
-  const token = req.cookies.token;
+exports.serveHome = async (request, response) => {
+  const token = request.cookies.token;
 
   if (!token) {
-    return res.sendFile(
+    return response.sendFile(
       path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html")
     );
   }
@@ -22,13 +22,13 @@ exports.serveHome = async (req, res) => {
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch {
-      return res
+      return response
         .status(403)
         .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
     const user = await User.findById(decoded.Oid);
     const gyms = await Gym.find();
-    const role = req.user.role;
+    const role = request.user.role;
     const toptrendingGyms = await Gym.find()
       .sort({ "reviews.totalreviews": -1 })
       .limit(4);
@@ -41,7 +41,7 @@ exports.serveHome = async (req, res) => {
       .sort({ createdAt: -1 })
       .limit(5);
 
-    return res.render("home-user", {
+    return response.render("home-user", {
       gyms,
       topstarsGyms,
       toptrendingGyms,
@@ -49,26 +49,28 @@ exports.serveHome = async (req, res) => {
       username: decoded.username,
       LA: announcements,
     });
-  } catch (err) {
-    console.error("Error fetching gyms:", err);
-    return res
+  } catch (error) {
+    console.error("Error fetching gyms:", error);
+    return response
       .status(500)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
 };
 
-exports.serveGymPage = async (req, res) => {
-  const { id, thing } = req.params;
+exports.serveGymPage = async (request, response) => {
+  const { id, thing } = request.params;
   let file = "";
-  let token = req.cookies.token;
+  let token = request.cookies.token;
   if (!token) {
-    return res
+    return response
       .status(401)
-      .sendFile(path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html"));
+      .sendFile(
+        path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html")
+      );
   }
   let decoded = jwt.verify(token, process.env.JWT_SECRET);
   if (!decoded) {
-    return res
+    return response
       .status(403)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
@@ -79,7 +81,7 @@ exports.serveGymPage = async (req, res) => {
       const gym = await Gym.findById(id);
       const stats = await statistiques.findById(gym.statistiques);
       if (!gym || !stats) {
-        return res
+        return response
           .status(500)
           .sendFile(
             path.resolve(__dirname, "../../front_end/pages/error.html")
@@ -96,14 +98,14 @@ exports.serveGymPage = async (req, res) => {
       const date = new Date(memberships.requestedAt);
       const formatted = date.toLocaleString(); // e.g., "5/28/2025, 11:11:57 PM"
       memberships.requestedAt = formatted;
-      res.render("Gym", { gym, memberships });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Server error");
+      response.render("Gym", { gym, memberships });
+    } catch (error) {
+      console.error(error);
+      response.status(500).send("Server error");
     }
   } else if (thing === "join" && id) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res
+      return response
         .status(400)
         .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
@@ -112,7 +114,7 @@ exports.serveGymPage = async (req, res) => {
       const gym = await Gym.findById(id);
       if (!gym) {
         console.warn("Gym not found with ID:", id);
-        return res
+        return response
           .status(404)
           .sendFile(
             path.resolve(__dirname, "../../front_end/pages/error.html")
@@ -120,9 +122,9 @@ exports.serveGymPage = async (req, res) => {
       }
 
       file = "joinGym.html";
-    } catch (err) {
-      console.error("Database error fetching gym:", err);
-      return res
+    } catch (error) {
+      console.error("Database error fetching gym:", error);
+      return response
         .status(500)
         .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
@@ -135,7 +137,7 @@ exports.serveGymPage = async (req, res) => {
       if (thing == "annoucements" && id) {
         file = "annoucements.html";
       } else {
-        return res
+        return response
           .status(404)
           .sendFile(
             path.resolve(__dirname, "../../front_end/pages/error.html")
@@ -144,38 +146,38 @@ exports.serveGymPage = async (req, res) => {
     }
   }
 
-  res.sendFile(
+  response.sendFile(
     path.resolve(__dirname, `../../front_end/pages/Gympages/${file}`)
   );
 };
 
-exports.servePage = (page) => async (req, res) => {
+exports.servePage = (page) => async (request, response) => {
   const filePath = path.resolve(
     __dirname,
     `../../front_end/pages/Homepages/${page}`
   );
 
-  fs.access(filePath, fs.constants.F_OK, (err) => {
-    if (err) {
-      return res
+  fs.access(filePath, fs.constants.F_OK, (error) => {
+    if (error) {
+      return response
         .status(404)
         .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
     }
-    res.sendFile(filePath);
+    response.sendFile(filePath);
   });
 };
 
-exports.handleNotFound = (req, res) => {
-  res
+exports.handleNotFound = (request, response) => {
+  response
     .status(404)
     .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
 };
 
-exports.serveowner = async (req, res) => {
-  const thing = req.params.thing; // e.g. "members"
-  const token = req.cookies.token;
+exports.serveowner = async (request, response) => {
+  const thing = request.params.thing; // e.g. "members"
+  const token = request.cookies.token;
   if (!token)
-    return res
+    return response
       .status(401)
       .sendFile(
         path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html")
@@ -185,13 +187,13 @@ exports.serveowner = async (req, res) => {
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch {
-    return res
+    return response
       .status(403)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
 
   if (decoded.role !== "owner")
-    return res
+    return response
       .status(403)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
 
@@ -201,29 +203,29 @@ exports.serveowner = async (req, res) => {
     .sort({ createdAt: -1 })
     .limit(5);
   if (!user || !user.Gymowned)
-    return res
+    return response
       .status(404)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
 
   const gym = await Gym.findById(user.Gymowned);
   if (!gym)
-    return res
+    return response
       .status(404)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
 
   if (thing === "members") {
     const memberships = await Membership.find({ gymId: gym._id });
-     const gymWithStats = await Gym.findById(gym._id).populate({
-      path: 'statistiques',
+    const gymWithStats = await Gym.findById(gym._id).populate({
+      path: "statistiques",
       populate: {
-        path: 'members',
-        model: 'User',
-        select: 'username email role' // Select only needed fields
-      }
+        path: "members",
+        model: "User",
+        select: "username email role", // Select only needed fields
+      },
     });
-    
+
     const members = gymWithStats.statistiques.members || [];
-    return res.render("members", {
+    return response.render("members", {
       role: decoded.role,
       gym,
       memberships,
@@ -234,17 +236,17 @@ exports.serveowner = async (req, res) => {
   }
 
   // other owner pages:
-  return res.render(thing, {
+  return response.render(thing, {
     role: decoded.role,
     gym,
     username: decoded.username,
     LA: announcements,
   });
 };
-exports.serveSettings = async (req, res) => {
-  const token = req.cookies.token;
+exports.serveSettings = async (request, response) => {
+  const token = request.cookies.token;
   if (!token) {
-    return res
+    return response
       .status(401)
       .sendFile(
         path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html")
@@ -254,7 +256,7 @@ exports.serveSettings = async (req, res) => {
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch {
-    return res
+    return response
       .status(403)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
@@ -266,17 +268,17 @@ exports.serveSettings = async (req, res) => {
     .sort({ createdAt: -1 })
     .limit(5);
 
-  res.render("settings", {
+  response.render("settings", {
     role: decoded.role,
     username: decoded.username,
     email: user.email,
     LA: announcements,
   });
 };
-exports.serveSearch = async (req, res) => {
-  const token = req.cookies.token;
+exports.serveSearch = async (request, response) => {
+  const token = request.cookies.token;
   if (!token) {
-    return res
+    return response
       .status(401)
       .sendFile(
         path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html")
@@ -286,7 +288,7 @@ exports.serveSearch = async (req, res) => {
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch {
-    return res
+    return response
       .status(403)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
@@ -295,27 +297,25 @@ exports.serveSearch = async (req, res) => {
   const announcements = await Announcement.find({ gym: { $in: joinedGyms } })
     .sort({ createdAt: -1 })
     .limit(5);
-  let search_query = req.query.search_query;
+  let search_query = request.query.search_query;
   let Gyms;
-  if (!search_query) {
-    Gyms = [];
-  } else {
-    Gyms = await Gym.find({
-      name: { $regex: search_query, $options: "i" }, // 'i' for case-insensitive
-    });
-  }
+  search_query
+    ? (Gyms = await Gym.find({
+        name: { $regex: search_query, $options: "i" }, // 'i' for case-insensitive
+      }))
+    : (Gyms = []);
 
-  res.render("search", {
+  response.render("search", {
     role: decoded.role,
     username: decoded.username,
     gyms: Gyms,
     LA: announcements,
   });
 };
-exports.serveDashboard = async (req, res) => {
-  const token = req.cookies.token;
+exports.serveDashboard = async (request, response) => {
+  const token = request.cookies.token;
   if (!token) {
-    return res
+    return response
       .status(401)
       .sendFile(
         path.resolve(__dirname, "../../front_end/pages/Homepages/ad.html")
@@ -325,7 +325,7 @@ exports.serveDashboard = async (req, res) => {
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch {
-    return res
+    return response
       .status(403)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
@@ -333,7 +333,7 @@ exports.serveDashboard = async (req, res) => {
   let gym = await Gym.findById(owner.Gymowned);
   let stats = await statistiques.findById(gym.statistiques);
   if (!gym || !owner) {
-    return res
+    return response
       .status(404)
       .sendFile(path.resolve(__dirname, "../../front_end/pages/error.html"));
   }
@@ -342,7 +342,7 @@ exports.serveDashboard = async (req, res) => {
     .sort({ createdAt: -1 })
     .limit(5);
 
-  res.render("dashboard", {
+  response.render("dashboard", {
     role: decoded.role,
     username: decoded.username,
     gym,

@@ -1,18 +1,18 @@
-const Gym = require("../models/Gyms");
+const Gym = require("../models/gyms");
 const jwt = require("jsonwebtoken");
 const logger = require("../utils/logger");
-const { getCoordinates } = require("../services/geoservice");
-const { generatePassword } = require("../utils/passwordGen");
+const { getCoordinates } = require("../services/geo-service");
+const { generatePassword } = require("../utils/password-gen");
 const Statistiques = require("../models/statistiques");
-const Gymdes = require("../models/GymDescription");
-const User = require("../models/User");
+const Gymdes = require("../models/gym-description");
+const User = require("../models/user");
 
-exports.createGym = async (req, res) => {
+exports.createGym = async (request, response) => {
   try {
-    const token = req.cookies.token;
+    const token = request.cookies.token;
     if (!token) {
       logger.warn("Unauthorized attempt to create a gym");
-      return res.status(401).json({ message: "Unauthorized" });
+      return response.status(401).json({ message: "Unauthorized" });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -22,28 +22,30 @@ exports.createGym = async (req, res) => {
 
     if (!user) {
       logger.warn(`User not found for ID: ${userId}`);
-      return res.status(404).json({ message: "User not found" });
+      return response.status(404).json({ message: "User not found" });
     }
 
     if (user.Gymowned) {
       logger.warn(`User ${userId} attempted to create another gym`);
-      return res.status(400).json({ error: "You have already created a gym." });
+      return response
+        .status(400)
+        .json({ error: "You have already created a gym." });
     }
 
-    const { gymname, town, pricebymounth, phonenumber, email } = req.body;
+    const { gymname, town, pricebymounth, phonenumber, email } = request.body;
     const { lat, lng } = await getCoordinates(town);
     const pass = generatePassword(13);
 
     if (!lat || !lng) {
       logger.warn("Town not found on map");
-      return res
+      return response
         .status(400)
         .json({ message: "Invalid town. Try another one." });
     }
 
     if (!gymname || !town || !pricebymounth || !phonenumber || !email) {
       logger.warn("Missing required fields in gym creation");
-      return res.status(400).json({ message: "All fields are required" });
+      return response.status(400).json({ message: "All fields are required" });
     }
 
     const newGym = new Gym({
@@ -87,38 +89,38 @@ exports.createGym = async (req, res) => {
       { expiresIn: "2h" }
     );
 
-    res.cookie("token", newToken, {
+    response.cookie("token", newToken, {
       httpOnly: true,
       secure: true,
       sameSite: "Strict",
     });
 
-    res.status(201).json({
+    response.status(201).json({
       message: "Gym and statistics created successfully",
       gym: newGym,
       secretPass: pass,
     });
   } catch (error) {
     logger.error(`Gym creation failed: ${error.message}`);
-    res.status(500).json({ message: "Server error" });
+    response.status(500).json({ message: "Server error" });
   }
 };
 
-exports.getGyms = async (req, res) => {
+exports.getGyms = async (request, response) => {
   try {
     const gyms = await Gym.find({}, "name coordinates town");
-    res.status(200).json(gyms);
+    response.status(200).json(gyms);
   } catch (error) {
     logger.error(`Couldn't fetch gyms: ${error.message}`);
-    res.status(500).json({ message: "Server error" });
+    response.status(500).json({ message: "Server error" });
   }
 };
 
-exports.getgym = async (req, res) => {
-  const token = req.cookies.token;
+exports.getgym = async (request, response) => {
+  const token = request.cookies.token;
   if (!token) {
     logger.warn("Unauthorized attempt to get a gym");
-    return res.status(401).json({ message: "Unauthorized" });
+    return response.status(401).json({ message: "Unauthorized" });
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -126,32 +128,32 @@ exports.getgym = async (req, res) => {
 
     if (decoded.role !== "owner") {
       logger.warn("Unauthorized attempt to get a gym");
-      return res.status(401).json({ message: "Unauthorized" });
+      return response.status(401).json({ message: "Unauthorized" });
     }
 
     const gym = await Gym.findOne({ owner: userId });
     if (!gym) {
-      return res.status(404).json({ message: "Gym not found" });
+      return response.status(404).json({ message: "Gym not found" });
     }
-    return res.status(200).json({ gymId: gym._id });
-  } catch (err) {
-    return res.status(400).json({ message: "servererror" });
+    return response.status(200).json({ gymId: gym._id });
+  } catch {
+    return response.status(400).json({ message: "servererror" });
   }
 };
-exports.leaveGym = async (req, res) => {
+exports.leaveGym = async (request, response) => {
   try {
-    const { gymId, userId: targetUserId } = req.params;
-    const { userId: bodyUserId } = req.body; // Alternative way to pass userId
-    const token = req.cookies.token;
+    const { gymId, userId: targetUserId } = request.params;
+    const { userId: bodyUserId } = request.body; // Alternative way to pass userId
+    const token = request.cookies.token;
 
     if (!token) {
       logger.warn("Unauthorized attempt to leave a gym");
-      return res.status(401).json({ message: "Unauthorized" });
+      return response.status(401).json({ message: "Unauthorized" });
     }
 
     let check = await Gym.findById(gymId);
     if (!check) {
-      return res.status(404).json({ message: "Gym not found" });
+      return response.status(404).json({ message: "Gym not found" });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -169,7 +171,7 @@ exports.leaveGym = async (req, res) => {
         logger.warn(
           `User ${requesterId} attempted to kick user ${userToRemove} from gym ${gymId} without permission`
         );
-        return res
+        return response
           .status(403)
           .json({ message: "Only gym owners can kick members" });
       }
@@ -187,12 +189,12 @@ exports.leaveGym = async (req, res) => {
     );
 
     if (!result) {
-      return res.status(404).json({ message: "User not found" });
+      return response.status(404).json({ message: "User not found" });
     }
 
     const statistics = await Statistiques.findById(check.statistiques);
     if (!statistics) {
-      return res.status(404).json({ message: "Statistics not found" });
+      return response.status(404).json({ message: "Statistics not found" });
     }
 
     statistics.members = statistics.members.filter(
@@ -205,28 +207,28 @@ exports.leaveGym = async (req, res) => {
       logger.info(
         `User ${userToRemove} has been kicked from gym ${gymId} by owner ${requesterId}`
       );
-      res.status(200).json({
+      response.status(200).json({
         message: "Member kicked successfully",
         kickedUserId: userToRemove,
       });
     } else {
-      res.redirect("/");
+      response.redirect("/");
     }
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({ message: "Server error" });
   }
 };
 
-exports.changegymname = async (req, res) => {
+exports.changegymname = async (request, response) => {
   try {
-    const { gymid } = req.params;
-    const { newname } = req.body;
-    const token = req.cookies.token;
+    const { gymid } = request.params;
+    const { newname } = request.body;
+    const token = request.cookies.token;
 
     if (!token) {
       logger.warn("Unauthorized attempt to changename for gym");
-      return res.status(401).json({ message: "Unauthorized" });
+      return response.status(401).json({ message: "Unauthorized" });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -235,7 +237,7 @@ exports.changegymname = async (req, res) => {
     const mygym = await Gym.findById(gymid);
 
     if (!mygym) {
-      return res.status(404).json({ message: "gym not found" });
+      return response.status(404).json({ message: "gym not found" });
     }
 
     // Check if the user is the owner of this gym
@@ -243,34 +245,34 @@ exports.changegymname = async (req, res) => {
       logger.warn(
         `User ${userId} attempted to edit gym ${gymid} without permission`
       );
-      return res
+      return response
         .status(403)
         .json({ message: "You don't have permission to edit this gym" });
     }
 
     if (!newname || newname.trim().length === 0) {
-      return res.status(400).json({ message: "Gym name cannot be empty" });
+      return response.status(400).json({ message: "Gym name cannot be empty" });
     }
 
     mygym.name = newname.trim();
     await mygym.save();
-    res.status(200).json({ message: "gym name changed!" });
+    response.status(200).json({ message: "gym name changed!" });
     return;
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({ message: "Server error" });
   }
 };
 
-exports.changegymemail = async (req, res) => {
+exports.changegymemail = async (request, response) => {
   try {
-    const { gymid } = req.params;
-    const { newemail } = req.body;
-    const token = req.cookies.token;
+    const { gymid } = request.params;
+    const { newemail } = request.body;
+    const token = request.cookies.token;
 
     if (!token) {
       logger.warn("Unauthorized attempt to change email for gym");
-      return res.status(401).json({ message: "Unauthorized" });
+      return response.status(401).json({ message: "Unauthorized" });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -279,7 +281,7 @@ exports.changegymemail = async (req, res) => {
     const mygym = await Gym.findById(gymid);
 
     if (!mygym) {
-      return res.status(404).json({ message: "gym not found" });
+      return response.status(404).json({ message: "gym not found" });
     }
 
     // Check if the user is the owner of this gym
@@ -287,36 +289,36 @@ exports.changegymemail = async (req, res) => {
       logger.warn(
         `User ${userId} attempted to edit gym ${gymid} without permission`
       );
-      return res
+      return response
         .status(403)
         .json({ message: "You don't have permission to edit this gym" });
     }
 
     if (!newemail || !newemail.includes("@")) {
-      return res
+      return response
         .status(400)
         .json({ message: "Please provide a valid email address" });
     }
 
     mygym.contact.email = newemail.trim();
     await mygym.save();
-    res.status(200).json({ message: "gym email changed!" });
+    response.status(200).json({ message: "gym email changed!" });
     return;
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({ message: "Server error" });
   }
 };
 
-exports.changegymphone = async (req, res) => {
+exports.changegymphone = async (request, response) => {
   try {
-    const { gymid } = req.params;
-    const { newphone } = req.body;
-    const token = req.cookies.token;
+    const { gymid } = request.params;
+    const { newphone } = request.body;
+    const token = request.cookies.token;
 
     if (!token) {
       logger.warn("Unauthorized attempt to change phone for gym");
-      return res.status(401).json({ message: "Unauthorized" });
+      return response.status(401).json({ message: "Unauthorized" });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -325,7 +327,7 @@ exports.changegymphone = async (req, res) => {
     const mygym = await Gym.findById(gymid);
 
     if (!mygym) {
-      return res.status(404).json({ message: "gym not found" });
+      return response.status(404).json({ message: "gym not found" });
     }
 
     // Check if the user is the owner of this gym
@@ -333,34 +335,36 @@ exports.changegymphone = async (req, res) => {
       logger.warn(
         `User ${userId} attempted to edit gym ${gymid} without permission`
       );
-      return res
+      return response
         .status(403)
         .json({ message: "You don't have permission to edit this gym" });
     }
 
     if (!newphone || newphone.trim().length === 0) {
-      return res.status(400).json({ message: "Phone number cannot be empty" });
+      return response
+        .status(400)
+        .json({ message: "Phone number cannot be empty" });
     }
 
     mygym.contact.phonenumber = newphone.trim();
     await mygym.save();
-    res.status(200).json({ message: "gym phone changed!" });
+    response.status(200).json({ message: "gym phone changed!" });
     return;
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({ message: "Server error" });
   }
 };
 
-exports.changegympriceBymounth = async (req, res) => {
+exports.changegympriceBymounth = async (request, response) => {
   try {
-    const { gymid } = req.params;
-    const { newprice } = req.body;
-    const token = req.cookies.token;
+    const { gymid } = request.params;
+    const { newprice } = request.body;
+    const token = request.cookies.token;
 
     if (!token) {
       logger.warn("Unauthorized attempt to change price for gym");
-      return res.status(401).json({ message: "Unauthorized" });
+      return response.status(401).json({ message: "Unauthorized" });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -369,7 +373,7 @@ exports.changegympriceBymounth = async (req, res) => {
     const mygym = await Gym.findById(gymid);
 
     if (!mygym) {
-      return res.status(404).json({ message: "gym not found" });
+      return response.status(404).json({ message: "gym not found" });
     }
 
     // Check if the user is the owner of this gym
@@ -377,34 +381,36 @@ exports.changegympriceBymounth = async (req, res) => {
       logger.warn(
         `User ${userId} attempted to edit gym ${gymid} without permission`
       );
-      return res
+      return response
         .status(403)
         .json({ message: "You don't have permission to edit this gym" });
     }
 
     if (!newprice || newprice < 0) {
-      return res.status(400).json({ message: "Please provide a valid price" });
+      return response
+        .status(400)
+        .json({ message: "Please provide a valid price" });
     }
 
     mygym.pricePerMonth = newprice;
 
     await mygym.save();
-    res.status(200).json({ message: "gym price changed!" });
+    response.status(200).json({ message: "gym price changed!" });
     return;
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({ message: "Server error" });
   }
 };
 
-exports.changegympass = async (req, res) => {
+exports.changegympass = async (request, response) => {
   try {
-    const { gymid } = req.params;
-    const token = req.cookies.token;
+    const { gymid } = request.params;
+    const token = request.cookies.token;
 
     if (!token) {
       logger.warn("Unauthorized attempt to change password for gym");
-      return res.status(401).json({ message: "Unauthorized" });
+      return response.status(401).json({ message: "Unauthorized" });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -413,7 +419,7 @@ exports.changegympass = async (req, res) => {
     const mygym = await Gym.findById(gymid);
 
     if (!mygym) {
-      return res.status(404).json({ message: "gym not found" });
+      return response.status(404).json({ message: "gym not found" });
     }
 
     // Check if the user is the owner of this gym
@@ -421,7 +427,7 @@ exports.changegympass = async (req, res) => {
       logger.warn(
         `User ${userId} attempted to edit gym ${gymid} without permission`
       );
-      return res
+      return response
         .status(403)
         .json({ message: "You don't have permission to edit this gym" });
     }
@@ -430,22 +436,22 @@ exports.changegympass = async (req, res) => {
     mygym.Secretpass = newpass;
 
     await mygym.save();
-    res
+    response
       .status(200)
       .json({ message: "gym password changed!", newPassword: newpass });
     return;
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({ message: "Server error" });
   }
 };
-exports.getGymDetails = async (req, res) => {
+exports.getGymDetails = async (request, response) => {
   try {
-    const { gymId } = req.params;
+    const { gymId } = request.params;
 
     const gym = await Gym.findById(gymId).populate("statistiques");
     if (!gym) {
-      return res.status(404).json({ message: "Gym not found" });
+      return response.status(404).json({ message: "Gym not found" });
     }
 
     // Get member count from statistics if available
@@ -467,9 +473,9 @@ exports.getGymDetails = async (req, res) => {
       updatedAt: gym.updatedAt,
     };
 
-    res.status(200).json(gymResponse);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    response.status(200).json(gymResponse);
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ message: "Server error" });
   }
 };

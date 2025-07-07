@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 function showLoadingState() {
-  const loadingState = document.getElementById("loading-state");
-  const emptyState = document.getElementById("empty-state");
-  const announcementList = document.getElementById("announcement-list");
+  const loadingState = document.querySelector("#loading-state");
+  const emptyState = document.querySelector("#empty-state");
+  const announcementList = document.querySelector("#announcement-list");
 
   if (loadingState) loadingState.style.display = "flex";
   if (emptyState) emptyState.style.display = "none";
@@ -43,28 +43,28 @@ function showLoadingState() {
 }
 
 function hideLoadingState() {
-  const loadingState = document.getElementById("loading-state");
+  const loadingState = document.querySelector("#loading-state");
   if (loadingState) loadingState.style.display = "none";
 }
 
 function showEmptyState() {
-  const emptyState = document.getElementById("empty-state");
-  const announcementList = document.getElementById("announcement-list");
+  const emptyState = document.querySelector("#empty-state");
+  const announcementList = document.querySelector("#announcement-list");
 
   if (emptyState) emptyState.style.display = "flex";
   if (announcementList) announcementList.style.display = "none";
 }
 
 function hideEmptyState() {
-  const emptyState = document.getElementById("empty-state");
-  const announcementList = document.getElementById("announcement-list");
+  const emptyState = document.querySelector("#empty-state");
+  const announcementList = document.querySelector("#announcement-list");
 
   if (emptyState) emptyState.style.display = "none";
   if (announcementList) announcementList.style.display = "flex";
 }
 
 async function loadAnnouncements(gymId) {
-  const listDiv = document.getElementById("announcement-list");
+  const listDiv = document.querySelector("#announcement-list");
 
   try {
     const res = await fetch(`/announcements/${gymId}`);
@@ -79,8 +79,8 @@ async function loadAnnouncements(gymId) {
       hideEmptyState();
       renderAnnouncements(announcements);
     }
-  } catch (err) {
-    console.error("Failed to load announcements:", err);
+  } catch (error) {
+    console.error("Failed to load announcements:", error);
     hideLoadingState();
     listDiv.innerHTML = `
       <div class="error-message">
@@ -93,7 +93,7 @@ async function loadAnnouncements(gymId) {
 }
 
 function renderAnnouncements(announcements) {
-  const listDiv = document.getElementById("announcement-list");
+  const listDiv = document.querySelector("#announcement-list");
 
   listDiv.innerHTML = announcements
     .map((announcement) => createAnnouncementCard(announcement))
@@ -190,15 +190,15 @@ async function deleteAnnouncement(announcementId) {
 }
 
 function setupForm(gymId) {
-  const form = document.getElementById("announcement-form");
-  const messageBox = document.getElementById("message-box");
+  const form = document.querySelector("#announcement-form");
+  const messageBox = document.querySelector("#message-box");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const title = document.getElementById("title").value.trim();
-    const yap = document.getElementById("yap").value.trim();
-    const submitButton = form.querySelector('button[type="submit"]');
+    const title = document.querySelector("#title").value.trim();
+    const yap = document.querySelector("#yap").value.trim();
+    const submitButton = form.querySelector("button[type=\"submit\"]");
 
     // Clear previous messages
     messageBox.style.display = "none";
@@ -223,7 +223,7 @@ function setupForm(gymId) {
     // Show loading state on button
     const originalButtonText = submitButton.innerHTML;
     submitButton.innerHTML =
-      '<i class="fas fa-spinner fa-spin"></i> Creating...';
+      "<i class=\"fas fa-spinner fa-spin\"></i> Creating...";
     submitButton.disabled = true;
 
     try {
@@ -254,8 +254,8 @@ function setupForm(gymId) {
           "error"
         );
       }
-    } catch (err) {
-      console.error("Error creating announcement:", err);
+    } catch (error) {
+      console.error("Error creating announcement:", error);
       showMessage(
         "Something went wrong while creating the announcement.",
         "error"
@@ -271,7 +271,7 @@ function setupForm(gymId) {
 }
 
 function showMessage(message, type) {
-  const messageBox = document.getElementById("message-box");
+  const messageBox = document.querySelector("#message-box");
   messageBox.textContent = message;
   messageBox.className = type;
   messageBox.style.display = "block";

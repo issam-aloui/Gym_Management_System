@@ -1,19 +1,17 @@
-const express = require("express")
+const express = require("express");
 
-const{
+const {
+  createAnnouncement,
+  getAllAnnouncements,
+  deleteAnnouncement,
+} = require("../controllers/announcements-controller.js");
 
-    createAnnouncement,
-    getAllAnnouncements,
-    deleteAnnouncement,
+const { verifyJWT } = require("../middleware/security.js");
 
-}=require("../controllers/AnnouncementsController.js")
+const router = express.Router();
 
-const { verifyJWT }= require("../middleware/Security")
-
-const router = express.Router()
-
-router.post("/",verifyJWT,createAnnouncement)
-router.get("/:gymId",verifyJWT,getAllAnnouncements)
-router.delete("/:id",verifyJWT,deleteAnnouncement)
+router.post("/", verifyJWT, createAnnouncement);
+router.get("/:gymId", verifyJWT, getAllAnnouncements);
+router.delete("/:id", verifyJWT, deleteAnnouncement);
 
 module.exports = router;

@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
   let gymId = null;
-  const reviewList = document.getElementById("review-list");
-  const loadingState = document.getElementById("loading-state");
-  const emptyState = document.getElementById("empty-state");
+  const reviewList = document.querySelector("#review-list");
+  const loadingState = document.querySelector("#loading-state");
+  const emptyState = document.querySelector("#empty-state");
 
   // Show loading state
   loadingState.style.display = "flex";
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateReviewStats(result);
 
     // Generate review HTML with enhanced design
-    result.forEach((review, index) => {
+    for (const [index, review] of result.entries()) {
       const authorInitial =
         review.user?.username?.charAt(0).toUpperCase() || "?";
       const reviewDate = new Date(
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
       `;
       reviewList.innerHTML += reviewHTML;
-    });
+    }
   } catch (error) {
     console.error("Error fetching reviews:", error);
     loadingState.style.display = "none";
@@ -122,11 +122,7 @@ function animateCounter(elementId, finalValue, isDecimal = false) {
 
     const currentValue = startValue + (finalValue - startValue) * easeOutQuart;
 
-    if (isDecimal) {
-      element.textContent = currentValue.toFixed(1);
-    } else {
-      element.textContent = Math.floor(currentValue);
-    }
+    element.textContent = isDecimal ? currentValue.toFixed(1) : Math.floor(currentValue);
 
     if (progress < 1) {
       requestAnimationFrame(updateCounter);
@@ -139,7 +135,7 @@ function animateCounter(elementId, finalValue, isDecimal = false) {
 }
 
 function showErrorMessage(message) {
-  const reviewList = document.getElementById("review-list");
+  const reviewList = document.querySelector("#review-list");
   reviewList.innerHTML = `
     <div class="error-message">
       <i class="fas fa-exclamation-triangle"></i>

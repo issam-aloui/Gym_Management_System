@@ -73,8 +73,8 @@ UserSchema.pre("validate", async function (next) {
 
     this.id = counter.count; // Assign new ID
     next();
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 

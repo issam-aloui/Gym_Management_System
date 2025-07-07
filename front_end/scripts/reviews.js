@@ -1,5 +1,5 @@
 function getGymIdFromUrl() {
-  const parts = window.location.pathname.split("/");
+  const parts = globalThis.location.pathname.split("/");
   return parts[2] || null;
 }
 
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  const reviewList = document.getElementById("review-list");
+  const reviewList = document.querySelector("#review-list");
 
   try {
     const response = await fetch(`/reviews/${gymId}`);
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    result.forEach((review) => {
+    for (const review of result) {
       const reviewHTML = `
         <div class="review">
           <div class="review-rating">${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}</div>
@@ -31,21 +31,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
       `;
       reviewList.innerHTML += reviewHTML;
-    });
+    }
   } catch (error) {
     console.error("Error fetching reviews:", error);
     reviewList.innerHTML = "<p>There was an error fetching the reviews.</p>";
   }
 });
 
-const reviewForm = document.getElementById("add-review-form");
+const reviewForm = document.querySelector("#add-review-form");
 
 if (reviewForm) {
   reviewForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const rating = document.getElementById("rating").value;
-    const comment = document.getElementById("comment").value;
+    const rating = document.querySelector("#rating").value;
+    const comment = document.querySelector("#comment").value;
     const gymId = getGymIdFromUrl();
 
     if (!gymId) {

@@ -6,7 +6,7 @@ class MemberCard extends HTMLElement {
   connectedCallback() {
     const name = this.getAttribute("name");
     const status = this.getAttribute("status");
-    const src = this.getAttribute("src");
+    const source = this.getAttribute("src");
     const hideStatus = this.getAttribute("hide-status") === "true";
     const showKick = this.getAttribute("show-kick") === "true";
     const { userId, gymId, fullName, description, password } = this.dataset; //learned dataset way
@@ -271,29 +271,29 @@ class MemberCard extends HTMLElement {
           <div class="avatar-container">
             <img class="avatar" src="../../assets/icons/pfp.png" alt="${name}" loading="lazy">
             ${
-              !hideStatus
-                ? `<div class="status-indicator ${status}"></div>`
-                : ""
+              hideStatus
+                ? ""
+                : `<div class="status-indicator ${status}"></div>`
             }
           </div>
           <div class="member-info">
             <h3 class="member-name">${name}</h3>
             <div class="member-id">ID: ${userId.slice(-6).toUpperCase()}</div>
             ${
-              !hideStatus
-                ? `<div class="status-badge ${status}">
+              hideStatus
+                ? ""
+                : `<div class="status-badge ${status}">
               ${
                 status === "approved"
-                  ? '<i class="fas fa-check"></i>'
+                  ? "<i class=\"fas fa-check\"></i>"
                   : status === "pending"
-                  ? '<i class="fas fa-clock"></i>'
+                  ? "<i class=\"fas fa-clock\"></i>"
                   : status === "member"
-                  ? '<i class="fas fa-user"></i>'
-                  : '<i class="fas fa-times"></i>'
+                  ? "<i class=\"fas fa-user\"></i>"
+                  : "<i class=\"fas fa-times\"></i>"
               }
               ${status}
             </div>`
-                : ""
             }
           </div>
         </div>
@@ -318,7 +318,7 @@ class MemberCard extends HTMLElement {
               Decline
             </button>
           </div>`
-              : showKick && status === "member"
+              : (showKick && status === "member"
               ? `
           <div class="actions">
             <button class="action-btn kick" id="kickBtn">
@@ -326,31 +326,31 @@ class MemberCard extends HTMLElement {
               Kick Member
             </button>
           </div>`
-              : ``
+              : "")
           }
         
       </div>
     `;
     if (status === "pending") {
-      const acceptBtn = this.shadowRoot.querySelector("#acceptBtn");
-      const declineBtn = this.shadowRoot.querySelector("#declineBtn");
+      const acceptButton = this.shadowRoot.querySelector("#acceptBtn");
+      const declineButton = this.shadowRoot.querySelector("#declineBtn");
 
-      acceptBtn.addEventListener("click", () =>
+      acceptButton.addEventListener("click", () =>
         this._submit(
           "A",
           { userId, gymId, fullName, description, password },
-          acceptBtn
+          acceptButton
         )
       );
-      declineBtn.addEventListener("click", () =>
-        this._submit("D", { userId, gymId, fullName, description }, declineBtn)
+      declineButton.addEventListener("click", () =>
+        this._submit("D", { userId, gymId, fullName, description }, declineButton)
       );
     }
 
     if (showKick && status === "member") {
-      const kickBtn = this.shadowRoot.querySelector("#kickBtn");
-      kickBtn.addEventListener("click", () =>
-        this._kickMember({ userId, gymId, fullName }, kickBtn)
+      const kickButton = this.shadowRoot.querySelector("#kickBtn");
+      kickButton.addEventListener("click", () =>
+        this._kickMember({ userId, gymId, fullName }, kickButton)
       );
     }
   }
@@ -362,13 +362,13 @@ class MemberCard extends HTMLElement {
 
     // Show loading state
     buttonElement.disabled = true;
-    buttonElement.innerHTML = '<div class="loading"></div>';
+    buttonElement.innerHTML = "<div class=\"loading\"></div>";
 
     // Disable both buttons during request
-    const acceptBtn = this.shadowRoot.querySelector("#acceptBtn");
-    const declineBtn = this.shadowRoot.querySelector("#declineBtn");
-    if (acceptBtn) acceptBtn.disabled = true;
-    if (declineBtn) declineBtn.disabled = true;
+    const acceptButton = this.shadowRoot.querySelector("#acceptBtn");
+    const declineButton = this.shadowRoot.querySelector("#declineBtn");
+    if (acceptButton) acceptButton.disabled = true;
+    if (declineButton) declineButton.disabled = true;
 
     try {
       const res = await fetch(url, {
@@ -394,8 +394,8 @@ class MemberCard extends HTMLElement {
       badge.innerHTML = `
         ${
           newStatus === "approved"
-            ? '<i class="fas fa-check"></i>'
-            : '<i class="fas fa-times"></i>'
+            ? "<i class=\"fas fa-check\"></i>"
+            : "<i class=\"fas fa-times\"></i>"
         }
         ${newStatus}
       `;
@@ -411,7 +411,7 @@ class MemberCard extends HTMLElement {
       }
 
       // Update the card's data attribute for filtering
-      this.setAttribute("data-status", newStatus);
+      this.dataset.status = newStatus;
 
       // Show success message briefly
       const card = this.shadowRoot.querySelector(".card");
@@ -433,22 +433,22 @@ class MemberCard extends HTMLElement {
         newStatus === "approved" ? "Member Approved!" : "Request Declined";
 
       card.style.position = "relative";
-      card.appendChild(successMessage);
+      card.append(successMessage);
 
       setTimeout(() => {
         successMessage.style.animation = "fadeOut 0.3s ease";
         setTimeout(() => successMessage.remove(), 300);
       }, 2000);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
 
       // Reset button state on error
       buttonElement.disabled = false;
       buttonElement.innerHTML = originalText;
 
       // Re-enable buttons
-      if (acceptBtn) acceptBtn.disabled = false;
-      if (declineBtn) declineBtn.disabled = false;
+      if (acceptButton) acceptButton.disabled = false;
+      if (declineButton) declineButton.disabled = false;
 
       // Show error message
       const errorMessage = document.createElement("div");
@@ -462,10 +462,10 @@ class MemberCard extends HTMLElement {
         border-left: 3px solid #f56565;
       `;
       errorMessage.textContent =
-        err.error || "Request failed. Please try again.";
+        error.error || "Request failed. Please try again.";
 
       const card = this.shadowRoot.querySelector(".card");
-      card.appendChild(errorMessage);
+      card.append(errorMessage);
 
       setTimeout(() => {
         errorMessage.style.transition = "all 0.3s ease";
@@ -489,7 +489,7 @@ class MemberCard extends HTMLElement {
 
     // Show loading state
     buttonElement.disabled = true;
-    buttonElement.innerHTML = '<div class="loading"></div>';
+    buttonElement.innerHTML = "<div class=\"loading\"></div>";
 
     try {
       const res = await fetch(`/gym/${gymId}/kick/${userId}`, {
@@ -529,13 +529,13 @@ class MemberCard extends HTMLElement {
       successMessage.textContent = `${fullName} has been kicked from the gym`;
 
       card.style.position = "relative";
-      card.appendChild(successMessage);
+      card.append(successMessage);
 
       setTimeout(() => {
         successMessage.style.animation = "fadeOut 0.3s ease";
       }, 1500);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
 
       // Reset button state on error
       buttonElement.disabled = false;
@@ -553,10 +553,10 @@ class MemberCard extends HTMLElement {
         border-left: 3px solid #f56565;
       `;
       errorMessage.textContent =
-        err.message || "Failed to kick member. Please try again.";
+        error.message || "Failed to kick member. Please try again.";
 
       const card = this.shadowRoot.querySelector(".card");
-      card.appendChild(errorMessage);
+      card.append(errorMessage);
 
       setTimeout(() => {
         errorMessage.style.transition = "all 0.3s ease";

@@ -37,4 +37,4 @@ customElements.define(
 const footerLink = document.createElement("link");
 footerLink.rel = "stylesheet";
 footerLink.href = "../css/footer.css";
-document.head.appendChild(footerLink);
+document.head.append(footerLink);

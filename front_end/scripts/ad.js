@@ -1,7 +1,7 @@
 // Add scroll effect to header
 
 window.addEventListener("scroll", function () {
-  const header = document.getElementById("main-header");
+  const header = document.querySelector("#main-header");
   if (window.scrollY > 50) {
     header.classList.add("scrolled");
   } else {
@@ -10,16 +10,16 @@ window.addEventListener("scroll", function () {
 });
 
 // Mobile menu toggle
-const mobileMenuBtn = document.getElementById("mobile-menu-toggle");
-const mainMenu = document.getElementById("main-menu");
-const headerButtons = document.getElementById("header-buttons");
+const mobileMenuButton = document.querySelector("#mobile-menu-toggle");
+const mainMenu = document.querySelector("#main-menu");
+const headerButtons = document.querySelector("#header-buttons");
 
-mobileMenuBtn.addEventListener("click", function () {
+mobileMenuButton.addEventListener("click", function () {
   mainMenu.classList.toggle("active");
   headerButtons.classList.toggle("active");
 
   // Change icon based on menu state
-  const icon = mobileMenuBtn.querySelector("i");
+  const icon = mobileMenuButton.querySelector("i");
   if (mainMenu.classList.contains("active")) {
     icon.classList.remove("fa-bars");
     icon.classList.add("fa-times");
@@ -31,8 +31,8 @@ mobileMenuBtn.addEventListener("click", function () {
 
 // Reveal animations on scroll
 function revealOnScroll() {
-  const aboutSection = document.getElementById("about-section");
-  const aboutSection2 = document.getElementById("about-section2");
+  const aboutSection = document.querySelector("#about-section");
+  const aboutSection2 = document.querySelector("#about-section2");
   const position = aboutSection.getBoundingClientRect().top;
   const position2 = aboutSection2.getBoundingClientRect().top;
   const screenPosition = window.innerHeight / 1.3;
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const track = document.querySelector(".testimonial-track");
   const slides = document.querySelectorAll(".testimonial-slide");
   const dots = document.querySelectorAll(".testimonial-dot");
-  const prevButton = document.querySelector(".testimonial-arrow.prev");
+  const previousButton = document.querySelector(".testimonial-arrow.prev");
   const nextButton = document.querySelector(".testimonial-arrow.next");
 
   // Set initial slide index
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     track.style.transform = `translateX(-${currentIndex * 100}%)`;
 
     // Update active dot
-    dots.forEach((dot) => dot.classList.remove("active"));
+    for (const dot of dots) dot.classList.remove("active");
     dots[currentIndex].classList.add("active");
   }
 
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Function to go to previous slide
-  function prevSlide() {
+  function previousSlide() {
     currentIndex = (currentIndex - 1 + slideCount) % slideCount;
     updateSlidePosition();
   }
@@ -99,15 +99,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Set up click events for dots
-  dots.forEach((dot, index) => {
+  for (const [index, dot] of dots.entries()) {
     dot.addEventListener("click", () => {
       goToSlide(index);
     });
-  });
+  }
 
   // Set up click events for arrows
-  prevButton.addEventListener("click", () => {
-    prevSlide();
+  previousButton.addEventListener("click", () => {
+    previousSlide();
     resetAutoSlide();
   });
 
@@ -133,11 +133,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Add smooth scrolling to sections
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-  anchor.addEventListener("click", function (e) {
-    e.preventDefault();
+for (const anchor of document.querySelectorAll("a[href^=\"#\"]")) {
+  anchor.addEventListener("click", function (event) {
+    event.preventDefault();
     document.querySelector(this.getAttribute("href")).scrollIntoView({
       behavior: "smooth",
     });
   });
-});
+}

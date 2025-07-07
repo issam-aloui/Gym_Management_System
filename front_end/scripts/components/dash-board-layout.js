@@ -69,9 +69,9 @@ customElements.define(
       `;
 
       // Sidebar toggle
-      document.getElementById("menuToggle").addEventListener("click", () => {
-        document.getElementById("sidebar").classList.toggle("expanded");
-        const main = document.getElementById("mainContent");
+      document.querySelector("#menuToggle").addEventListener("click", () => {
+        document.querySelector("#sidebar").classList.toggle("expanded");
+        const main = document.querySelector("#mainContent");
         if (main) main.classList.toggle("shifted");
       });
     }
@@ -82,4 +82,4 @@ customElements.define(
 const link = document.createElement("link");
 link.rel = "stylesheet";
 link.href = "../../css/app-layout.css";
-document.head.appendChild(link);
+document.head.append(link);

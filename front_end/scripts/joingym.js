@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Utility functions
   function getGymIdFromUrl() {
-    const parts = window.location.pathname.split("/");
+    const parts = globalThis.location.pathname.split("/");
     return parts[2] || null;
   }
 
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showError(message) {
-    const messageContainer = document.getElementById("message");
+    const messageContainer = document.querySelector("#message");
     if (messageContainer) {
       messageContainer.textContent = message;
       messageContainer.className = "message-container error";
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showSuccess() {
-    const modal = document.getElementById("successModal");
+    const modal = document.querySelector("#successModal");
     if (modal) {
       modal.style.display = "flex";
       modal.offsetHeight; // Force reflow
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function hideSuccess() {
-    const modal = document.getElementById("successModal");
+    const modal = document.querySelector("#successModal");
     if (modal) {
       modal.classList.remove("show");
       setTimeout(() => {
@@ -51,14 +51,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Page loader functions
   function showPageLoader() {
-    const loader = document.getElementById("pageOverlay");
+    const loader = document.querySelector("#pageOverlay");
     if (loader) {
       loader.style.display = "flex";
     }
   }
 
   function hidePageLoader() {
-    const loader = document.getElementById("pageOverlay");
+    const loader = document.querySelector("#pageOverlay");
     if (loader) {
       loader.style.opacity = "0";
       setTimeout(() => {
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!gymData) return;
 
     // Update gym name
-    const gymNameElement = document.getElementById("gymName");
+    const gymNameElement = document.querySelector("#gymName");
     if (gymNameElement) {
       gymNameElement.textContent = gymData.name || "Gym Name";
     }
@@ -162,12 +162,12 @@ document.addEventListener("DOMContentLoaded", () => {
         gymData.contact.phonenumber ||
         "Contact not available";
     } // Update member count with actual data
-    const memberCountElement = document.getElementById("memberCount");
+    const memberCountElement = document.querySelector("#memberCount");
     if (memberCountElement) {
       memberCountElement.textContent = gymData.memberCount || "0";
     }
 
-    const ratingElement = document.getElementById("rating");
+    const ratingElement = document.querySelector("#rating");
     if (ratingElement) {
       ratingElement.textContent = "N/A";
     }
@@ -177,11 +177,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function setDefaultGymInfo() {
-    const gymNameElement = document.getElementById("gymName");
+    const gymNameElement = document.querySelector("#gymName");
     const gymLocationElement = document.querySelector("#gymLocation span");
     const gymPriceElement = document.querySelector("#gymPrice span");
-    const memberCountElement = document.getElementById("memberCount");
-    const ratingElement = document.getElementById("rating");
+    const memberCountElement = document.querySelector("#memberCount");
+    const ratingElement = document.querySelector("#rating");
 
     if (gymNameElement) gymNameElement.textContent = "Gym Name";
     if (gymLocationElement)
@@ -213,10 +213,10 @@ document.addEventListener("DOMContentLoaded", () => {
       reviewCount > 0 ? (totalRating / reviewCount).toFixed(1) : 0;
 
     // Update overall rating display
-    const overallRatingElement = document.getElementById("overallRating");
-    const totalReviewsElement = document.getElementById("totalReviews");
-    const reviewCountElement = document.getElementById("reviewCount");
-    const overallStarsElement = document.getElementById("overallStars");
+    const overallRatingElement = document.querySelector("#overallRating");
+    const totalReviewsElement = document.querySelector("#totalReviews");
+    const reviewCountElement = document.querySelector("#reviewCount");
+    const overallStarsElement = document.querySelector("#overallStars");
 
     if (overallRatingElement) overallRatingElement.textContent = avgRating;
     if (totalReviewsElement) totalReviewsElement.textContent = reviewCount;
@@ -224,20 +224,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Update star display
     if (overallStarsElement) {
-      updateStarDisplay(overallStarsElement, parseFloat(avgRating));
+      updateStarDisplay(overallStarsElement, Number.parseFloat(avgRating));
     }
   }
 
   function renderReviewsList() {
-    const reviewsList = document.getElementById("reviewsList");
+    const reviewsList = document.querySelector("#reviewsList");
     if (!reviewsList) return;
 
     reviewsList.innerHTML = "";
 
-    reviewsData.forEach((review) => {
+    for (const review of reviewsData) {
       const reviewElement = createReviewElement(review);
-      reviewsList.appendChild(reviewElement);
-    });
+      reviewsList.append(reviewElement);
+    }
   }
 
   function createReviewElement(review) {
@@ -273,29 +273,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function generateStarRating(rating) {
     let stars = "";
-    for (let i = 1; i <= 5; i++) {
-      if (i <= rating) {
-        stars += '<i class="fas fa-star"></i>';
-      } else {
-        stars += '<i class="far fa-star"></i>';
-      }
+    for (let index = 1; index <= 5; index++) {
+      stars += index <= rating ? "<i class=\"fas fa-star\"></i>" : "<i class=\"far fa-star\"></i>";
     }
     return stars;
   }
 
   function updateStarDisplay(container, rating) {
     const stars = container.querySelectorAll("i");
-    stars.forEach((star, index) => {
-      if (index < rating) {
-        star.className = "fas fa-star";
-      } else {
-        star.className = "far fa-star";
-      }
-    });
+    for (const [index, star] of stars.entries()) {
+      star.className = index < rating ? "fas fa-star" : "far fa-star";
+    }
   }
 
   function hideReviewsLoading() {
-    const loadingElement = document.getElementById("reviewsLoading");
+    const loadingElement = document.querySelector("#reviewsLoading");
     if (loadingElement) {
       loadingElement.style.display = "none";
     }
@@ -303,9 +295,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showNoReviews() {
     hideReviewsLoading();
-    const noReviewsElement = document.getElementById("noReviews");
-    const reviewsList = document.getElementById("reviewsList");
-    const reviewsOverview = document.getElementById("reviewsOverview");
+    const noReviewsElement = document.querySelector("#noReviews");
+    const reviewsList = document.querySelector("#reviewsList");
+    const reviewsOverview = document.querySelector("#reviewsOverview");
 
     if (noReviewsElement) noReviewsElement.style.display = "block";
     if (reviewsList) reviewsList.style.display = "none";
@@ -314,8 +306,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Character counter functionality
   function setupCharacterCounter() {
-    const descriptionTextarea = document.getElementById("description");
-    const charCounter = document.getElementById("charCount");
+    const descriptionTextarea = document.querySelector("#description");
+    const charCounter = document.querySelector("#charCount");
 
     if (descriptionTextarea && charCounter) {
       const maxLength = 500;
@@ -338,18 +330,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Password toggle functionality
   function setupPasswordToggle() {
-    const passwordInput = document.getElementById("gym-password");
-    const toggleBtn = document.getElementById("passwordToggle");
+    const passwordInput = document.querySelector("#gym-password");
+    const toggleButton = document.querySelector("#passwordToggle");
 
-    if (passwordInput && toggleBtn) {
-      toggleBtn.addEventListener("click", () => {
+    if (passwordInput && toggleButton) {
+      toggleButton.addEventListener("click", () => {
         const type =
           passwordInput.getAttribute("type") === "password"
             ? "text"
             : "password";
         passwordInput.setAttribute("type", type);
 
-        const icon = toggleBtn.querySelector("i");
+        const icon = toggleButton.querySelector("i");
         if (icon) {
           icon.className =
             type === "password" ? "fas fa-eye" : "fas fa-eye-slash";
@@ -360,8 +352,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Real-time validation
   function setupRealTimeValidation() {
-    const fullNameInput = document.getElementById("full-name");
-    const passwordInput = document.getElementById("gym-password");
+    const fullNameInput = document.querySelector("#full-name");
+    const passwordInput = document.querySelector("#gym-password");
 
     if (fullNameInput) {
       fullNameInput.addEventListener("input", () => {
@@ -381,7 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (passwordInput) {
       passwordInput.addEventListener("input", () => {
         const value = passwordInput.value.trim();
-        const isValid = value.length >= 1;
+        const isValid = value.length > 0;
 
         passwordInput.style.borderColor = isValid ? "#27ae60" : "#e74c3c";
 
@@ -403,7 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
       errorSpan.style.fontSize = "0.8rem";
       errorSpan.style.marginTop = "0.25rem";
       errorSpan.style.display = "block";
-      field.parentNode.appendChild(errorSpan);
+      field.parentNode.append(errorSpan);
     }
     errorSpan.textContent = message;
   }
@@ -417,8 +409,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Form validation
   function validateForm() {
-    const fullName = document.getElementById("full-name").value.trim();
-    const password = document.getElementById("gym-password").value.trim();
+    const fullName = document.querySelector("#full-name").value.trim();
+    const password = document.querySelector("#gym-password").value.trim();
     const gymId = getGymIdFromUrl();
 
     if (!gymId) {
@@ -447,21 +439,21 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const form = document.getElementById("join-form");
-    const submitBtn = document.getElementById("submitBtn");
-    const btnText = submitBtn.querySelector(".btn-text");
-    const btnLoading = submitBtn.querySelector(".btn-loading");
-    const fullName = document.getElementById("full-name").value.trim();
-    const description = document.getElementById("description").value.trim();
-    const password = document.getElementById("gym-password").value.trim();
+    const form = document.querySelector("#join-form");
+    const submitButton = document.querySelector("#submitBtn");
+    const buttonText = submitButton.querySelector(".btn-text");
+    const buttonLoading = submitButton.querySelector(".btn-loading");
+    const fullName = document.querySelector("#full-name").value.trim();
+    const description = document.querySelector("#description").value.trim();
+    const password = document.querySelector("#gym-password").value.trim();
     const gymId = getGymIdFromUrl();
 
     // Show loading state
     showLoading(form);
-    if (submitBtn && btnText && btnLoading) {
-      btnText.style.display = "none";
-      btnLoading.style.display = "flex";
-      submitBtn.disabled = true;
+    if (submitButton && buttonText && buttonLoading) {
+      buttonText.style.display = "none";
+      buttonLoading.style.display = "flex";
+      submitButton.disabled = true;
     }
 
     try {
@@ -481,23 +473,23 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         showError(data.error || "Failed to send join request");
       }
-    } catch (err) {
-      console.error("Network error:", err);
+    } catch (error) {
+      console.error("Network error:", error);
       showError("Network error. Please check your connection and try again.");
     } finally {
       // Hide loading state
       hideLoading(form);
-      if (submitBtn && btnText && btnLoading) {
-        btnText.style.display = "flex";
-        btnLoading.style.display = "none";
-        submitBtn.disabled = false;
+      if (submitButton && buttonText && buttonLoading) {
+        buttonText.style.display = "flex";
+        buttonLoading.style.display = "none";
+        submitButton.disabled = false;
       }
     }
   }
 
   // Initialize all functionality
   function init() {
-    const form = document.getElementById("join-form");
+    const form = document.querySelector("#join-form");
 
     if (!form) {
       console.error("❌ Form with id 'join-form' not found!");
@@ -527,11 +519,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Global functions for modal (referenced in HTML)
 function redirectToHome() {
-  window.location.href = "/home-user";
+  globalThis.location.href = "/home-user";
 }
 
 function closeModal() {
-  const modal = document.getElementById("successModal");
+  const modal = document.querySelector("#successModal");
   if (modal) {
     modal.style.display = "none";
   }

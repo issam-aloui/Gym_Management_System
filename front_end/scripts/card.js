@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", async () => {
+globalThis.addEventListener("DOMContentLoaded", async () => {
   try {
     const response = await fetch("http://localhost:5000/user/getinfo", {
       method: "POST",
@@ -14,19 +14,19 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     const user = await response.json();
 
-    document.getElementById("userName").textContent = user.username || "N/A";
-    document.getElementById("userId").textContent = `#${user.id ?? "??"}`;
-    document.getElementById("userPhone").textContent = "GymFit";
-    document.getElementById("userEmail").textContent = user.email || "N/A";
-    document.getElementById("userAddress").textContent ="algeria";
+    document.querySelector("#userName").textContent = user.username || "N/A";
+    document.querySelector("#userId").textContent = `#${user.id ?? "??"}`;
+    document.querySelector("#userPhone").textContent = "GymFit";
+    document.querySelector("#userEmail").textContent = user.email || "N/A";
+    document.querySelector("#userAddress").textContent ="algeria";
 
     // Set QR code from user.qrcode directly
-    document.getElementById("qrImage").src = user.qrcode || "";
-    document.getElementById("downloadLink").href = user.qrcode || "";
-    document.getElementById("downloadLink").download = "downloaded-image.png";
+    document.querySelector("#qrImage").src = user.qrcode || "";
+    document.querySelector("#downloadLink").href = user.qrcode || "";
+    document.querySelector("#downloadLink").download = "downloaded-image.png";
 
   } catch (error) {
     console.error("Error loading user info:", error);
-    document.getElementById("userName").textContent = "Error";
+    document.querySelector("#userName").textContent = "Error";
   }
 });

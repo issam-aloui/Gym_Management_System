@@ -1,9 +1,9 @@
 // Create Gym - JavaScript for form with animations
 document.addEventListener("DOMContentLoaded", function () {
   // DOM Elements & UI Variables
-  const form = document.getElementById("gymForm");
+  const form = document.querySelector("#gymForm");
   const submitButton = document.querySelector(".submit-btn");
-  const messageBox = document.getElementById("messagebox");
+  const messageBox = document.querySelector("#messagebox");
 
   // UI Setup & Event Listeners
   initFormUI();
@@ -14,20 +14,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Add input animations
     const inputs = document.querySelectorAll("input, textarea");
-    inputs.forEach((input) => {
+    for (const input of inputs) {
       input.addEventListener("focus", () =>
         input.parentElement.classList.add("focused")
       );
       input.addEventListener("blur", () =>
         input.parentElement.classList.remove("focused")
       );
-    });
+    }
 
     // Add ripple effect to buttons
     const buttons = document.querySelectorAll("button");
-    buttons.forEach((button) => {
+    for (const button of buttons) {
       button.addEventListener("click", createRipple);
-    });
+    }
   }
 
   // UI Animations & Visual Effects
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Add new ripple and remove it after animation completes
-    button.appendChild(circle);
+    button.append(circle);
     setTimeout(() => {
       if (circle && circle.parentNode === button) {
         circle.remove();
@@ -82,16 +82,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // Form Validation
   function validateForm() {
     let isValid = true;
-    const formElement = document.getElementById("gymRegistrationForm");
+    const formElement = document.querySelector("#gymRegistrationForm");
 
     // Get all required inputs
     const requiredInputs = formElement.querySelectorAll("input[required]");
 
-    requiredInputs.forEach((input) => {
-      if (!input.value.trim()) {
-        isValid = false;
-        showInputError(input);
-      } else {
+    for (const input of requiredInputs) {
+      if (input.value.trim()) {
         hideInputError(input);
 
         // Field-specific validations
@@ -112,8 +109,11 @@ document.addEventListener("DOMContentLoaded", function () {
           isValid = false;
           showInputError(input, "Please enter a valid price");
         }
+      } else {
+        isValid = false;
+        showInputError(input);
       }
-    });
+    }
 
     if (!isValid) {
       // Shake the form gently to indicate validation error
@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
     input.parentElement.style.animation = "shake 0.3s forwards";
 
     // Append error message after input's parent
-    input.parentElement.parentNode.appendChild(errorMessage);
+    input.parentElement.parentNode.append(errorMessage);
   }
 
   // Hide input error
@@ -196,8 +196,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function toggleSubmitButtonLoading(isLoading) {
     submitButton.disabled = isLoading;
     submitButton.innerHTML = isLoading
-      ? '<i class="fas fa-spinner fa-spin"></i> Registering...'
-      : 'Register Gym <i class="fas fa-check"></i>';
+      ? "<i class=\"fas fa-spinner fa-spin\"></i> Registering..."
+      : "Register Gym <i class=\"fas fa-check\"></i>";
   }
 
   // Collect form data
@@ -205,9 +205,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const formData = new FormData(form);
     const gymData = {};
 
-    formData.forEach((value, key) => {
+    for (const [key, value] of formData.entries()) {
       gymData[key] = value;
-    });
+    }
 
     return gymData;
   }
@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Redirect to dashboard after a delay
     setTimeout(() => {
-      window.location.href = "/owner/dashboard";
+      globalThis.location.href = "/owner/dashboard";
     }, 2000);
   }
 

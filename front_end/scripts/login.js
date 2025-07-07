@@ -1,10 +1,10 @@
-document.getElementById("loginForm").addEventListener("submit", async function(event) {
+document.querySelector("#loginForm").addEventListener("submit", async function(event) {
   event.preventDefault(); // Prevent default form submission
   
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-  const remember = document.getElementById("inpremember").checked;
-  const messageBox = document.getElementById("message");
+  const username = document.querySelector("#username").value;
+  const password = document.querySelector("#password").value;
+  const remember = document.querySelector("#inpremember").checked;
+  const messageBox = document.querySelector("#message");
 
   if (username.length < 3 || username.length > 20) {
     messageBox.style.color = "red";
@@ -29,12 +29,12 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
           messageBox.style.color = "green";
           messageBox.textContent = data.message;
           sessionStorage.clear();
-          window.location.href = "/";
+          globalThis.location.href = "/";
       } else {
           messageBox.style.color = "red";
           messageBox.textContent = data.message || "Login failed!";
       }
-  } catch (error) {
+  } catch {
       messageBox.style.color = "red";
       messageBox.textContent = "Error connecting to server!";
   }

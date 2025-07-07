@@ -1,11 +1,11 @@
 const winston = require("winston");
-const path = require("path");
-const fs = require("fs");
+const path = require("node:path");
+const fs = require("node:fs");
 
 // Ensure the logs directory exists
-const logDir = path.join(__dirname, "../logs");
-if (!fs.existsSync(logDir)) {
-  fs.mkdirSync(logDir);
+const logDirectory = path.join(__dirname, "../logs");
+if (!fs.existsSync(logDirectory)) {
+  fs.mkdirSync(logDirectory);
 }
 
 // Create a Winston logger
@@ -18,8 +18,13 @@ const logger = winston.createLogger({
     })
   ),
   transports: [
-    new winston.transports.File({ filename: path.join(logDir, "error.log"), level: "error" }),
-    new winston.transports.File({ filename: path.join(logDir, "combined.log") }),
+    new winston.transports.File({
+      filename: path.join(logDirectory, "error.log"),
+      level: "error",
+    }),
+    new winston.transports.File({
+      filename: path.join(logDirectory, "combined.log"),
+    }),
     new winston.transports.Console({
       format: winston.format.colorize({ all: true }),
     }),

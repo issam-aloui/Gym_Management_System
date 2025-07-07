@@ -6,17 +6,17 @@ class GymCard extends HTMLElement {
 
   connectedCallback() {
     // Get attributes or set defaults
-    const src = this.getAttribute("src") || "../assets/gym.png";
+    const source = this.getAttribute("src") || "../assets/gym.png";
     const name = this.getAttribute("name") || "Gym Name";
     const place = this.getAttribute("place") || "Location";
-    const rate = parseFloat(this.getAttribute("rate")) || 0;
+    const rate = Number.parseFloat(this.getAttribute("rate")) || 0;
     const totalFeedback = this.getAttribute("total-feedback") || "0";
     const id = this.getAttribute("gym-id") || "";
     const route = this.getAttribute("gym-route") || "";
 
     // Render the component
     
-    this.render(src, name, place, rate, totalFeedback , id, route);
+    this.render(source, name, place, rate, totalFeedback , id, route);
   }
 
   // Generate star rating HTML based on the rate value
@@ -26,25 +26,25 @@ class GymCard extends HTMLElement {
     let stars = "";
 
     // Generate full stars
-    for (let i = 1; i <= Math.floor(roundedRate); i++) {
-      stars += '<span class="star full">★</span>';
+    for (let index = 1; index <= Math.floor(roundedRate); index++) {
+      stars += "<span class=\"star full\">★</span>";
     }
 
     // Add half star if needed
     if (roundedRate % 1 !== 0) {
-      stars += '<span class="star half">★</span>';
+      stars += "<span class=\"star half\">★</span>";
     }
 
     // Add empty stars
     const emptyStars = 5 - Math.ceil(roundedRate);
-    for (let i = 0; i < emptyStars; i++) {
-      stars += '<span class="star empty">★</span>';
+    for (let index = 0; index < emptyStars; index++) {
+      stars += "<span class=\"star empty\">★</span>";
     }
 
     return stars;
   }
 
-  render(src, name, place, rate, totalFeedback, id, route) {
+  render(source, name, place, rate, totalFeedback, id, route) {
     const starRating = this.generateStarRating(rate);
 
     this.shadowRoot.innerHTML = `
@@ -290,7 +290,7 @@ class GymCard extends HTMLElement {
       </style>
       
       <div class="card-container">
-        <div class="card-gym-image" style="--bg-image: url('${src}')">
+        <div class="card-gym-image" style="--bg-image: url('${source}')">
         </div>
         <div class="card-gym-details">
           <h1>${name}</h1>
@@ -314,15 +314,15 @@ class GymCard extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
-      const src = this.getAttribute("src") || "../assets/gym.png";
+      const source = this.getAttribute("src") || "../assets/gym.png";
       const gymName = this.getAttribute("name") || "Gym Name";
       const place = this.getAttribute("place") || "Location";
-      const rate = parseFloat(this.getAttribute("rate")) || 0;
+      const rate = Number.parseFloat(this.getAttribute("rate")) || 0;
       const totalFeedback = this.getAttribute("total-feedback") || "0";
       const id = this.getAttribute("gym-id") || "";
       const route = this.getAttribute("gym-route") || "";
 
-      this.render(src, gymName, place, rate, totalFeedback, id, route);
+      this.render(source, gymName, place, rate, totalFeedback, id, route);
     }
   }
 }
@@ -333,4 +333,4 @@ customElements.define("gym-card", GymCard);
 const script = document.createElement("script");
 script.src = "https://kit.fontawesome.com/92a2a0f569.js";
 script.crossOrigin = "anonymous";
-document.body.appendChild(script);
+document.body.append(script);

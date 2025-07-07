@@ -1,5 +1,5 @@
-const https = require("https");
-const path = require("path");
+const https = require("node:https");
+const path = require("node:path");
 const dotenv = require("dotenv");
 dotenv.config({ path: path.join(__dirname, "..", ".env") });
 
@@ -15,12 +15,12 @@ async function getCoordinates(address) {
   )}&key=${OPENCAGE_KEY}`;
   return new Promise((resolve, reject) => {
     https
-      .get(url, (res) => {
+      .get(url, (response) => {
         let data = "";
-        res.on("data", (chunk) => {
+        response.on("data", (chunk) => {
           data += chunk;
         });
-        res.on("end", () => {
+        response.on("end", () => {
           const parsed = JSON.parse(data);
           if (parsed.results.length > 0) {
             const { lat, lng } = parsed.results[0].geometry;
@@ -30,7 +30,7 @@ async function getCoordinates(address) {
           }
         });
       })
-      .on("error", (err) => reject(err));
+      .on("error", (error) => reject(error));
   });
 }
 

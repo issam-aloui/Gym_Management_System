@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Observer for slider height changes
-  if (window.ResizeObserver) {
+  if (globalThis.ResizeObserver) {
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         if (entry.target === slider) {
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateDots(currentSlide);
 
   // Add click event listeners to dots
-  dots.forEach((dot, index) => {
+  for (const [index, dot] of dots.entries()) {
     dot.addEventListener("click", () => {
       // Only take action if this isn't already the active slide
       if (currentSlide !== index) {
@@ -63,14 +63,14 @@ document.addEventListener("DOMContentLoaded", () => {
         resetAutoSlide();
       }
     });
-  });
+  }
 
   function updateDots(slideIndex) {
     // First reset all dots to default style
-    dots.forEach((dot) => {
+    for (const dot of dots) {
       dot.classList.remove("active");
       dot.style.backgroundColor = "rgba(255, 255, 255, 0.5)"; // Reset to default color
-    });
+    }
 
     // Then set the active dot
     if (dots[slideIndex]) {
@@ -102,12 +102,12 @@ document.addEventListener("DOMContentLoaded", () => {
     moveToSlide(nextSlideIndex);
   }
 
-  function prevSlide() {
-    let prevSlideIndex = currentSlide - 1;
-    if (prevSlideIndex < 0) {
-      prevSlideIndex = numberOfSlides - 1;
+  function previousSlide() {
+    let previousSlideIndex = currentSlide - 1;
+    if (previousSlideIndex < 0) {
+      previousSlideIndex = numberOfSlides - 1;
     }
-    moveToSlide(prevSlideIndex);
+    moveToSlide(previousSlideIndex);
   }
 
   // Auto-sliding functionality
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
   slider.addEventListener("mouseleave", resumeAutoSlide);
 
   // Add hover effects to slides
-  slides.forEach((slide) => {
+  for (const slide of slides) {
     slide.addEventListener("mouseenter", () => {
       slide.style.transform = "scale(1.01)";
       slide.style.boxShadow = "0 10px 20px rgba(0, 0, 0, 0.2)";
@@ -160,10 +160,10 @@ document.addEventListener("DOMContentLoaded", () => {
       slide.style.transform = "scale(1)";
       slide.style.boxShadow = "none";
     });
-  });
+  }
 
   // Add hover effects to dots with proper state handling
-  dots.forEach((dot, index) => {
+  for (const [index, dot] of dots.entries()) {
     dot.addEventListener("mouseenter", () => {
       // Only change color if this isn't the active dot
       if (currentSlide !== index) {
@@ -177,14 +177,14 @@ document.addEventListener("DOMContentLoaded", () => {
         dot.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
       }
     });
-  });
+  }
 });
 // Add smooth scrolling to sections
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+for (const anchor of document.querySelectorAll("a[href^=\"#\"]")) {
   anchor.addEventListener("click", function (e) {
     e.preventDefault();
     document.querySelector(this.getAttribute("href")).scrollIntoView({
       behavior: "smooth",
     });
   });
-});
+}

@@ -1,20 +1,20 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const User = require("../models/user");
 const logger = require("../utils/logger");
 const QRCode = require("qrcode");
-const path = require("path");
-const fs = require("fs");
+const path = require("node:path");
+const fs = require("node:fs");
 const { v2: cloudinary } = require("cloudinary");
-const { uploadImage } = require("../services/cloudservice");
-
-exports.signup = async (req, res) => {
+const { uploadImage } = require("../services/cloud-service");
+const { unlink } = require("node:fs/promises");
+exports.signup = async (request, response) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password } = request.body;
 
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-      return res
+      return response
         .status(400)
         .json({ message: "Email is already signed up buddy" });
     }
@@ -27,7 +27,12 @@ exports.signup = async (req, res) => {
       await newUser.save();
 
       const qrData = `user_id:${newUser._id}-name:${newUser.username}-email:${newUser.email}`;
-      const qrPath = path.join(__dirname, `../qr-codes/user-${newUser.id}.png`);
+      const baseDirectory = path.resolve(__dirname, "../qr-codes");
+      const qrPath = path.resolve(baseDirectory, `user-${newUser.id}.png`);
+      if (!qrPath.startsWith(baseDirectory)) {
+        logger.warn("Blocked potential path traversal attempt.");
+        return response.status(400).json({ message: "Invalid QR path" });
+      }
 
       await QRCode.toFile(qrPath, qrData, {
         color: {
@@ -47,14 +52,16 @@ exports.signup = async (req, res) => {
       logger.info(
         `QR code uploaded for user ${newUser.id}: ${uploadResult.secure_url}`
       );
-
-      fs.unlink(qrPath, (err) => {
-        if (err) {
-          logger.error(`Failed to delete local QR code: ${err.message}`);
-        } else {
-          logger.info(`Local QR code deleted for user ${newUser.id}`);
-        }
-      });
+      try {
+        const qrFilePath = path.resolve(
+          baseDirectory,
+          `user-${newUser.id}.png`
+        );
+        await unlink(qrFilePath);
+        logger.info(`Deleted QR for user ${newUser.id}`);
+      } catch (error) {
+        logger.error(`Failed to delete QR: ${error.message}`);
+      }
 
       newUser.Qrcode = uploadResult.secure_url;
       await newUser.save();
@@ -70,39 +77,47 @@ exports.signup = async (req, res) => {
       token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
-      res.cookie("token", token, {
+      response.cookie("token", token, {
         httpOnly: true,
         secure: true,
         sameSite: "Strict",
       });
-      res.status(201).json({ message: "User registered!", id: newUser.id });
-    } catch (err) {
-      if (err.code === 11000) {
-        return res
+      response
+        .status(201)
+        .json({ message: "User registered!", id: newUser.id });
+    } catch (error) {
+      if (error.code === 11_000) {
+        return response
           .status(400)
           .json({ message: "Email is already in use. Try another one!" });
       }
-      throw err;
+      throw error;
     }
-  } catch (err) {
-    logger.error(`User signup failed: ${err.message}`);
-    res.status(500).json({ error: err.message || "Internal Server Error" });
+  } catch (error) {
+    logger.error(`User signup failed: ${error.message}`);
+    response
+      .status(500)
+      .json({ error: error.message || "Internal Server Error" });
   }
 };
 
-exports.login = async (req, res) => {
+exports.login = async (request, response) => {
   try {
-    const { username, password, remember } = req.body;
+    const { username, password, remember } = request.body;
     const user = await User.findOne({ username });
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid username or password" });
+      return response
+        .status(400)
+        .json({ message: "Invalid username or password" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid username or password" });
+      return response
+        .status(400)
+        .json({ message: "Invalid username or password" });
     }
     const payload = {
       Oid: user._id,
@@ -112,17 +127,15 @@ exports.login = async (req, res) => {
     };
     let token;
 
-    if (remember) {
-      token = jwt.sign(payload, process.env.JWT_SECRET);
-    } else {
-      token = jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-      });
-    }
+    token = remember
+      ? jwt.sign(payload, process.env.JWT_SECRET)
+      : jwt.sign(payload, process.env.JWT_SECRET, {
+          expiresIn: "1h",
+        });
 
     // now you can use `token` below
 
-    res.cookie("token", token, {
+    response.cookie("token", token, {
       httpOnly: true,
       secure: true,
       sameSite: "Strict",
@@ -130,19 +143,19 @@ exports.login = async (req, res) => {
 
     logger.info(`user logged in: ${username}`);
 
-    res.json({ message: "Login successful!" });
+    response.json({ message: "Login successful!" });
   } catch (error) {
     logger.error(`User login failed: ${error.message}`);
-    res.status(500).json({ message: "Server error" });
+    response.status(500).json({ message: "Server error" });
   }
 };
 
-exports.logout = (req, res) => {
-  res.clearCookie("token", {
+exports.logout = (request, response) => {
+  response.clearCookie("token", {
     httpOnly: true,
     secure: true,
     sameSite: "Strict",
   });
   logger.info("A user logged out");
-  return res.json({ message: "Logged out successfully" });
+  return response.json({ message: "Logged out successfully" });
 };

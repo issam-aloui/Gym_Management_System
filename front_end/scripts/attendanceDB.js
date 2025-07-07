@@ -4,35 +4,31 @@ const STORE_NAME = "events";
 
 function openDB() {
   return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
 
-    req.onupgradeneeded = (e) => {
-      const db = e.target.result;
+    request.onupgradeneeded = (e) => {
+      const database = e.target.result;
       let store;
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
-      } else {
-        store = e.target.transaction.objectStore(STORE_NAME);
-      }
+      store = database.objectStoreNames.contains(STORE_NAME) ? e.target.transaction.objectStore(STORE_NAME) : database.createObjectStore(STORE_NAME, { keyPath: "id" });
 
       if (!store.indexNames.contains("gymId")) {
         store.createIndex("gymId", "extendedProps.gymId", { unique: false });
       }
     };
 
-    req.onsuccess = (e) => {
+    request.onsuccess = (e) => {
       resolve(e.target.result);
     };
-    req.onerror = (e) => {
+    request.onerror = (e) => {
       reject(e.target.error);
     };
   });
 }
 
 async function addOrUpdateEvent(eventData) {
-  const db = await openDB();
+  const database = await openDB();
   return new Promise((res, rej) => {
-    const tx = db.transaction(STORE_NAME, "readwrite");
+    const tx = database.transaction(STORE_NAME, "readwrite");
     const request = tx.objectStore(STORE_NAME).put(eventData);
     request.onsuccess = () => {};
     tx.oncomplete = () => res();
@@ -41,9 +37,9 @@ async function addOrUpdateEvent(eventData) {
 }
 
 async function deleteEventFromIndexedDB(id) {
-  const db = await openDB();
+  const database = await openDB();
   return new Promise((res, rej) => {
-    const tx = db.transaction(STORE_NAME, "readwrite");
+    const tx = database.transaction(STORE_NAME, "readwrite");
     const request = tx.objectStore(STORE_NAME).delete(id);
     request.onsuccess = () => {};
     tx.oncomplete = () => res();
@@ -52,9 +48,9 @@ async function deleteEventFromIndexedDB(id) {
 }
 
 async function loadEventsByGymId(gymId) {
-  const db = await openDB();
+  const database = await openDB();
   return new Promise((res, rej) => {
-    const tx = db.transaction(STORE_NAME, "readonly");
+    const tx = database.transaction(STORE_NAME, "readonly");
     const store = tx.objectStore(STORE_NAME);
     const index = store.index("gymId");
     const events = [];
@@ -73,9 +69,9 @@ async function loadEventsByGymId(gymId) {
 }
 
 async function loadAllEventsFromIndexedDB() {
-  const db = await openDB();
+  const database = await openDB();
   return new Promise((res, rej) => {
-    const tx = db.transaction(STORE_NAME, "readonly");
+    const tx = database.transaction(STORE_NAME, "readonly");
     const store = tx.objectStore(STORE_NAME);
     const events = [];
 
@@ -93,9 +89,9 @@ async function loadAllEventsFromIndexedDB() {
 }
 
 async function clearAllEventsInIndexedDB() {
-  const db = await openDB();
+  const database = await openDB();
   return new Promise((res, rej) => {
-    const tx = db.transaction(STORE_NAME, "readwrite");
+    const tx = database.transaction(STORE_NAME, "readwrite");
     const store = tx.objectStore(STORE_NAME);
     const request = store.clear();
     request.onsuccess = () => {};

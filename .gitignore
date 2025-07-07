@@ -2,9 +2,10 @@
 /back_end/.env
 
 # Dependencies (Node.js packages)
-*/node_modules/
+**/node_modules/
 
 # Logs and temporary files
 back_end/logs/
 *.log
 /back_end/utils/serverLogging.js
+*.mjs

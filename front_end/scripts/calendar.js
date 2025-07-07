@@ -18,25 +18,25 @@ const eventTypeColorMap = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  const gymSelect = document.getElementById("gymSelect");
-  const form = document.getElementById("eventForm");
-  const modal = document.getElementById("eventModal");
-  const deleteBtn = document.getElementById("deleteEventBtn");
-  const cancelBtn = document.getElementById("cancelBtn");
-  const addBtn = document.getElementById("addEventBtn");
-  const clearBtn = document.getElementById("clearEventsBtn");
-  const exportBtn = document.getElementById("exportBtn");
-  const importBtn = document.getElementById("importBtn");
-  const importFile = document.getElementById("importFile");
+  const gymSelect = document.querySelector("#gymSelect");
+  const form = document.querySelector("#eventForm");
+  const modal = document.querySelector("#eventModal");
+  const deleteButton = document.querySelector("#deleteEventBtn");
+  const cancelButton = document.querySelector("#cancelBtn");
+  const addButton = document.querySelector("#addEventBtn");
+  const clearButton = document.querySelector("#clearEventsBtn");
+  const exportButton = document.querySelector("#exportBtn");
+  const importButton = document.querySelector("#importBtn");
+  const importFile = document.querySelector("#importFile");
 
-  calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
+  calendar = new FullCalendar.Calendar(document.querySelector("#calendar"), {
     initialView: "dayGridMonth",
     selectable: true,
     editable: true,
     headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: ''
+      left: "prev,next today",
+      center: "title",
+      right: ""
     },
     eventClick: onEventClick,
     dateClick: onDateClick,
@@ -45,25 +45,21 @@ document.addEventListener("DOMContentLoaded", () => {
     eventDidMount: function(info) {
       const selectedGymId = gymSelect.value;
       const eventGymId = info.event.extendedProps?.gymId;
-      if (selectedGymId && eventGymId !== selectedGymId) {
-        info.el.style.display = 'none';
-      } else {
-        info.el.style.display = '';
-      }
+      info.el.style.display = selectedGymId && eventGymId !== selectedGymId ? "none" : "";
     },
   });
 
   calendar.render();
 
   gymSelect.addEventListener("change", refreshEvents);
-  addBtn.addEventListener("click", () => openModal());
-  cancelBtn.addEventListener("click", closeModal);
-  modal.addEventListener('click', (e) => {
+  addButton.addEventListener("click", () => openModal());
+  cancelButton.addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => {
     if (e.target === modal) {
       closeModal();
     }
   });
-  deleteBtn.addEventListener("click", async () => {
+  deleteButton.addEventListener("click", async () => {
     const id = form.dataset.eventId;
     if (id && confirm("Delete this event?")) {
       await deleteEventFromIndexedDB(id);
@@ -71,14 +67,14 @@ document.addEventListener("DOMContentLoaded", () => {
       closeModal();
     }
   });
-  clearBtn.addEventListener("click", async () => {
+  clearButton.addEventListener("click", async () => {
     if (confirm("Clear all events? This action cannot be undone.")) {
       await clearAllEventsInIndexedDB();
       await refreshEvents();
     }
   });
 
-  exportBtn.addEventListener('click', async () => {
+  exportButton.addEventListener("click", async () => {
     const allEvents = await loadAllEventsFromIndexedDB();
     const eventsToExport = allEvents.map(e => ({
       id: e.id,
@@ -94,14 +90,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const a = document.createElement("a");
     a.href = url;
     a.download = "gymfit-pro-calendar-events.json";
-    document.body.appendChild(a);
+    document.body.append(a);
     a.click();
-    document.body.removeChild(a);
+    a.remove();
     URL.revokeObjectURL(url);
-    alert('Events exported successfully!');
+    alert("Events exported successfully!");
   });
 
-  importBtn.addEventListener('click', () => {
+  importButton.addEventListener("click", () => {
     importFile.click();
   });
 
@@ -110,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = async (event) => {
+    reader.addEventListener("load", async (event) => {
       try {
         const importedEvents = JSON.parse(event.target.result);
 
@@ -124,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         for (const eventData of importedEvents) {
-          const id = eventData.id || `imported-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+          const id = eventData.id || `imported-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
           await addOrUpdateEvent({
             id: id,
             title: eventData.title,
@@ -140,9 +136,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error importing calendar:", error);
         alert("Failed to import calendar. Please ensure the file is a valid JSON event export.");
       } finally {
-        e.target.value = '';
+        e.target.value = "";
       }
-    };
+    });
     reader.readAsText(file);
   });
 
@@ -154,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const id = form.dataset.eventId || `fc-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+    const id = form.dataset.eventId || `fc-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
     const selectedColor = document.querySelector(".color-option.selected")?.dataset.color || eventTypeColorMap[form.eventType.value] || "#6b7280";
 
     const data = {
@@ -167,8 +163,8 @@ document.addEventListener("DOMContentLoaded", () => {
         type: form.eventType.value,
         description: form.eventDescription.value,
         instructor: form.eventInstructor.value,
-        capacity: parseInt(form.eventCapacity.value) || null,
-        price: parseFloat(form.eventPrice.value) || null,
+        capacity: Number.parseInt(form.eventCapacity.value) || null,
+        price: Number.parseFloat(form.eventPrice.value) || null,
         gymId
       }
     };
@@ -178,12 +174,12 @@ document.addEventListener("DOMContentLoaded", () => {
     closeModal();
   });
 
-  document.querySelectorAll(".color-option").forEach(opt => {
+  for (const opt of document.querySelectorAll(".color-option")) {
     opt.addEventListener("click", () => {
-      document.querySelectorAll(".color-option").forEach(o => o.classList.remove("selected"));
+      for (const o of document.querySelectorAll(".color-option")) o.classList.remove("selected");
       opt.classList.add("selected");
     });
-  });
+  }
 
   refreshEvents();
 });
@@ -192,29 +188,25 @@ async function refreshEvents() {
   try {
     calendar.removeAllEvents();
 
-    const gymId = document.getElementById("gymSelect").value;
+    const gymId = document.querySelector("#gymSelect").value;
     let eventsToDisplay = [];
 
-    if (gymId === "") {
-      eventsToDisplay = await loadAllEventsFromIndexedDB();
-    } else {
-      eventsToDisplay = await loadEventsByGymId(gymId);
-    }
+    eventsToDisplay = await (gymId === "" ? loadAllEventsFromIndexedDB() : loadEventsByGymId(gymId));
 
-    eventsToDisplay.forEach(e => {
+    for (const e of eventsToDisplay) {
       calendar.addEvent(e);
-    });
+    }
 
     updateStats(eventsToDisplay);
     // ← No more calendar.rerenderEvents()
-  } catch (err) {
-    console.error("Failed to refresh events:", err);
+  } catch (error) {
+    console.error("Failed to refresh events:", error);
   }
 }
 
 
 function updateStats(events) {
-  document.getElementById("totalEvents").textContent = events.length;
+  document.querySelector("#totalEvents").textContent = events.length;
 
   const now = new Date();
   const oneWeekAhead = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -223,13 +215,13 @@ function updateStats(events) {
     const eventDate = new Date(e.start);
     return eventDate >= now && eventDate <= oneWeekAhead;
   }).length;
-  document.getElementById("thisWeekEvents").textContent = thisWeekEvents;
+  document.querySelector("#thisWeekEvents").textContent = thisWeekEvents;
 
   loadAllEventsFromIndexedDB().then(allEvents => {
-    const gymIds = new Set(allEvents.map(e => e.extendedProps?.gymId).filter(id => id));
-    document.getElementById("totalGyms").textContent = gymIds.size;
+    const gymIds = new Set(allEvents.map(e => e.extendedProps?.gymId).filter(Boolean));
+    document.querySelector("#totalGyms").textContent = gymIds.size;
   }).catch(error => {
-    document.getElementById("totalGyms").textContent = "Error";
+    document.querySelector("#totalGyms").textContent = "Error";
   });
 }
 
@@ -255,18 +247,18 @@ async function onEventChange(info) {
   await refreshEvents();
 }
 
-function openModal(event = null, dateStr = "") {
-  const form = document.getElementById("eventForm");
+function openModal(event = null, dateString = "") {
+  const form = document.querySelector("#eventForm");
   form.reset();
   form.dataset.eventId = "";
-  document.querySelectorAll(".color-option").forEach(c => c.classList.remove("selected"));
+  for (const c of document.querySelectorAll(".color-option")) c.classList.remove("selected");
 
   if (event) {
     form.dataset.eventId = event.id;
     form.eventTitle.value = event.title;
     form.eventStart.value = event.startStr.slice(0, 16);
-    form.eventEnd.value = event.endStr ? event.endStr.slice(0, 16) : '';
-    form.eventType.value = event.extendedProps.type || '';
+    form.eventEnd.value = event.endStr ? event.endStr.slice(0, 16) : "";
+    form.eventType.value = event.extendedProps.type || "";
     form.eventDescription.value = event.extendedProps.description || "";
     form.eventInstructor.value = event.extendedProps.instructor || "";
     form.eventCapacity.value = event.extendedProps.capacity || "";
@@ -277,23 +269,23 @@ function openModal(event = null, dateStr = "") {
     if (selectedColorOption) {
       selectedColorOption.classList.add("selected");
     } else {
-      document.querySelector('.color-option[data-color="#3b82f6"]').classList.add("selected");
+      document.querySelector(".color-option[data-color=\"#3b82f6\"]").classList.add("selected");
     }
 
-    document.getElementById("modalTitle").textContent = "Edit Event";
-    document.getElementById("deleteEventBtn").style.display = "inline-block";
+    document.querySelector("#modalTitle").textContent = "Edit Event";
+    document.querySelector("#deleteEventBtn").style.display = "inline-block";
   } else {
-    form.eventStart.value = dateStr ? dateStr + "T09:00" : "";
-    form.eventEnd.value = dateStr ? dateStr + "T10:00" : "";
+    form.eventStart.value = dateString ? dateString + "T09:00" : "";
+    form.eventEnd.value = dateString ? dateString + "T10:00" : "";
     form.eventType.value = "class";
-    document.querySelector('.color-option[data-color="#3b82f6"]').classList.add("selected");
-    document.getElementById("modalTitle").textContent = "Add New Event";
-    document.getElementById("deleteEventBtn").style.display = "none";
+    document.querySelector(".color-option[data-color=\"#3b82f6\"]").classList.add("selected");
+    document.querySelector("#modalTitle").textContent = "Add New Event";
+    document.querySelector("#deleteEventBtn").style.display = "none";
   }
 
-  document.getElementById("eventModal").style.display = "flex";
+  document.querySelector("#eventModal").style.display = "flex";
 }
 
 function closeModal() {
-  document.getElementById("eventModal").style.display = "none";
+  document.querySelector("#eventModal").style.display = "none";
 }

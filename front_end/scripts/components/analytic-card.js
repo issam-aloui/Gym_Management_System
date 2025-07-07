@@ -227,8 +227,8 @@ class AnalyticsCard extends HTMLElement {
     `;
 
     // Append elements to the shadow DOM
-    this.shadowRoot.appendChild(style);
-    this.shadowRoot.appendChild(container);
+    this.shadowRoot.append(style);
+    this.shadowRoot.append(container);
 
     // Store references to elements we'll need to update
     this.container = this.shadowRoot.querySelector(".analytics-card-container");
@@ -278,17 +278,17 @@ class AnalyticsCard extends HTMLElement {
   getPositionInParent() {
     if (!this.parentNode) return 0;
 
-    const siblings = Array.from(this.parentNode.children);
+    const siblings = [...this.parentNode.children];
     return siblings.indexOf(this);
   }
 
   // Setup event listeners for interactive effects
   setupEventListeners() {
     // Add ripple effect to icon container
-    this.iconContainer.addEventListener("mouseenter", (e) => {
+    this.iconContainer.addEventListener("mouseenter", (event) => {
       const ripple = document.createElement("span");
       ripple.className = "ripple";
-      this.iconContainer.appendChild(ripple);
+      this.iconContainer.append(ripple);
 
       // Remove ripple after animation completes
       setTimeout(() => {
@@ -297,11 +297,11 @@ class AnalyticsCard extends HTMLElement {
     });
 
     // Add hover effects
-    this.container.addEventListener("mousemove", (e) => {
+    this.container.addEventListener("mousemove", (event) => {
       // Subtle tilt effect based on mouse position
       const rect = this.container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
 
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;

@@ -1,9 +1,9 @@
 // Revenue Chart
 
-const ctx = document.getElementById("revenueChart").getContext("2d");
+const context = document.querySelector("#revenueChart").getContext("2d");
 
 // Create gradient fill
-const gradientFill = ctx.createLinearGradient(0, 0, 0, 280);
+const gradientFill = context.createLinearGradient(0, 0, 0, 280);
 gradientFill.addColorStop(0, "rgba(232, 93, 4, 0.25)");
 gradientFill.addColorStop(0.9, "rgba(232, 93, 4, 0.05)");
 gradientFill.addColorStop(1, "rgba(232, 93, 4, 0)");
@@ -26,15 +26,15 @@ const monthNames = [
 const currentMonth = new Date().getMonth(); // Get current month (0-11)
 
 // Last 12 months with current month as the last item
-const labels = Array.from({ length: 12 }, (_, i) => {
-  const month = (currentMonth - 11 + i + 12) % 12; // Calculate month index
+const labels = Array.from({ length: 12 }, (_, index) => {
+  const month = (currentMonth - 11 + index + 12) % 12; // Calculate month index
   return monthNames[month];
 });
 
 const baseRevenue = 30;
-const revenueData = Array.from({ length: 12 }, (_, i) => {
-  const trendFactor = i * 1.5; // Gradual increase over time
-  const seasonalFactor = Math.sin((i + 6) * 0.5) * 5; // Seasonal variations
+const revenueData = Array.from({ length: 12 }, (_, index) => {
+  const trendFactor = index * 1.5; // Gradual increase over time
+  const seasonalFactor = Math.sin((index + 6) * 0.5) * 5; // Seasonal variations
   const randomFactor = Math.random() * 10 - 5; // Random fluctuations
   return Math.max(
     baseRevenue + trendFactor + seasonalFactor + randomFactor,
@@ -43,12 +43,12 @@ const revenueData = Array.from({ length: 12 }, (_, i) => {
 });
 
 // Create a separate array for last year's data (lower than current)
-const lastYearData = revenueData.map((val) =>
-  (val * 0.8 - Math.random() * 5).toFixed(1)
+const lastYearData = revenueData.map((value) =>
+  (value * 0.8 - Math.random() * 5).toFixed(1)
 );
 
 // Chart configuration
-const revenueChart = new Chart(ctx, {
+const revenueChart = new Chart(context, {
   type: "line",
   data: {
     labels: labels,
@@ -225,11 +225,11 @@ document.addEventListener("DOMContentLoaded", function () {
   let originalRows = null;
 
   // Add click event listener to each header
-  tableHeaders.forEach((header, headerIndex) => {
+  for (const [headerIndex, header] of tableHeaders.entries()) {
     header.addEventListener("click", function () {
       const table = this.closest("table");
       const tbody = table.querySelector("tbody");
-      const rows = Array.from(tbody.querySelectorAll("tr"));
+      const rows = [...tbody.querySelectorAll("tr")];
 
       // Save original order if not already saved
       if (!originalRows) {
@@ -253,16 +253,15 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Update visual indicators on all headers
-      tableHeaders.forEach((h) => h.classList.remove("sorted", "asc", "desc"));
+      for (const h of tableHeaders) h.classList.remove("sorted", "asc", "desc");
 
       if (currentSortDirection !== "none") {
-        this.classList.add("sorted");
-        this.classList.add(currentSortDirection);
+        this.classList.add("sorted", currentSortDirection);
       }
 
       // Restore original order if sorting is turned off
       if (currentSortDirection === "none") {
-        originalRows.forEach((row) => tbody.appendChild(row));
+        for (const row of originalRows) tbody.append(row);
         return;
       }
 
@@ -279,15 +278,15 @@ document.addEventListener("DOMContentLoaded", function () {
           const bDateParts = bValue.split(" · ")[0].split(".");
 
           const aDate = new Date(
-            parseInt("20" + aDateParts[2]), // Year (assuming 20xx)
-            parseInt(aDateParts[1]) - 1, // Month (0-indexed)
-            parseInt(aDateParts[0]) // Day
+            Number.parseInt("20" + aDateParts[2]), // Year (assuming 20xx)
+            Number.parseInt(aDateParts[1]) - 1, // Month (0-indexed)
+            Number.parseInt(aDateParts[0]) // Day
           );
 
           const bDate = new Date(
-            parseInt("20" + bDateParts[2]),
-            parseInt(bDateParts[1]) - 1,
-            parseInt(bDateParts[0])
+            Number.parseInt("20" + bDateParts[2]),
+            Number.parseInt(bDateParts[1]) - 1,
+            Number.parseInt(bDateParts[0])
           );
 
           return isAscending ? aDate - bDate : bDate - aDate;
@@ -309,11 +308,11 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       // Re-append sorted rows to the tbody
-      rows.forEach((row) => tbody.appendChild(row));
+      for (const row of rows) tbody.append(row);
     });
 
     // Add cursor and subtle indicators that headers are clickable
     header.style.cursor = "pointer";
     header.classList.add("sortable");
-  });
+  }
 });

@@ -1,18 +1,18 @@
 function getGymIdFromUrl() {
-  const parts = window.location.pathname.split("/");
+  const parts = globalThis.location.pathname.split("/");
   return parts[2] || null;
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
   const gymId = getGymIdFromUrl();
-  const listDiv = document.getElementById("announcement-list");
-  const loadingDiv = document.getElementById("loading");
-  const emptyStateDiv = document.getElementById("empty-state");
+  const listDiv = document.querySelector("#announcement-list");
+  const loadingDiv = document.querySelector("#loading");
+  const emptyStateDiv = document.querySelector("#empty-state");
 
   // Set footer navigation links
-  document.getElementById("home-link").href = `/gym/${gymId}/`;
-  document.getElementById("reviews-link").href = `/gym/${gymId}/reviews`;
-  document.getElementById("announcements-link").href = `/gym/${gymId}/announcements`;
+  document.querySelector("#home-link").href = `/gym/${gymId}/`;
+  document.querySelector("#reviews-link").href = `/gym/${gymId}/reviews`;
+  document.querySelector("#announcements-link").href = `/gym/${gymId}/announcements`;
 
   if (!gymId) {
     loadingDiv.style.display = "none";
@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
       `).join("");
     }
-  } catch (err) {
-    console.error("Failed to load announcements:", err);
+  } catch (error) {
+    console.error("Failed to load announcements:", error);
     loadingDiv.style.display = "none";
     listDiv.style.display = "block";
     listDiv.innerHTML = "<p>Error loading announcements.</p>";

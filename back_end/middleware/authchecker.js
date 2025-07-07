@@ -17,10 +17,10 @@ exports.validateSignup = [
     .matches(/\d/)
     .withMessage("Password must contain at least one number"),
 
-  (req, res, next) => {
-    const errors = validationResult(req);
+  (request, response, next) => {
+    const errors = validationResult(request);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return response.status(400).json({ errors: errors.array() });
     }
     next();
   },
@@ -36,10 +36,10 @@ exports.validateLogin = [
     .notEmpty()
     .withMessage("Password is required"),
 
-  (req, res, next) => {
-    const errors = validationResult(req);
+  (request, response, next) => {
+    const errors = validationResult(request);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return response.status(400).json({ errors: errors.array() });
     }
     next();
   },
@@ -73,15 +73,15 @@ exports.validateGym = [
 
   // Validate price per month to be between 0 and 10000
   body("pricebymounth")
-    .isInt({ min: 0, max: 10000 })
+    .isInt({ min: 0, max: 10_000 })
     .withMessage("Price per month must be between 0 and 10,000"),
 
   // Middleware to check if there are validation errors
-  (req, res, next) => {
-    const errors = validationResult(req);
+  (request, response, next) => {
+    const errors = validationResult(request);
     if (!errors.isEmpty()) {
       console.log("haha1");
-      return res.status(400).json({ errors: errors.array() });
+      return response.status(400).json({ errors: errors.array() });
       console.log("haha12");
 
     }

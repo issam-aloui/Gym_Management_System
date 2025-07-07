@@ -10,8 +10,8 @@ customElements.define(
       if (announcements) {
         try {
           parsedAnnouncements = JSON.parse(announcements);
-        } catch (e) {
-          console.error("Error parsing announcements:", e);
+        } catch (error) {
+          console.error("Error parsing announcements:", error);
         }
       }
 
@@ -70,7 +70,7 @@ customElements.define(
               `
                     )
                     .join("")
-                : '<div class="no-announcements">No recent announcements</div>'
+                : "<div class=\"no-announcements\">No recent announcements</div>"
             }
           </div>
         </div>
@@ -109,14 +109,14 @@ customElements.define(
                         <span>My Classes</span>
                       </a></li>
                       ${
-                        role !== "owner"
-                          ? `
+                        role === "owner"
+                          ? ""
+                          : `
     <li><a href="/creategym">
       <img src="../../assets/icons/shart.svg" alt="Be an Owner" />
       <span>Be an Owner</span>
     </a></li>
   `
-                          : ""
                       }
                     </ul>
                   </details>
@@ -188,32 +188,32 @@ customElements.define(
     }
 
     setupEventListeners() {
-      document.getElementById("menuToggle").addEventListener("click", () => {
-        const sidebar = document.getElementById("sidebar");
+      document.querySelector("#menuToggle").addEventListener("click", () => {
+        const sidebar = document.querySelector("#sidebar");
         sidebar.classList.toggle("expanded");
 
-        const main = document.getElementById("mainContent");
+        const main = document.querySelector("#mainContent");
         if (main) main.classList.toggle("shifted");
       });
 
       document
-        .getElementById("notificationToggle")
+        .querySelector("#notificationToggle")
         .addEventListener("click", () => {
-          const notificationBar = document.getElementById("notificationBar");
+          const notificationBar = document.querySelector("#notificationBar");
           notificationBar.classList.toggle("open");
         });
 
       document
-        .getElementById("closeNotifications")
+        .querySelector("#closeNotifications")
         .addEventListener("click", () => {
-          const notificationBar = document.getElementById("notificationBar");
+          const notificationBar = document.querySelector("#notificationBar");
           notificationBar.classList.remove("open");
         });
 
       document.addEventListener("click", (e) => {
-        const notificationBar = document.getElementById("notificationBar");
+        const notificationBar = document.querySelector("#notificationBar");
         const notificationToggle =
-          document.getElementById("notificationToggle");
+          document.querySelector("#notificationToggle");
 
         if (
           !notificationBar.contains(e.target) &&
@@ -224,12 +224,12 @@ customElements.define(
       });
 
       // Search functionality
-      const input = document.getElementById("searchInput");
+      const input = document.querySelector("#searchInput");
       input.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
           const query = input.value.trim();
           if (query) {
-            window.location.href = `/results?search_query=${encodeURIComponent(
+            globalThis.location.href = `/results?search_query=${encodeURIComponent(
               query
             )}`;
           }
@@ -243,4 +243,4 @@ customElements.define(
 const link = document.createElement("link");
 link.rel = "stylesheet";
 link.href = "../../css/app-layout.css";
-document.head.appendChild(link);
+document.head.append(link);

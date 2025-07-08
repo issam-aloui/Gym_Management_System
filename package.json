@@ -1,25 +1,58 @@
 {
-  "name": "gym_management_system",
+  "name": "gym-management-system",
   "version": "1.0.0",
   "description": "A comprehensive web-based Gym Management System built with Node.js, Express.js, and MongoDB. This system enables users to register, join gyms, track memberships, manage gym operations, and handle various administrative tasks.",
-  "main": "index.js",
+  "main": "back_end/server.js",
   "scripts": {
+    "start": "node back_end/server.js",
+    "dev": "nodemon back_end/server.js",
+    "server": "node back_end/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint front_end back_end",
-    "start": "node back_end/server.js"
+    "install-dependencies": "npm install"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/issam-aloui/Gym_Management_System.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "gym",
+    "management",
+    "system",
+    "nodejs",
+    "express",
+    "mongodb",
+    "fitness",
+    "membership"
+  ],
+  "author": "issam-aloui",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/issam-aloui/Gym_Management_System/issues"
   },
   "homepage": "https://github.com/issam-aloui/Gym_Management_System#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^1.20.3",
+    "cloudinary": "^2.6.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.12.2",
+    "multer": "^1.4.5-lts.2",
+    "node-cron": "^4.0.7",
+    "nodemailer": "^6.10.0",
+    "qrcode": "^1.5.4",
+    "winston": "^3.17.0"
+  },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
     "eslint": "^9.30.1",
@@ -27,6 +60,10 @@
     "eslint-plugin-n": "^17.21.0",
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-unicorn": "^59.0.1",
-    "globals": "^16.3.0"
+    "globals": "^16.3.0",
+    "nodemon": "^3.1.9"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }

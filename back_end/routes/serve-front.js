@@ -17,6 +17,13 @@ const { getuserfromjwt } = require("../middleware/auths");
 const Announcement = require("../models/announcement");
 const router = express.Router();
 
+// API config endpoint for frontend
+router.get("/api/config", (request, response) => {
+  response.json({
+    BASE_URL: process.env.BASE_URL || "http://localhost:5000",
+  });
+});
+
 router.get("/", getuserfromjwt, serveHome);
 
 router.get("/home-user", getuserfromjwt, serveHome);

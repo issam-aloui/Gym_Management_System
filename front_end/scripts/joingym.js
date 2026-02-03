@@ -77,16 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/gym/${gymId}/details`,
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`/gym/${gymId}/details`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response.ok) {
         gymData = await response.json();
@@ -109,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!gymId) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/reviews/${gymId}`, {
+      const response = await fetch(`/reviews/${gymId}`, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -207,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const reviewCount = reviewsData.length;
     const totalRating = reviewsData.reduce(
       (sum, review) => sum + review.rating,
-      0
+      0,
     );
     const avgRating =
       reviewCount > 0 ? (totalRating / reviewCount).toFixed(1) : 0;
@@ -274,7 +271,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function generateStarRating(rating) {
     let stars = "";
     for (let index = 1; index <= 5; index++) {
-      stars += index <= rating ? "<i class=\"fas fa-star\"></i>" : "<i class=\"far fa-star\"></i>";
+      stars +=
+        index <= rating
+          ? '<i class="fas fa-star"></i>'
+          : '<i class="far fa-star"></i>';
     }
     return stars;
   }
@@ -457,7 +457,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/joingym/memreq", {
+      const response = await fetch("/joingym/memreq", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -509,7 +509,7 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", handleFormSubmission);
 
     console.log(
-      "✅ Enhanced gym join page with reviews initialized successfully"
+      "✅ Enhanced gym join page with reviews initialized successfully",
     );
   }
 

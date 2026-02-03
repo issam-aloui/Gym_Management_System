@@ -16,10 +16,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const inputs = document.querySelectorAll("input, textarea");
     for (const input of inputs) {
       input.addEventListener("focus", () =>
-        input.parentElement.classList.add("focused")
+        input.parentElement.classList.add("focused"),
       );
       input.addEventListener("blur", () =>
-        input.parentElement.classList.remove("focused")
+        input.parentElement.classList.remove("focused"),
       );
     }
 
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
         20%, 60% { transform: translateX(-5px); }
         40%, 80% { transform: translateX(5px); }
     }`,
-    document.styleSheets[0].cssRules.length
+    document.styleSheets[0].cssRules.length,
   );
 
   // Form Validation
@@ -196,8 +196,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function toggleSubmitButtonLoading(isLoading) {
     submitButton.disabled = isLoading;
     submitButton.innerHTML = isLoading
-      ? "<i class=\"fas fa-spinner fa-spin\"></i> Registering..."
-      : "Register Gym <i class=\"fas fa-check\"></i>";
+      ? '<i class="fas fa-spinner fa-spin"></i> Registering...'
+      : 'Register Gym <i class="fas fa-check"></i>';
   }
 
   // Collect form data
@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Register gym with API
   function registerGym(gymData) {
-    fetch("http://localhost:5000/gym/creategym", {
+    fetch("/gym/creategym", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -229,10 +229,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Handle API response
   function handleApiResponse(response) {
-
     if (!response.ok) {
       throw new Error("Network response was not ok");
-
     }
     return response.json();
   }
@@ -241,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function handleSuccessfulRegistration(data) {
     showMessage(
       "success",
-      "Your gym has been registered successfully! Redirecting to dashboard..."
+      "Your gym has been registered successfully! Redirecting to dashboard...",
     );
 
     // Redirect to dashboard after a delay
@@ -251,24 +249,23 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Handle registration error
-// Handle API response with detailed error parsing
-function handleApiResponse(response) {
-  return response.json().then((data) => {
-    if (!response.ok) {
-      // Attach status code for extra debugging if needed
-      const error = new Error(data.error || "Registration failed");
-      error.status = response.status;
-      throw error;
-    }
-    return data;
-  });
-}
+  // Handle API response with detailed error parsing
+  function handleApiResponse(response) {
+    return response.json().then((data) => {
+      if (!response.ok) {
+        // Attach status code for extra debugging if needed
+        const error = new Error(data.error || "Registration failed");
+        error.status = response.status;
+        throw error;
+      }
+      return data;
+    });
+  }
 
-// Handle registration error with specific message
-function handleRegistrationError(error) {
-  console.error("Registration error:", error);
-  showMessage("error", error.message || "An unexpected error occurred.");
-  toggleSubmitButtonLoading(false);
-}
-
+  // Handle registration error with specific message
+  function handleRegistrationError(error) {
+    console.error("Registration error:", error);
+    showMessage("error", error.message || "An unexpected error occurred.");
+    toggleSubmitButtonLoading(false);
+  }
 });

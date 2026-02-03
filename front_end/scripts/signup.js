@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const savedEmail = sessionStorage.getItem("signup-email");
   const savedPassword = sessionStorage.getItem("signup-password");
   const savedConfirmPassword = sessionStorage.getItem(
-    "signup-confirm-password"
+    "signup-confirm-password",
   );
   const showVerification = sessionStorage.getItem("show-verification-box");
   const buttonState = sessionStorage.getItem("signup-button-state");
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (username.length < 3 || username.length > 20) {
       return showMessage(
         "Username must be between 3 and 20 characters.",
-        "red"
+        "red",
       );
     }
 
@@ -96,26 +96,23 @@ document.addEventListener("DOMContentLoaded", function () {
     if (password.length < 6 || password.length > 25 || !/\d/.test(password)) {
       return showMessage(
         "Password must be 6-25 characters and contain at least one number.",
-        "red"
+        "red",
       );
     }
 
     try {
-      const res = await fetch(
-        "http://localhost:5000/services/request-verification",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, email }),
-        }
-      );
+      const res = await fetch("/services/request-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email }),
+      });
 
       const data = await res.json();
 
       if (res.ok) {
         showMessage(
           "Verification code sent to your email. Please enter it below.",
-          "green"
+          "green",
         );
         codeBox.style.display = "block";
         signupData = { username, email, password };
@@ -150,24 +147,21 @@ document.addEventListener("DOMContentLoaded", function () {
       verifyButton.innerHTML = "Verify Code";
       return showMessage(
         "Please enter a 6-character verification code.",
-        "red"
+        "red",
       );
     }
 
     try {
-      const verifyRes = await fetch(
-        "http://localhost:5000/services/verify-code",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: signupData.email, code }),
-        }
-      );
+      const verifyRes = await fetch("/services/verify-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: signupData.email, code }),
+      });
 
       const verifyData = await verifyRes.json();
 
       if (verifyRes.ok) {
-        const signupRes = await fetch("http://localhost:5000/auth/signup", {
+        const signupRes = await fetch("/auth/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(signupData),
@@ -187,13 +181,13 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           showMessage(
             finalData.message || "Signup failed after verification.",
-            "red"
+            "red",
           );
         }
       } else {
         showMessage(
           verifyData.message || "Incorrect verification code.",
-          "red"
+          "red",
         );
       }
     } catch {
@@ -210,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
   resendbtn.addEventListener("click", async () => {
     showMessage("Resending code...", "green");
     try {
-      const res = await fetch("http://localhost:5000/services/resend-code", {
+      const res = await fetch("/services/resend-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -224,12 +218,12 @@ document.addEventListener("DOMContentLoaded", function () {
       if (res.ok) {
         showMessage(
           "Verification code sent to your email. Please enter it below.",
-          "green"
+          "green",
         );
       } else {
         showMessage(
           data.message || "Failed to resend verification code.",
-          "red"
+          "red",
         );
       }
     } catch {

@@ -1,38 +1,39 @@
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelector("#deleteForm").addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const password = document.querySelector("#password").value;
+  document
+    .querySelector("#deleteForm")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const password = document.querySelector("#password").value;
 
-    // ✅ Use an existing message box instead of creating a new one every time
-    let messageBox = document.querySelector("#messageBox");
-    if (!messageBox) {
-      messageBox = document.createElement("p");
-      messageBox.id = "messageBox";
-      document.querySelector(".container").append(messageBox);
-    }
-
-    try {
-      const response = await fetch("http://localhost:5000/user/accountdeletion", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password: password }),
-        credentials: "include", // ✅ Ensures cookies are sent
-    });    
-
-      const data = await response.json();
-      messageBox.style.color = response.ok ? "green" : "red";
-      messageBox.textContent = data.message;
-
-      if (response.ok) {
-        setTimeout(() => {
-          globalThis.location.href = "/"; 
-        }, 1000);
+      // ✅ Use an existing message box instead of creating a new one every time
+      let messageBox = document.querySelector("#messageBox");
+      if (!messageBox) {
+        messageBox = document.createElement("p");
+        messageBox.id = "messageBox";
+        document.querySelector(".container").append(messageBox);
       }
-    } 
-    catch (error) {
-      messageBox.style.color = "red";
-      messageBox.textContent = "Server error";
-      console.error("Error:", error);
-    }
-  });
+
+      try {
+        const response = await fetch("/user/accountdeletion", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password: password }),
+          credentials: "include", // ✅ Ensures cookies are sent
+        });
+
+        const data = await response.json();
+        messageBox.style.color = response.ok ? "green" : "red";
+        messageBox.textContent = data.message;
+
+        if (response.ok) {
+          setTimeout(() => {
+            globalThis.location.href = "/";
+          }, 1000);
+        }
+      } catch (error) {
+        messageBox.style.color = "red";
+        messageBox.textContent = "Server error";
+        console.error("Error:", error);
+      }
+    });
 });

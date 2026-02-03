@@ -19,7 +19,7 @@ const checkin = require("./routes/check-in");
 const annoucementsi = require("./routes/announcement");
 const cron = require("node-cron");
 const Statistiques = require("./models/statistiques");
-dotenv.config({ path: __dirname + '/.env' });
+dotenv.config({ path: __dirname + "/.env" });
 const app = express();
 const Port = process.env.PORT || 5000;
 
@@ -70,7 +70,7 @@ cron.schedule("0 0 * * *", async () => {
           dailyCheckIns: 0,
           newSignUps: 0,
         },
-      }
+      },
     );
     console.log("✅ Daily stats reset");
   } catch (error) {
@@ -86,7 +86,7 @@ cron.schedule("0 0 1 * *", async () => {
         $set: {
           monthlyRevenue: 0,
         },
-      }
+      },
     );
     console.log("✅ Monthly revenue reset");
   } catch (error) {

@@ -1,11 +1,11 @@
 globalThis.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch("http://localhost:5000/user/getinfo", {
+    const response = await fetch("/user/getinfo", {
       method: "POST",
       credentials: "include", // send cookies
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
 
     if (!response.ok) {
@@ -18,13 +18,12 @@ globalThis.addEventListener("DOMContentLoaded", async () => {
     document.querySelector("#userId").textContent = `#${user.id ?? "??"}`;
     document.querySelector("#userPhone").textContent = "GymFit";
     document.querySelector("#userEmail").textContent = user.email || "N/A";
-    document.querySelector("#userAddress").textContent ="algeria";
+    document.querySelector("#userAddress").textContent = "algeria";
 
     // Set QR code from user.qrcode directly
     document.querySelector("#qrImage").src = user.qrcode || "";
     document.querySelector("#downloadLink").href = user.qrcode || "";
     document.querySelector("#downloadLink").download = "downloaded-image.png";
-
   } catch (error) {
     console.error("Error loading user info:", error);
     document.querySelector("#userName").textContent = "Error";

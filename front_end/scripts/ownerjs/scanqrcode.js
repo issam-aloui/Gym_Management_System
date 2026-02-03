@@ -21,7 +21,7 @@ async function onScanSuccess(decodedText, decodedResult) {
   }
 
   try {
-    const response = await fetch("http://localhost:5000/gym/getgym", {
+    const response = await fetch("/gym/getgym", {
       method: "GET",
       credentials: "include",
     });
@@ -44,7 +44,7 @@ async function onScanSuccess(decodedText, decodedResult) {
   }
 
   try {
-    const response = await fetch("http://localhost:5000/scan/checkin", {
+    const response = await fetch("/scan/checkin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,9 +61,10 @@ async function onScanSuccess(decodedText, decodedResult) {
 
     const result = await response.json();
     console.log("Check-in successful:", result);
-     resultElement.innerHTML = "<strong>Done:</strong> member checked.";
+    resultElement.innerHTML = "<strong>Done:</strong> member checked.";
   } catch {
-    resultElement.innerHTML = "<strong>Error:</strong> Could not check in member.";
+    resultElement.innerHTML =
+      "<strong>Error:</strong> Could not check in member.";
     resultElement.classList.add("error");
   }
 }
@@ -80,7 +81,7 @@ const html5QrcodeScanner = new Html5QrcodeScanner(
     fps: 10,
     qrbox: 250,
   },
-  false
+  false,
 );
 
 html5QrcodeScanner.render(onScanSuccess, onScanError);

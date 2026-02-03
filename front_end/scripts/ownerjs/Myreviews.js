@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   loadingState.style.display = "flex";
 
   try {
-    const response = await fetch("http://localhost:5000/gym/getgym", {
+    const response = await fetch("/gym/getgym", {
       method: "GET",
       credentials: "include",
     });
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const authorInitial =
         review.user?.username?.charAt(0).toUpperCase() || "?";
       const reviewDate = new Date(
-        review.createdAt || Date.now()
+        review.createdAt || Date.now(),
       ).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
@@ -122,7 +122,9 @@ function animateCounter(elementId, finalValue, isDecimal = false) {
 
     const currentValue = startValue + (finalValue - startValue) * easeOutQuart;
 
-    element.textContent = isDecimal ? currentValue.toFixed(1) : Math.floor(currentValue);
+    element.textContent = isDecimal
+      ? currentValue.toFixed(1)
+      : Math.floor(currentValue);
 
     if (progress < 1) {
       requestAnimationFrame(updateCounter);

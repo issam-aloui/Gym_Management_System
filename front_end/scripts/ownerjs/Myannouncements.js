@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   showLoadingState();
 
   try {
-    const response = await fetch("http://localhost:5000/gym/getgym", {
+    const response = await fetch("/gym/getgym", {
       method: "GET",
       credentials: "include",
     });
@@ -109,7 +109,7 @@ function createAnnouncementCard(announcement) {
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
-    }
+    },
   );
 
   return `
@@ -163,7 +163,7 @@ async function deleteAnnouncement(announcementId) {
     if (res.ok) {
       // Remove the announcement from the DOM with animation
       const announcementElement = document.querySelector(
-        `[data-id="${announcementId}"]`
+        `[data-id="${announcementId}"]`,
       );
       if (announcementElement) {
         announcementElement.style.opacity = "0";
@@ -198,7 +198,7 @@ function setupForm(gymId) {
 
     const title = document.querySelector("#title").value.trim();
     const yap = document.querySelector("#yap").value.trim();
-    const submitButton = form.querySelector("button[type=\"submit\"]");
+    const submitButton = form.querySelector('button[type="submit"]');
 
     // Clear previous messages
     messageBox.style.display = "none";
@@ -223,7 +223,7 @@ function setupForm(gymId) {
     // Show loading state on button
     const originalButtonText = submitButton.innerHTML;
     submitButton.innerHTML =
-      "<i class=\"fas fa-spinner fa-spin\"></i> Creating...";
+      '<i class="fas fa-spinner fa-spin"></i> Creating...';
     submitButton.disabled = true;
 
     try {
@@ -251,14 +251,14 @@ function setupForm(gymId) {
       } else {
         showMessage(
           `Failed to create announcement: ${result.message}`,
-          "error"
+          "error",
         );
       }
     } catch (error) {
       console.error("Error creating announcement:", error);
       showMessage(
         "Something went wrong while creating the announcement.",
-        "error"
+        "error",
       );
     } finally {
       // Restore button

@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gym-management-app
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./back_end/.env
+    volumes:
+      - ./back_end/logs:/app/back_end/logs
+      - ./back_end/qr-codes:/app/back_end/qr-codes

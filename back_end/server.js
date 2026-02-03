@@ -19,7 +19,7 @@ const checkin = require("./routes/check-in");
 const annoucementsi = require("./routes/announcement");
 const cron = require("node-cron");
 const Statistiques = require("./models/statistiques");
-dotenv.config();
+dotenv.config({ path: __dirname + '/.env' });
 const app = express();
 const Port = process.env.PORT || 5000;
 
